@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)http://threejs.org/examples/webgl_interactive_draggablecubes.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>CLB xml editor</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="lib/jquery.min.js"></script>
+		<script src="lib/jquery-ui.min.js"></script>
+		<script src="lib/jstree.min.js"></script>
+		<script src="lib/jstreegrid.js"></script>
+		<script src="lib/ft/jquery.fancytree-all.min.js"></script>
+		<script src="lib/jquery.jeditable.mini.js"></script>
+		<link href="lib/ft/skin-win8/ui.fancytree.min.css"
+		rel="stylesheet" type="text/css">
+		<script src="lib/three.min.js"></script>
+		<script src="lib/TrackballControls.js"></script>
+
+		<script src="lib/numeric-1.2.6.min.js"></script>
+		<script src="lib/editor_3d.js"></script>
+		<script src="lib/editor_units.js"></script>
+		<style type="text/css">
+			body {
+//				font-family: Monospace;
+				background-color: #000;
+				margin: 0px;
+				overflow: hidden;
+				color:#FFF;
+			}
+			div.demo {
+//				background-color: #000;
+				background-image: url("bebop_back_s.png");
+				background-repeat: no-repeat;
+				background-position: right bottom;
+			}
+			span.fancytree-title {
+				color:#FFF;
+			}
+		#html ul.fancytree-container {
+		   background-color: unset;
+		   border: unset;
+		}
+		td {
+			padding-left:3px;
+			padding-right:3px;
+		}
+		div.unitless {
+			color:#999;
+		}
+		div.wrongGauge {
+			background-color: #F00;
+		}
+		td.alignRight {
+			text-align: right;
+		}
+		table.fancytree-ext-table tbody tr td {
+			border: none;
+		}
+		table.fancytree-ext-table.fancytree-treefocus tbody tr.fancytree-active {
+			background-color: unset;
+		}
+		table.fancytree-ext-table.fancytree-treefocus tbody tr {
+			background-color: unset;
+		}
+		table.fancytree-ext-table tbody tr.fancytree-active {
+			background-color: unset;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="demo" style="
+			cursor: auto;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			text-align: left;
+			overflow: auto;
+		"></div>
+		<div id="container"></div>
+		<div style="
+			cursor: auto;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			text-align: left;
+			overflow: auto;
+		">
+				<table
+					id="html"
+					onclick="stopControl();"
+					onmouseup="startControl();"
+				>
+					<colgroup>
+						<col ></col>
+						<col ></col>
+						<col ></col>
+						<col ></col>
+						<col style="color: #F00;"></col>
+					</colgroup>
+					<thead><tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr></thead>
+					<tbody></tbody>
+				</table>
+		</div>
+
+	<script>
+
+	$(window).load(function() { init(); animate(); });
+
+	var TYPES = {
+		Main: {
+			extraClasses: "clb-main"
+		},
+		NodeType: {
+			extraClasses: "clb-nodetype",
+			properties: [ "mask", "name" ]
+		},
+		Action: {
+			extraClasses: "clb-action",
+			properties: [ "Iterations" ]
+		},
+		Callback: {
+			extraClasses: "clb-callback",
+			properties: [ "Iterations" ]
+		},
+		Save: {
+			extraClasses: "clb-save",
+			properties: [ "what", "name"]
+		},
+		Property: {
+			extraClasses: "clb-property",
+		},
+		Shape: {
+			extraClasses: "clb-shape",
+			properties: [ "dx", "nx", "fx", "dy", "ny", "fy", "dz", "nz", "fz" ]
+		},
+		Wedge: {
+			properties: [ "direction" ]
+		},
+		
+	};
+	
+	var SOURCE = [
+    	 { title: "Geometry", type: "Main", extraClasses: "clb clb-geometry",  folder: true, expanded: false, 'iconclass': "ui-icon-carat-2-e-w", children: [
+          { title: "", extraClasses: "clb clb-property clb-numeric", name: "nx", value: "1m" },
+          { title: "", extraClasses: "clb clb-property clb-numeric", name: "ny", value: "2m" },
+     	  { title: "Wall", type: "NodeType", extraClasses: "clb clb-nodetype clb-wall", folder: true, expanded: false, children: [
+           { title: "", extraClasses: "clb clb-property clb-zonename clb-text", name: "name", value: "sciana" },
+           { title: "", extraClasses: "clb clb-property clb-mask clb-nodeclass", name: "mask", value: "ALL" },
+           { title: "Box", type: "Geom", extraClasses: "clb clb-shape clb-shape-box", folder: true, expanded: false, children: [
+            { title: "", extraClasses: "clb clb-property clb-numeric", name: "dx", value: "0.5m" },
+            { title: "", extraClasses: "clb clb-property clb-numeric", name: "nx", value: "0.5m" },
+            { title: "", extraClasses: "clb clb-property clb-numeric", name: "ny", value: "2m" }
+           ]}
+          ]}
+         ]},
+         {title: "Params", type: "Params", extraClasses: "clb clb-params", folder: true, expanded: false, children: [
+          { title: "", type: "Param", extraClasses: "clb clb-param", name: "Velocity", zone: "Inlet", value: "2m/s"},
+          { title: "", type: "Param", extraClasses: "clb clb-param", name: "nu", value: "0.0014m2/s", gauge: "12" },
+         ]},
+         {title: "Solve", type: "Action", extraClasses: "clb clb-action clb-action-solve", folder: true, expanded: false, children: [
+          { title: "", extraClasses: "clb clb-property clb-numeric", name: "Iterations", value: "200s" },
+         ]},
+         {title: "VTK", type: "Callback", extraClasses: "clb clb-callback clb-callback-vtk", folder: true, expanded: false, children: [
+          { title: "", extraClasses: "clb clb-property clb-numeric clb-iterations", name: "Iterations", value: "200s" },
+         ]},
+         {title: "Solve", type: "Action", extraClasses: "clb clb-action clb-action-solve", folder: true, expanded: false, children: [
+          { title: "", extraClasses: "clb clb-property clb-numeric clb-iterations", name: "Iterations", value: "200s" },
+         ]}
+        ];
+	
+	SOURCE = { url: "aux/test.json", cache:false };	
+	
+	
+     		$("#html").fancytree({
+     			extensions: ["dnd", "table"],
+     			source: SOURCE,
+     			keyboard: false,
+     			dnd: {
+     			 autoExpandMS: 400,
+     			 focusOnClick: true,
+     			 draggable: {
+     			  zIndex: 1000,
+    			  scroll: false,
+     			  revert: "invalid"
+     			 },
+     			 preventVoidMoves: true,
+                         preventRecursiveMoves: true,
+                         dragStart: function(node, data) {
+                          return true;
+                         },
+                         dragEnter: function(node, data) {
+                          return true;
+                         },
+                         dragDrop: function(node, data) {
+                          data.otherNode.moveTo(node, data.hitMode);
+                         }
+                        },
+                        edit: {
+                         adjustWidthOfs: 4,   
+                         inputCss: {minWidth: "3em"},
+                         triggerCancel: ["esc", "tab", "click"],
+                         triggerStart: ["f2", "dblclick", "shift+click","mac+enter"],
+                         beforeEdit: $.noop,  
+                         edit: $.noop,
+                         beforeClose: $.noop,
+                         close: $.noop
+                        },
+   table: {
+        checkboxColumnIdx: null, // render the checkboxes into the this column index (default: nodeColumnIdx)
+        customStatus: false,     // true: generate renderColumns events for status nodes
+        indentation: 16,         // indent every node level by 16px
+        nodeColumnIdx: 0         // render node expander, icon, and title to this column (default: #0)
+    },
+    gridnav: {
+        autofocusInput:   false, // Focus first embedded input if node gets activated
+        handleCursorKeys: true   // Allow UP/DOWN in inputs to move to prev/next node
+    },
+
+    renderColumns: function(event, data) {
+        var node = data.node,
+        $tdList = $(node.tr).find(">td");
+        $title = $(node.tr).find(".fancytree-title");
+        if( node.isFolder() ) {
+            $tdList.eq(0)
+                .prop("colspan", 2)
+                .next().remove();
+            $tdList.eq(2)
+                .prop("colspan", 3)
+                .text("")
+                .nextAll().remove();
+            return;
+        }
+        // ...otherwise render remaining columns
+
+	if (node.data.zone == null) {
+//	        $tdList.eq(1).prop("colspan",
+//	        2).text(node.data.name).next().remove();
+	} else {
+//	        $tdList.eq(1).text(node.data.name);
+	        $tdList.eq(2).text(node.data.zone);
+	}
+	mydiv = $("<div class='editable attribute-name'>" + node.data.name + "</div>");
+	$title.append( mydiv );
+//	valueEditable(mydiv);
+//        $tdList.eq(3).html("<div class='editable attribute-value'>" + transf(node.data.value) + "</div>");
+	node.data.full = parseUnit(node.data.value);
+	mydiv = $("<div class='editable attribute-value'>" + node.data.full.html + "</div>");
+	$tdList.eq(3).addClass("alignRight").append( mydiv );
+	valueEditable(mydiv);
+	var htm;
+	if (node.data.hasOwnProperty("gauge")) {
+ 	 htm = '<div class="gauge">' + parseUnit(node.data.gauge).html + '</div>';
+ 	} else {
+ 	 htm = '<div class="unitless">' + getUnitless( node.data.full.value ) + '</div>';;
+ 	}
+ 	mydiv = $("<div class='editable attribute-value'>" + htm + "</div>");
+ 	$tdList.eq(4).addClass("alignRight").append( mydiv );
+ 	
+	if (node.data.type == "Param") gaugeEditable(mydiv);
+    }
+  });
+  runGauge();
+      
+  function valueEditable ( obj ) {
+    obj.editable( function(value, settings) {
+	var node = $.ui.fancytree.getNode(this);
+	node.data.value = value;
+	node.data.full = parseUnit(value);
+	if (node.data.hasOwnProperty("gauge")) {
+		runGauge();
+	} else {
+		refreshUnitless(node);
+	}
+        return(node.data.full.html);
+    }, {
+        type    : 'text',
+        data : function(value, setting) {
+            var node = $.ui.fancytree.getNode(this);
+            return node.data.value;
+	}     
+    });
+  }  
+
+  function gaugeEditable ( obj ) {
+    obj.editable( function(value, settings) {
+	var node = $.ui.fancytree.getNode(this);
+	if (value != "") {
+		node.data.gauge = value;
+		full = parseUnit(value);
+	//	runGauge();
+		return '<div class="gauge">' + full.html + '</div>';
+	} else {
+		if (node.data.hasOwnProperty("gauge")) {
+			delete node.data.gauge;
+		}
+		return '<div class="unitless">' + getUnitless( node.data.full.value ) + '</div>';
+	}
+    }, {
+    	callback : function(value, settings) {
+    		runGauge();
+    	},
+        type    : 'text',
+        data : function(value, setting) {
+            var node = $.ui.fancytree.getNode(this);
+            if (node.data.hasOwnProperty("gauge")) {
+             return node.data.gauge;
+            } else {
+             return getUnitless( node.data.full.value );
+            }
+	}     
+    });
+  }  
+  
+  function refreshUnitless(node) {
+	 $(node.tr).find(".unitless").each(function(index) {
+		var htm;
+ 		htm = getUnitless( node.data.full.value );
+	 	$(this).text(htm);
+	 });
+  }
+    
+  function runGauge() {
+    var Gauge = { rhs: [], mat: [], nodes: []};
+    var tree = $("#html").fancytree("getTree");
+    tree.visit(function(node) {
+    	if (node.data.hasOwnProperty("gauge")) {
+    	 g = parseUnit(node.data.gauge);
+    	 if (! node.data.hasOwnProperty("full")) {
+    	  node.data.full = parseUnit(node.data.value);
+    	 }
+    	 console.log(g.value);
+    	 console.log(node.data.full.value);
+    	 Gauge.rhs.push(Math.log(g.value.value/node.data.full.value.value));
+    	 Gauge.mat.push(numeric.sub(g.value.unit, node.data.full.value.unit));
+    	 Gauge.nodes.push(node);
+    	}
+    });
+    
+    a = [ 0, 0, 0, 0, 0, 0, 0 ];
+    for (var i = 0; i < a.length; i++) {
+     k = 0;
+     for (var j in Gauge.mat) {
+      if (Gauge.mat[j][i] != 0) { k=1; break; }
+     }
+     if (k == 0) {
+      b = a.slice();
+      b[i] = 1;
+      Gauge.mat.push(b);
+      Gauge.rhs.push(0);
+     }
+    }
+    ret = numeric.solve(Gauge.mat, Gauge.rhs);
+    
+    console.log(ret);
+    if (ret[0] == NaN | ret.length != a.length) {
+    	for (var i in Gauge.nodes) {
+    		Gauge.nodes[i].makeVisible({scrollIntoView: true, noevents:true, noAnimation:true});
+    	}
+    	$(".gauge").addClass("wrongGauge");
+    } else {
+	unitScale = ret;
+    	$(".gauge").removeClass("wrongGauge");
+        tree.visit(refreshUnitless);
+    }
+  }
+    
+      
+	</script>
+</body></html>
