@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -485,33 +485,33 @@ div.tocify {
         &lt;VTK Iterations=&quot;1000&quot;/&gt;
         &lt;Solve Iterations=&quot;10000&quot;/&gt;
 &lt;/CLBConfig&gt;</code></pre>
-<table>
+<table style="width:221%;">
 <colgroup>
-<col width="6%" />
-<col width="93%" />
+<col width="15%" />
+<col width="205%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Attribute</th>
-<th>Comment</th>
+<th align="left">Attribute</th>
+<th align="left">Comment</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>scale</code></td>
-<td>Used to resize <code>.stl</code> file, can be specified with units, or as a fraction(e.g. 1/100).</td>
+<td align="left"><code>scale</code></td>
+<td align="left">Used to resize <code>.stl</code> file, can be specified with units, or as a fraction(e.g. 1/100).</td>
 </tr>
 <tr class="even">
-<td><code>Xrot,Yrot,Zrot</code></td>
-<td>Rotates geometry aroun X/Y/Z axis by given amount in degrees.</td>
+<td align="left"><code>Xrot,Yrot,Zrot</code></td>
+<td align="left">Rotates geometry aroun X/Y/Z axis by given amount in degrees.</td>
 </tr>
 <tr class="odd">
-<td><code>x,y,z</code></td>
-<td>Translates geometry along X/Y/Z axis by given amount. Distance can be specified in real-world units or number of grid points(without unit).</td>
+<td align="left"><code>x,y,z</code></td>
+<td align="left">Translates geometry along X/Y/Z axis by given amount. Distance can be specified in real-world units or number of grid points(without unit).</td>
 </tr>
 <tr class="even">
-<td><code>side</code></td>
-<td>Chose if geometry will be treated as wall, possible arguments: <code>&quot;in&quot;</code>,<code>&quot;out&quot;</code></td>
+<td align="left"><code>side</code></td>
+<td align="left">Chose if geometry will be treated as wall, possible arguments: <code>&quot;in&quot;</code>,<code>&quot;out&quot;</code></td>
 </tr>
 </tbody>
 </table>
@@ -548,52 +548,7 @@ div.tocify {
     &lt;Solve Iterations=&quot;1000&quot;/&gt;
 &lt;/CLBConfig&gt;</code></pre>
 <p>It is important to remember that in order to use implemented turbulence generator it is required to change <code>WVelocity</code> to <code>WVelocityTurbulent</code>, e.g.: <code>&lt;WVelocityTurbulent&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocityTurbulent&gt;</code>. The generator has more customizable attributes, given in table below, but most of them is not required for generator to work. Only the mandatory ones are provided in example above.</p>
-<table style="width:94%;">
-<colgroup>
-<col width="11%" />
-<col width="83%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Attribute</th>
-<th>Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Modes</code></td>
-<td>Number of harmonic modes to generate for the turbulence, default ‘100’.</td>
-</tr>
-<tr class="even">
-<td><code>Spread</code></td>
-<td>The way to divide the spectrum to a finite number of modes. Possible values: <code>Even</code>, <code>Log</code>, <code>Quantile</code>. Default is <code>Even</code>.</td>
-</tr>
-<tr class="odd">
-<td><code>Spectrum</code></td>
-<td>Type of spectrum to use, possible values: <code>Von Karman</code>, <code>One Wave</code>. Default is <code>Von Karman</code>.</td>
-</tr>
-<tr class="even">
-<td><code>MainWaveLength</code></td>
-<td>Main wave-length in the Von Karman spectrum.</td>
-</tr>
-<tr class="odd">
-<td><code>DiffusionWaveLength</code></td>
-<td>Diffusion scale wave-length in the Von Karman spectrum.</td>
-</tr>
-<tr class="even">
-<td><code>MinWaveLength</code></td>
-<td>Minimal space wave-length. TODO:Default value</td>
-</tr>
-<tr class="odd">
-<td><code>MaxWaveLength</code></td>
-<td>Maximal space wave-length.</td>
-</tr>
-<tr class="even">
-<td><code>TimeWaveLength</code></td>
-<td>Time wave-length of the syntetic turbulence.</td>
-</tr>
-</tbody>
-</table>
+<p>Attribute | Comment ——- | ———————————————————– <code>Modes</code> | Number of harmonic modes to generate for the turbulence, default ‘100’. <code>Spread</code> | The way to divide the spectrum to a finite number of modes. Possible values: <code>Even</code>, <code>Log</code>, <code>Quantile</code>. Default is <code>Even</code>. <code>Spectrum</code> | Type of spectrum to use, possible values: <code>Von Karman</code>, <code>One Wave</code>. Default is <code>Von Karman</code>. <code>MainWaveLength</code> | Main wave-length in the Von Karman spectrum. <code>DiffusionWaveLength</code> | Diffusion scale wave-length in the Von Karman spectrum. <code>MinWaveLength</code> | Minimal space wave-length. TODO:Default value <code>MaxWaveLength</code> | Maximal space wave-length. <code>TimeWaveLength</code> | Time wave-length of the syntetic turbulence.</p>
 <p>It is possible to specify <code>WaveLength</code> parameters in terms of <code>WaveNumber</code> or <code>WaveFrequency</code>.</p>
 </div>
 </div>
@@ -623,7 +578,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

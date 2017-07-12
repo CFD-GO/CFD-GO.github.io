@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -429,22 +429,22 @@ CudaDeviceFunction void Run() { }</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th>Function</th>
-<th>Description</th>
+<th align="left">Function</th>
+<th align="left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>Init</code></td>
-<td>This function is called in all the nodes at the beginning of the simulation. All the initialization happens here.</td>
+<td align="left"><code>Init</code></td>
+<td align="left">This function is called in all the nodes at the beginning of the simulation. All the initialization happens here.</td>
 </tr>
 <tr class="even">
-<td><code>Run</code></td>
-<td>This function will be called in every node in every iteration - it is the main dynamic of a node.</td>
+<td align="left"><code>Run</code></td>
+<td align="left">This function will be called in every node in every iteration - it is the main dynamic of a node.</td>
 </tr>
 <tr class="odd">
-<td><code>Color</code></td>
-<td>This function is useful only for the version of CLB with enabled graphics(<code>./configure --enable-graphics</code>). It calculates the level <code>x</code> on which the color of a pixel will be based. In most cases this will be temperature or velocity.</td>
+<td align="left"><code>Color</code></td>
+<td align="left">This function is useful only for the version of CLB with enabled graphics(<code>./configure --enable-graphics</code>). It calculates the level <code>x</code> on which the color of a pixel will be based. In most cases this will be temperature or velocity.</td>
 </tr>
 </tbody>
 </table>
@@ -644,7 +644,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
