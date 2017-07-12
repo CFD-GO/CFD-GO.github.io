@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>Model Information</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Model Information</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 4, 2017</em></h4>
+
+</div>
+
+
+<p>TODO: Dodać rozwiązane tutoriale, sprawdzić by działało wszystko.</p>
+<p>Basic information needed to develop models will apear here.</p>
+<p>Every model in TCLB is defined by a subdirectory of <code>models</code>. The <code>conf.mk</code> file stores some additional settings for a model, but it also tells TCLB that this directory is in fact a model.</p>
+<div id="general-information" class="section level1">
+<h1>General information</h1>
+<p>Each model consit 2 most important files: Dynamics.c and Dynamics.R, what goes where(logic, settings, quantities)</p>
+</div>
+<div id="conf.mk" class="section level1">
+<h1>conf.mk</h1>
+<p>ADJOINT = 1</p>
+<p>This file contains information needed during compilation. It allows compilation of diferent versions of a model(from the same <code>Dynamics.c</code> and <code>Dynamics.R</code>). To do so you need to set <code>OPT</code> variable in <code>conf.mk</code> first. E.g:</p>
+<pre class="bash"><code>OPT=&quot;(A+B)*C&quot;</code></pre>
+<p>This will add three optional functionalities: A,B, and C - called Options. The summation means that two options are exclusive (you can have A or B), and multiplication allows for their combination (you can have A, C and both). The mechanism allows to compile a model for all the resulting combinations. The name of the model is created by adding the option after an underscore. In this case:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>model</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>model_A</td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>model_B</td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>model_C</td>
+<td></td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td>model_A_C</td>
+<td>x</td>
+<td></td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td>model_B_C</td>
+<td></td>
+<td>x</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+<p>All these models are compiled from the same Dynamics.R and Dynamics.c, but with different options set to TRUE or FALSE in the Options R variable. One can switch on and off parts of the code with:</p>
+<pre class="r"><code>if (Options$A) {
+# code for option A
+} else {
+# code without option A
+}</code></pre>
+<p>or in pure C/C++, with:</p>
+<pre class="c"><code>#ifdef OPTIONS_A
+// code for option A
+#else
+// code without option A
+#endif</code></pre>
+</div>
+<div id="dynamics.r" class="section level1">
+<h1>Dynamics.R</h1>
+<p>In this file all</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>AddField</strong> - Variables (for instance flow-variables, displacements, etc) that are stored in all mesh nodes. <code>Dynamics.c</code> can access these fields with an offset (e.g. field_name(-1,0)). If the access pattern is repeating you can define a density that predefines a specific offset. Such densities are gathered, and the resulting memory access is optimized.</p>
+<pre class="r"><code>AddField( name=&quot;Name&quot;, dx=c(-1,0), dy=c(0,0), dz=c(-1,1), comment=&#39;Some comment&#39;)</code></pre></li>
+<li><p><strong>AddDensity</strong> - Variables loaded from <code>Fields</code> with a predefined offset:</p>
+<pre class="r"><code>AddDensity( name=&quot;Name&quot;, dx=1, dy=0, dz=0, comment=&#39;Some comment&#39;)</code></pre>
+<p>It is possible to automate the process and add <code>Density</code> for each possible direction(here for d3q27 model):</p>
+<pre class="r"><code>x = c(0,1,-1);
+P = expand.grid(x=0:2,y=0:2,z=0:2)
+U = expand.grid(x,x,x)
+AddDensity(
+    name = paste(&quot;f&quot;,P$x,P$y,P$z,sep=&quot;&quot;),
+    dx   = U[,1],
+    dy   = U[,2],
+    dz   = U[,3],
+    comment=paste(&quot;density F&quot;,1:27-1),
+    group=&quot;f&quot;
+)</code></pre></li>
+<li><p><strong>AddGlobal</strong> - Integrates variables and exports calculated value, useful for calculating forces/fluxes etc.</p>
+<pre class="r"><code>AddGlobal(name=&quot;Name&quot;, comment=&#39;Some comment&#39;, unit=&quot;unit&quot;)
+AddGlobal(name=&quot;Flux&quot;, comment=&#39;Volume flux&#39;, unit=&quot;m3/s&quot;)</code></pre></li>
+<li><p><strong>AddSetting</strong> - Variables that can be set in the <code>.xml</code> and accessed by <code>Dynamics.c</code> in all nodes. Settings can be <code>zonal</code>, which means that they can be set to different values in different mesh zones, defined in <code>.xml</code> files. It is also possible to define a default value for a setting, this way even if it is not specified in <code>.xml</code> file code will run without trouble.</p>
+<pre class="r"><code>AddSetting(name=&quot;Name&quot;, default = &quot;value&quot;, comment=&quot;some comment&quot;, zonal=TRUE/FALSE )
+AddSetting(name=&quot;Velocity&quot;, default=&quot;0m/s&quot;, comment=&#39;Inlet velocity&#39;, zonal=TRUE)</code></pre></li>
+<li><p><strong>AddQuantity</strong> - Values that can be exported to VTK files (and Catalyst). In most cases they are macroscopic human-readable quantites like velocity, pressure, displacement etc.</p>
+<pre class="r"><code>AddQuantity(name=&quot;Name&quot;, unit=&quot;unit&quot;, comment=&quot;Some comment&quot;, vector = T/F)
+AddQuantity(name=&quot;U&quot;, unit=&quot;m/s&quot;, comment=&quot;macroscopic velocity&quot;, vector = T)</code></pre>
+<p><code>vector</code> should be set to <code>T</code> for properties like velocity, momentum etc. In order to extract those values the <code>GetName()</code> function must be defined in <code>Dynamics.c</code>.</p></li>
+<li><strong>AddNodeType</strong>
+<ul>
+<li>BGK</li>
+<li>MRT</li>
+<li>Wall</li>
+<li>Solid</li>
+<li>WVelocity,WPressure,WPressureL</li>
+<li>EVelocity,EPressure,EPressureL</li>
+<li>Inlet</li>
+<li>Outlet</li>
+</ul></li>
+</ol>
+<p>File structure, what are quantities, globals, etc, whats needed in (almost) every model</p>
+</div>
+<div id="dynamics.c" class="section level1">
+<h1>Dynamics.C</h1>
+<p>This file contains the actual ‘logic’ behind the model. All the calculations are done here. It must contain at least 3 functions to work: <code>Init()</code>, <code>Color()</code>, and <code>Run()</code>. Since CUDA architecture is being used, all the functions need to be preceded by “CudaDeviceFunction”.</p>
+<div id="init" class="section level3">
+<h3>Init()</h3>
+<p>Function called to initialise velocity in each node</p>
+<pre class="c"><code>CudaDeviceFunction void Init() {
+// Initialise the velocity at each node 
+        real_t u[2] = {Velocity, 0.};
+        real_t d    = Density;
+        SetEquilibrium(d,u);
+}</code></pre>
+</div>
+<div id="run" class="section level3">
+<h3>Run()</h3>
+<p>This function is called each iteration to perform calculations. It should contain instruction for each <code>NodeType</code> used in case. Its general structure looks like this:</p>
+<pre class="c"><code>CudaDeviceFunction void Run(){
+    switch (NodeType &amp; NODE_GROUP){ //Because of the NodeType structure checking must be done this way
+                                    // If any SYMMETRY nodes are present, they need to be &#39;done&#39; first
+        case NODE_A:
+            A();                    //Function with logic for this NodeType
+            break;
+        case NODE_B:
+            B();
+            break;
+    }
+    switch (NodeType &amp; NODE_GROUP){ //Boundary conditions(BOUNDARY group) must be calculated before collision/streaming
+        .
+        .
+        .
+    }
+    switch (NodeType &amp; NODE_GROUP){ //Collision/streaming must be done as last step
+        .
+        .
+        .
+}</code></pre>
+</div>
+<div id="color" class="section level3">
+<h3>Color()</h3>
+<p>This function is used to obtain preview during calculations, when not in use it can be only declared without any actual code inside.</p>
+<pre class="c"><code>CudaDeviceFunction float2 Color() {
+        float2 ret;
+        vector_t u = getU();
+        ret.x = sqrt(u.x*u.x + u.y*u.y);    
+        if (NodeType == NODE_Solid){
+                ret.y = 0;
+        } else {
+                ret.y = 1;
+        }
+        return ret;
+}</code></pre>
+</div>
+<div id="get" class="section level3">
+<h3>Get()</h3>
+<p>In order to extract <code>Quantities</code> defined in <code>Dynamics.R</code> we must create function that will compute desired value. Depending on values of <code>vector</code> argument, the <code>Get()</code> function will be either <code>real_t</code> or <code>vector_t</code> type. Below are given examples for the <code>Quantities</code> used most often:</p>
+<pre class="c"><code>CudaDeviceFunction real_t getRho() {
+// This function defines the macroscopic density at the current node.
+        return f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0];
+}
+
+CudaDeviceFunction vector_t getU() {
+// This function defines the macroscopic velocity at the current node.
+        real_t d = f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0];
+        vector_t u;
+        // pv = pu + G/2
+        u.x = (( f[8]-f[7]-f[6]+f[5]-f[3]+f[1] )/d + GravitationX*0.5 );
+        u.y = ((-f[8]-f[7]+f[6]+f[5]-f[4]+f[2] )/d + GravitationY*0.5 );
+        u.z = 0;
+        return u;
+}</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

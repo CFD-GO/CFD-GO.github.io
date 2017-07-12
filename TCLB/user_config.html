@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>User Manual</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">User Manual</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 3, 2017</em></h4>
+
+</div>
+
+
+<div id="case-configuration" class="section level1">
+<h1>Case configuration</h1>
+<p>All case properties(geometry,BCs,model settings, etc.) are specified within XML files. Generally, the structure of the file should look like that:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig&gt;
+        &lt;Units&gt;
+              &lt;Params/&gt; &lt;!-- Specify relation between LB and real world units here --&gt;
+        &lt;/Units&gt;
+        &lt;Geometry&gt;  &lt;!-- Domain size --&gt; 
+              &lt;!-- Collision type, boundary conditions, creating/importing objects --&gt;
+        &lt;/Geometry&gt;
+        &lt;Model&gt;
+              &lt;Params/&gt; &lt;!-- All parameters like velocity, density, viscosity --&gt;
+        &lt;/Model&gt;
+        &lt;!-- Callbacks, python/r code --&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>Working example with some sample values is shown below, along with explanation of each lines functionality.</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
+        &lt;Geometry nx=&quot;1024&quot; ny=&quot;100&quot;&gt;
+                &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
+                &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
+                &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
+                &lt;Wall mask = &quot;ALL&quot;&gt;
+                        &lt;Box ny=&quot;1&quot;/&gt;
+                        &lt;Box dy=&quot;-1&quot;/&gt;
+                &lt;/Wall&gt;
+        &lt;/Geometry&gt;
+        &lt;Model&gt;
+                &lt;Params Velocity-Inlet=&quot;0.01&quot;/&gt;
+                &lt;Params nu=&quot;0.05&quot;/&gt;
+        &lt;/Model&gt;
+        &lt;Solve Iterations=&quot;5000&quot;/&gt;
+        &lt;VTK Iterations=&quot;50&quot; what = &quot;U,P&quot;/&gt;
+        &lt;Solve Iterations=&quot;1000&quot;/&gt;
+&lt;/CLBConfig&gt;
+</code></pre>
+<table style="width:86%;">
+<colgroup>
+<col width="19%" />
+<col width="66%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Functionality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;?xml version=&quot;1.0&quot;?&gt;</code></td>
+<td>Header required for all case files.</td>
+</tr>
+<tr class="even">
+<td><code>&lt;CLBConfig output=&quot;output/test&quot;&gt;</code></td>
+<td>All configuration settings must be contained within this element, additionally it is possible to specify deisred output path and/or filename prefix here. In example all files will be saved in <code>~TCLB/output</code> folder, with all the filenames begining with <code>test</code> prefix.</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Geometry nx=&quot;1024&quot; ny=&quot;100&quot;&gt;</code></td>
+<td>Element containing all informations regarding geometry(domain size/shape, whats insinde domain). <code>nx=&quot;1024&quot;&quot; ny=&quot;100&quot;</code> specifies a domain containing 1024 elements in x-direction and 100 in y-direction. TODO: specyfikacja nx,dx,fx etc.</td>
+</tr>
+<tr class="even">
+<td><code>&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</code></td>
+<td><code>MRT</code> is</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;</code></td>
+<td>Creates velocity inlet at western side of the domain(TODO: Orientation), with width equal to 1 element and assignes it name <code>Inlet</code>(usefull for specifying zonal parameters later on).</td>
+</tr>
+<tr class="even">
+<td><code>&lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;</code></td>
+<td>Creates pressure outlet at eastern side of the domain, with width equal to to 1 element.</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Wall mask = &quot;ALL&quot;&gt;</code> <br> <code>&lt;Box ny=&quot;1&quot;/&gt;</code> <br> <code>&lt;Box dy=&quot;-1&quot;/&gt;</code> <br> <code>&lt;/Wall&gt;</code></td>
+<td>Creates <code>wall</code> elements. <code>mask=&quot;ALL&quot;</code> tells us that all types(also from other groups) will be overwritten by <code>wall</code> element type, e.g the collision enabled in <code>&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</code> will be disabled.</td>
+</tr>
+<tr class="even">
+<td><code>&lt;/Geometry&gt;</code></td>
+<td>Closing tag for <code>&lt;Geometry&gt;</code> element.</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Model&gt;</code></td>
+<td>Element containing all desired model settings(<code>Params</code>)</td>
+</tr>
+<tr class="even">
+<td><code>&lt;Params Velocity-Inlet=&quot;0.01&quot;/&gt;</code></td>
+<td>Setting the value of <code>Velocity</code> parameter to 0.01 in <code>Inlet</code> element(specified in Geometry).</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Params nu=&quot;0.05&quot;/&gt;</code></td>
+<td>Setting the value of <code>nu</code> parametere to <code>0.05</code>.</td>
+</tr>
+<tr class="even">
+<td><code>&lt;/Model&gt;</code></td>
+<td>Closing tag for <code>&lt;Model&gt;</code> element. The case is initialized after this tag.</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Solve Iterations=&quot;5000&quot;/&gt;</code></td>
+<td>Runs 5000 iterations</td>
+</tr>
+<tr class="even">
+<td><code>&lt;VTK Iterations=&quot;50&quot;/&gt;</code></td>
+<td>Specifies that next <code>&lt;Solve&gt;</code> element will create an VTK output file every 50 iterations, saving there U and P quantities. By default everything is saved, creating rather large file for bigger cases.</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Solve Iterations=&quot;1000&quot;/&gt;</code></td>
+<td>Runs 1000 iterations, creating <code>VTK</code> output every 50 iterations, as specified earlier.</td>
+</tr>
+<tr class="even">
+<td><code>&lt;/CLBConfig&gt;</code></td>
+<td>Closing tag for <code>&lt;CLBConfig&gt;</code> element, finishing whole case file.</td>
+</tr>
+</tbody>
+</table>
+<p>All case files start with <code>&lt;?xml version=&quot;1.0&quot;?&gt;</code> header.</p>
+<p>The configuration must be in the <code>&lt;CLBConfig&gt;</code> element(<code>&lt;CLBConfig/&gt;</code> at start and <code>&lt;/CLBConfig&gt;</code> at the end). In this element the output path and/or prefix can be specified. In example above all files will be saved in <code>~TCLB/output</code> folder, with all the filenames begining with <code>test</code> prefix.</p>
+<p><code>&lt;Geometry&gt;</code> element contains the definition of the domain and objects within it</p>
+<div id="geometry-definition" class="section level2">
+<h2>Geometry definition</h2>
+<p>It’s easy to imagine how the geometry elements are defined, by thinking about it as “painting”. Each geometry element must have 2 parameters “what are we painting with” and “where are we painting”:</p>
+<pre class="xml"><code>&lt;Wall mask=&quot;ALL&quot;&gt;
+  &lt;Box dx=&quot;4&quot; nx=&quot;10&quot; ny=&quot;30&quot;/&gt;
+&lt;/Wall&gt;</code></pre>
+<p>In this example “what” is <code>Wall</code> element and “where” is <code>&lt;Box dx=&quot;4&quot; nx=&quot;10&quot; ny=&quot;30&quot;/&gt;</code>. Defining “where” can be done in multiple ways, using <code>nx</code>,<code>dx</code>,<code>fx</code> arguments(similarly for <code>y</code> and <code>z</code>). To understand the geometry definition, you have to know that <code>box</code> element by default spans the whole available space. Then by imposing <code>dx</code>, <code>nx</code> and <code>fx</code> attributes you cut it smaller. <code>dx</code> sets where the box starts, <code>nx</code> sets how <em>long</em> is the box in the x direction, and <code>fx</code> sets where it ends. Additionally, if you set a negative value it means a value <em>from the end</em>. The same applies of course to <code>y</code> and <code>z</code>. For example:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Region</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;Box nx=&quot;1&quot;/&gt;</code></td>
+<td>Left border of the domain</td>
+</tr>
+<tr class="even">
+<td><code>&lt;Box dx=&quot;-1&quot;/&gt;</code></td>
+<td>Right border of the domain</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Box dx=&quot;10&quot;/&gt;</code></td>
+<td>Everything starting from the 11th element (in x direction)</td>
+</tr>
+<tr class="even">
+<td><code>&lt;Box dx=&quot;-10&quot;/&gt;</code></td>
+<td>10 last layers in the x direction</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;Box nx=&quot;10&quot; ny=&quot;10&quot;/&gt;</code></td>
+<td>Square 10x10 in the left bottom corner</td>
+</tr>
+</tbody>
+</table>
+<p><img src="user_config_files/figure-html/unnamed-chunk-2-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;4&quot;/&gt;</code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-3-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;-4&quot;/&gt;</code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-4-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;4&quot; nx=&quot;10&quot;/&gt;</code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-5-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;4&quot; fx=&quot;10&quot;/&gt;</code></p>
+<div id="possible-geometry-primitives" class="section level3">
+<h3>Possible geometry primitives</h3>
+<p><code>Box</code> Creates a box with corners defined by <code>nx</code>/<code>dx</code>/<code>fx</code> etc. parameters.</p>
+<p><code>Wedge</code> Creates a wedge within a <code>box</code>, additionally <code>direction</code> must be specified (“LowerRight”,“LowerLeft”,“UpperRight”,“UpperLeft”) e.g: <code>&lt;Wedge dx=&quot;4&quot; fx=&quot;10&quot; dy=&quot;1&quot; ny=&quot;10&quot; direction=&quot;LowerRight&quot;/&gt;</code></p>
+<p><code>Sphere</code> Creates a sphere within a <code>box</code>, can have different dimensions in x/y/z.</p>
+</div>
+<div id="section" class="section level3">
+<h3></h3>
+</div>
+</div>
+<div id="node-types" class="section level2">
+<h2>Node Types</h2>
+<p>Node type consists of several properties, which are organized in groups. Each node can have noly one property from each group. Additional groups can be</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

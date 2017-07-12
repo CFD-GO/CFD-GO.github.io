@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>Dynamics.R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Dynamics.R</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 6, 2017</em></h4>
+
+</div>
+
+
+<div id="fielddensity" class="section level2">
+<h2>Field/Density</h2>
+<p><strong>Fields</strong> are variables stored in mesh nodes. It is usually necessary to be able to look into neighbouring value. This needs to be specify during <code>Field</code> declaration, as the code must ‘know’ that we want to access this fields values in neighbours, or otherwise it won’t compile. It can be done by by using <code>dx=c()</code>, where <code>c(..)</code> means vector in R programming language.</p>
+<pre class="r"><code>AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1))              #2D case
+AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1), dz=c(-1,1))  #3D case</code></pre>
+<p>It can also be done using <code>stencil</code>.</p>
+<pre class="r"><code>AddField(name=&quot;u&quot;, stencil2d=1) #2D case
+AddField(name=&quot;u&quot;, stencil3d=1) #3D case</code></pre>
+<p>This will allow access to neighbours positioned in distance of 1 element. In order to acces further change to <code>c(-2,2)</code> or <code>stencil3d=2</code>.</p>
+<p>Values stored in fields can be accessed from <code>Dynamics.c</code> with an offset(<code>field_name(1,1)</code>). If some values are often loaded, the procedure can be optimized using accessors called <strong>Densities</strong> which load corresponding values from a specified field with a predefined offset. Using <code>Density</code> instead of accessing <code>Field</code> ‘manually’ each time will speed up the code, as required values will be loaded into memeory before <code>Run()</code> function.</p>
+</div>
+<div id="setting" class="section level2">
+<h2>Setting</h2>
+<p>Settings are variables that can be set in the <code>.xml</code> and accessed by <code>Dynamics.c</code> in all nodes. Settings can be <code>zonal</code>, which means that they can be set to different values in different mesh zones, defined in <code>.xml</code> files. It is also possible to define a default value for a setting, this way even if it is not specified in <code>.xml</code> file code will run without trouble.</p>
+<pre class="r"><code>AddSetting(name=&quot;Name&quot;, default = &quot;value&quot;, comment=&quot;some comment&quot;, zonal=TRUE/FALSE )
+AddSetting(name=&quot;Velocity&quot;, default=&quot;0m/s&quot;, comment=&#39;Inlet velocity&#39;, zonal=TRUE)</code></pre>
+</div>
+<div id="qauantity" class="section level2">
+<h2>Qauantity</h2>
+<p>Values that can be exported to VTK files (and Catalyst), to later analyse in ParaView. In most cases they are macroscopic human-readable quantites like velocity, pressure, displacement etc, but can be also more ‘abstract’ values.</p>
+<pre class="r"><code>AddQuantity(name=&quot;Name&quot;, unit=&quot;unit&quot;, comment=&quot;Some comment&quot;, vector = T/F)
+AddQuantity(name=&quot;U&quot;, unit=&quot;m/s&quot;, comment=&quot;macroscopic velocity&quot;, vector = T)</code></pre>
+<p><code>vector</code> should be set to <code>T</code> for properties like velocity, momentum etc.</p>
+<p>In order to extract those values the <code>GetName()</code> function must be defined in <code>Dynamics.c</code>.</p>
+<pre class="c"><code>//Example for d2q9_SRT model
+
+CudaDeviceFunction vector_t GetU(){ //The type of the function would be real_t if the Quantity is not a vector
+        real_t d = f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0]; \\Rho(density) is sum of all f[]
+        vector_t u;
+        // pv = pu + G/2
+        u.x = (( f[8]-f[7]-f[6]+f[5]-f[3]+f[1] )/d + GravitationX*0.5 );    //GravitationX/Y are `Settings`, their values are taken from `.xml` file or default from `Dynamics.R` definition.
+        u.y = ((-f[8]-f[7]+f[6]+f[5]-f[4]+f[2] )/d + GravitationY*0.5 );
+        u.z = 0;      //the model is 2 dimensional
+        return u;
+}</code></pre>
+</div>
+<div id="actionstage" class="section level2">
+<h2>Action/Stage</h2>
+<p><strong>Stages</strong> are specific functions, defined in <code>Dynamics.c</code>, for which it can be defined which <code>Densities</code> will be loaded and which <code>Fields</code> will be saved. They can be defined in <code>Dynamics.R</code></p>
+<p><strong>Action</strong> is a series of <code>Stages</code> executed in defined order.</p>
+<p>Currently, there are 2 pre-defined <code>Stages</code>(in <code>src/conf.R</code>): <code>BaseIteration</code> and <code>BaseInit</code>. The first one runs the <code>Run()</code> function from <code>Dynamics.c</code>, while the latter runs <code>Init()</code>. There are also 2 pre-defined <code>Actions</code>: <code>Iteration</code>(which runs <code>BaseIteration</code> stage) and <code>Init</code>(which runs <code>BaseInit</code> stage).</p>
+<p>Pre-defined <code>Actions/Stages</code> can be easily replaced with user-defined ones, as they won’t be created unless no user-defined functions with those names are found.</p>
+<p>To define new <code>Stage</code>:</p>
+<pre class="r"><code>AddStage(&quot;BaseIteration&quot;, &quot;Run&quot;, save=Fields$group == &quot;f&quot;, load=DensityAll$group == &quot;f&quot;)
+#Creates stage called BaseIterations, which loads all the Densities from group &quot;f&quot;, runs the function Run() from Dynamics.c and saves all Fields from group &quot;f&quot;
+AddStage(&quot;CalcRho&quot;, save=&quot;rho&quot;, load=DensityAll$group == &quot;f&quot;)
+#Creates stage called CalcRho, which loads all the Densities from group &quot;f&quot;, and saves rho
+AddStage(&quot;CalcNu&quot;, save=&quot;nu&quot;, load=FALSE)
+#Creates stage called CalcNu, which does not load anything and only saves nu</code></pre>
+<p>Note: groups can be assigned to densities on declaration - <code>group=&quot;f&quot;</code></p>
+<p>To define new <code>Action</code>:</p>
+<pre class="r"><code>AddAction(&quot;Iteration&quot;, c(&quot;BaseIteration&quot;,&quot;CalcRho&quot;,&quot;CalcNu&quot;))
+#Creates action called Iteration, which runs  3 stages (in order): BaseIteration, CalcRho, and CalcNu</code></pre>
+<p>Custom <code>Actions</code> and <code>Stages</code> are used when information needs to be exchanged between processes/function in specific, other than pre-defined times. An example can be found in <code>kuper</code> models for multiphase flow.(<code>/models/multiphase/d3q19_kuper</code>).</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

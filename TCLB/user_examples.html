@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>Examples</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Examples</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 4, 2017</em></h4>
+
+</div>
+
+
+<div id="example-cases" class="section level1">
+<h1>Example cases</h1>
+<p>In this section, a few case files will be presented, along with notes on their structure and usage of most popular functions. All of them(and some others) can be found in <code>TCLB/examples</code> catalogue(TODO: powrzucać te przykłady).</p>
+<div id="simple-case" class="section level2">
+<h2>Simple case</h2>
+<p>Below is presented a simple 3-Dimensional case, with a ball in the middle of the domain. Velocity inlet is used on one side and pressure outlet on the another one(TODO:Orientacja NEWS). Notice how each dimension of the ball is specified in different way, yet it is still placed exactly in the middle of the domain:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
+    &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot; nz=&quot;128&quot;&gt;
+        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
+        &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
+        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
+        &lt;Wall mask = &quot;ALL&quot;&gt;
+            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
+        &lt;/Wall&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+        &lt;Params Velocity-Inlet=&quot;0.1&quot;/&gt;
+        &lt;Params nu=&quot;0.05&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
+    &lt;Solve Iterations=&quot;1000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>Note: It is not necessary to specify <code>&lt;Box nx=&quot;1&quot;&gt;</code> for Inlet/Outlet, as it is default value.</p>
+</div>
+<div id="defining-units" class="section level2">
+<h2>Defining Units</h2>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
+    &lt;Units&gt;
+        &lt;Params Velocity=&quot;1m/s&quot; gauge=&quot;0.1&quot;/&gt;
+        &lt;Params Viscosity=&quot;0.01m2/s&quot; gauge=&quot;0.01&quot;/&gt;
+    &lt;/Units&gt;
+    &lt;Geometry nx=&quot;12.8m&quot; ny=&quot;12.8m&quot; nz=&quot;12.8m&quot;&gt;
+        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
+        &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
+        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
+        &lt;Wall mask = &quot;ALL&quot;&gt;
+            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
+        &lt;/Wall&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+        &lt;Params Velocity-Inlet=&quot;1m/s&quot;/&gt;
+        &lt;Params nu=&quot;0.05m2/s&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
+    &lt;Solve Iterations=&quot;1000&quot;/&gt;
+&lt;/CLBConfig&gt;
+</code></pre>
+<p>Sets units in such a way that real-world units agree with LB units. Here <span class="math inline">\(1m = 1/0.1=10\)</span>, which means that each meter is equal to 10 elements in grid and <span class="math inline">\(0.01[\frac{m^2}{s}] = \frac{0.01}{0.01} = 1 =&gt; 1 Iteration[s] = \frac{1}{10^2}\)</span>, so 1 second in real world is equal to 100 iterations.</p>
+<p>Notice how parameters in <code>&lt;Model&gt;</code> and <code>Geometry</code> are specified and how generated case is the same as in previous example.</p>
+<p>It is important not to over-construct gauge variables. If <code>&lt;Params Size=&quot;1m&quot; gauge = &quot;10&quot;/&gt;</code> would be added to the example above it would result in an error, as too many gauge gauges would be assigned.</p>
+</div>
+<div id="control-elements" class="section level2">
+<h2>Control elements</h2>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
+    &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot; nz=&quot;128&quot;&gt;
+        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
+        &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
+        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
+        &lt;Wall mask = &quot;ALL&quot;&gt;
+            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
+        &lt;/Wall&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+        &lt;Params Velocity-Inlet=&quot;0.1&quot;
+                nu=&quot;0.05&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
+    &lt;Solve Iterations=&quot;1000&quot;/&gt;
+    &lt;Control Iterations=&quot;1000&quot;&gt;
+        &lt;CSV file=&quot;file.csv&quot; Time=&quot;x*1000&quot;&gt;
+        &lt;Params Velocity=&quot;y*0.02+0.05&quot;/&gt;
+    &lt;/CSV&gt;
+&lt;/Control&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>Changes <code>Velocity</code> according to the contents of <code>file.csv</code>. Here column ‘x’ is used to compute time and ‘y’ is used to calculate ‘Velocity’ value. Notice also that <code>Velocity</code> and <code>nu</code> parameters are given in <code>&lt;Model&gt;</code> container, without the need of creating separate tags for each parameter.</p>
+</div>
+<div id="importing-geometry" class="section level2">
+<h2>Importing geometry</h2>
+<p>It is possible to import geometry from <code>.stl</code> files. It can be done by using <code>&lt;STL file=&quot;path_to_file&quot;/&gt;</code>. Additional arguments allow user to resize, rotate, and translate geometry. ParaView(TODO: podlinkować odpowiedni podrozdział) can open <code>.stl</code> files and provides a fast way of estabilishing correct import parameters. Imported geometry can be used along with geometry primitives, shown in other examples.</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/&quot;&gt;
+        &lt;Units&gt;
+                &lt;Params size=&quot;1m&quot; gauge=&quot;70&quot; /&gt;
+                &lt;Params nu=&quot;1.4e-5m2/s&quot; gauge=&quot;0.0001&quot;/&gt;  (TODO: nie działa jak usunie wpisze się w jednym &lt;Params/&gt; - dlaczego?)
+        &lt;/Units&gt;
+        &lt;Geometry nx=&quot;6m&quot; ny=&quot;1m&quot; nz=&quot;1m&quot;&gt;
+                &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
+                &lt;WVelocity&gt;&lt;Inlet/&gt;&lt;/WVelocity&gt;
+                &lt;EPressure&gt;&lt;Outlet/&gt;&lt;/EPressure&gt;
+                &lt;Wall mask=&quot;ALL&quot;&gt;
+                        &lt;Channel/&gt;
+                        &lt;STL file=&quot;example/data/ahmed.stl&quot; scale=&quot;1mm&quot; Xrot=&quot;-90d&quot; x=&quot;70&quot; y=&quot;5cm&quot; z=&quot;0.5m&quot; side = &quot;out&quot;/&gt;
+                &lt;/Wall&gt;
+        &lt;/Geometry&gt;
+        &lt;Model&gt;
+                &lt;Params Velocity=&quot;0.01&quot;/&gt;
+        &lt;/Model&gt;
+        &lt;VTK Iterations=&quot;1000&quot;/&gt;
+        &lt;Solve Iterations=&quot;10000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<table>
+<colgroup>
+<col width="6%" />
+<col width="93%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Attribute</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale</code></td>
+<td>Used to resize <code>.stl</code> file, can be specified with units, or as a fraction(e.g. 1/100).</td>
+</tr>
+<tr class="even">
+<td><code>Xrot,Yrot,Zrot</code></td>
+<td>Rotates geometry aroun X/Y/Z axis by given amount in degrees.</td>
+</tr>
+<tr class="odd">
+<td><code>x,y,z</code></td>
+<td>Translates geometry along X/Y/Z axis by given amount. Distance can be specified in real-world units or number of grid points(without unit).</td>
+</tr>
+<tr class="even">
+<td><code>side</code></td>
+<td>Chose if geometry will be treated as wall, possible arguments: <code>&quot;in&quot;</code>,<code>&quot;out&quot;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="symmetry" class="section level2">
+<h2>Symmetry</h2>
+<p>TODO:ustalić jak było z przesunięciem przy symetri, czy ma ona być na ostatnim elemencie ciała czy jedno za nim.</p>
+</div>
+<div id="synthetic-turbulence" class="section level2">
+<h2>Synthetic Turbulence</h2>
+<p>A synthetic turbulence generator is implemented in TCLB solver. It is based on modified von Karman-Pao spectrum(<a href="https://arc.aiaa.org/doi/10.2514/6.1999-1872">Bailly and Juve, 1999</a>)</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
+    &lt;Units&gt;
+        &lt;Params Velocity=&quot;1m/s&quot; gauge=&quot;0.1&quot;/&gt;
+        &lt;Params Viscosity=&quot;0.01m2/s&quot; gauge=&quot;0.01&quot;/&gt;
+    &lt;/Units&gt;
+    &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot; nz=&quot;128&quot;&gt;
+        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
+        &lt;WVelocityTurbulent name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocityTurbulent&gt;
+        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
+        &lt;Wall mask = &quot;ALL&quot;&gt;
+            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
+        &lt;/Wall&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+        &lt;Params Velocity-Inlet=&quot;1m/s&quot;
+                nu=&quot;0.05m2/s&quot;
+                Turbulence=&quot;0.1m/s&quot;
+                MainWaveLength=&quot;10m&quot;
+                DiffusionWaveLength = &quot;100m&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
+    &lt;Solve Iterations=&quot;1000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>It is important to remember that in order to use implemented turbulence generator it is required to change <code>WVelocity</code> to <code>WVelocityTurbulent</code>, e.g.: <code>&lt;WVelocityTurbulent&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocityTurbulent&gt;</code>. The generator has more customizable attributes, given in table below, but most of them is not required for generator to work. Only the mandatory ones are provided in example above.</p>
+<table style="width:94%;">
+<colgroup>
+<col width="11%" />
+<col width="83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Attribute</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Modes</code></td>
+<td>Number of harmonic modes to generate for the turbulence, default ‘100’.</td>
+</tr>
+<tr class="even">
+<td><code>Spread</code></td>
+<td>The way to divide the spectrum to a finite number of modes. Possible values: <code>Even</code>, <code>Log</code>, <code>Quantile</code>. Default is <code>Even</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>Spectrum</code></td>
+<td>Type of spectrum to use, possible values: <code>Von Karman</code>, <code>One Wave</code>. Default is <code>Von Karman</code>.</td>
+</tr>
+<tr class="even">
+<td><code>MainWaveLength</code></td>
+<td>Main wave-length in the Von Karman spectrum.</td>
+</tr>
+<tr class="odd">
+<td><code>DiffusionWaveLength</code></td>
+<td>Diffusion scale wave-length in the Von Karman spectrum.</td>
+</tr>
+<tr class="even">
+<td><code>MinWaveLength</code></td>
+<td>Minimal space wave-length. TODO:Default value</td>
+</tr>
+<tr class="odd">
+<td><code>MaxWaveLength</code></td>
+<td>Maximal space wave-length.</td>
+</tr>
+<tr class="even">
+<td><code>TimeWaveLength</code></td>
+<td>Time wave-length of the syntetic turbulence.</td>
+</tr>
+</tbody>
+</table>
+<p>It is possible to specify <code>WaveLength</code> parameters in terms of <code>WaveNumber</code> or <code>WaveFrequency</code>.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

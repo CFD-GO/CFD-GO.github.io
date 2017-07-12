@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>D2Q9 Single Relexation Time(SRT)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">D2Q9 Single Relexation Time(SRT)</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 5, 2017</em></h4>
+
+</div>
+
+
+<p>This tutorial will try to teach you how to make and use lattice Boltzmann (LB) models within the TCLB environment. First a brief overview will be given of the discrete <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods">lattice Boltzmann equation</a> taking advantage of the Bhatnagar-Gross-Krook (BGK) collision operator (also known as single relaxation time operator) will be given, then the code required to simulate Poiseuille flow will be developed.</p>
+<div id="the-bgk-lattice-boltzmann-equation" class="section level2">
+<h2>The BGK-lattice Boltzmann Equation:</h2>
+<p>The discrete form of the Boltzmann transport equation can be expressed as:</p>
+<p><span class="math inline">\(f_i(x+c_i,t+1)=f_i(x,t)-\frac{1}{\tau}(f_i(x,t)-f_i^{eq}(x,t))\)</span></p>
+<p>This describes the evolution of particle distribution functions along discrete velocities, where the right hand side is often referred to as the collision operation and the evaluation to the left hand side, the streaming operation. Note here that we are going to work in lattice units during the description of the model in which we assume <span class="math inline">\(\Delta x = \Delta t = 1\)</span>. For the D2Q9 model, this assumption allows us to express the 9 discrete directions as,</p>
+<p><span class="math inline">\(c = \left( \begin{array}&amp; 0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 &amp; 1 &amp; -1 &amp; -1 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -1 &amp; -1 \end{array} \right)\)</span></p>
+<p>Additionally, we define the equilibrium distribution function found by an expansion of a Maxwellian distribution as,</p>
+<p><span class="math inline">\(f_i^{eq}(x,t) = \omega _ i \rho \left( 1 + \frac{c_iu}{c_s^2}+ \frac{(c_iu)^2}{2c_s^4} - \frac{u^2}{2c_s^2} \right)\)</span></p>
+<p>where,</p>
+<p><span class="math inline">\(c_s^2 = \frac{1}{3}\)</span></p>
+<p><span class="math inline">\(\omega_i=\left\{ \begin{array}{ll} \frac{4}{9} &amp; i=0\\ \frac{1}{9} &amp; i=1,2,3,4\\ \frac{1}{36} &amp; i=5,6,7,8 \end{array} \right.\)</span></p>
+<div id="boundary-conditions-and-force-implementation" class="section level3">
+<h3>Boundary Conditions and Force Implementation</h3>
+<p>For this specific example, we are looking at a flow through a channel. We can utilise periodic conditions along the x-axis but have to implement no-slip wall conditions to limit domain along y-axis. To do this with LBM, the bounceback method is used. Particle distribution functions that stream into a node flagged as a “wall” are reversed, or “bounced-back” in the opposite direction Therefore, in general for a D2Q9 lattice we obtain,</p>
+<p><span class="math inline">\(\left\{ \begin{array}{ll} f_0=f&#39;_0\\ f_1=f&#39;_3\\ f_2=f&#39;_4\\ f_3=f&#39;_1\\ f_4=f&#39;_2\\ f_5=f&#39;_7\\ f_6=f&#39;_8\\ f_7=f&#39;_5\\ f_8=f&#39;_6\\ \end{array} \right.\)</span></p>
+<p>where ’ indicates the post-bounce-back direction.</p>
+<p>To drive the fluid in the Poiseuille flow example, a body force will be applied. For this we consider a body force <strong>G</strong> acting in each time increment resulting in a momentum change <span class="math inline">\(\Delta\rho u = G\)</span> . To incorporate this, we modify the equilibrium velocity,</p>
+<p><span class="math inline">\(\rho u^* = \rho u + \tau G\)</span></p>
+<p>This approach ultimately acts to relax each particle distribution function towards an equilibrium momentum that has included the time-incremental change due to the applied body force. To obtain the bulk fluid velocity, the before and after collision momentum is averaged giving,</p>
+<p><span class="math inline">\(\rho v = \rho u + \frac{1}{2} G\)</span></p>
+<p>and with this we now have all we the dynamics required to implement the specified example.</p>
+</div>
+</div>
+<div id="model-creation-in-tclb" class="section level2">
+<h2>Model Creation in TCLB</h2>
+<p>As in the previous <a href="TODO:podlinkować%20fdwave">tutorial</a>, we want to set up a folder named <code>d2q9srt</code> in <code>~TCLB/models/tutorial/</code> and create the generic file structure (<code>conf.mk</code>, <code>Dynamics.c</code>, <code>Dynamics.R</code>).</p>
+<p>To start off the model, we look to add the nine distribution functions for the nine discrete velocities. This is implemented in the <code>Dynamics.R</code> file, but instead of adding each as its own field we look to stream the functions in the process of calling them at each node. To do this we instead add them as <a href="TODO:podlinkować">Densities</a>:</p>
+<pre class="r"><code>AddDensity(name=&quot;f[0]&quot;, dx=0, dy=0  )
+AddDensity(name=&quot;f[1]&quot;, dx=1, dy=0  )
+AddDensity(name=&quot;f[2]&quot;, dx=0, dy=1  )
+AddDensity(name=&quot;f[3]&quot;, dx=-1,dy=0  )
+AddDensity(name=&quot;f[4]&quot;, dx=0, dy=-1 )
+AddDensity(name=&quot;f[5]&quot;, dx=1, dy=1  )
+AddDensity(name=&quot;f[6]&quot;, dx=-1,dy=1  )
+AddDensity(name=&quot;f[7]&quot;, dx=-1,dy=-1 )
+AddDensity(name=&quot;f[8]&quot;, dx=1, dy=-1 )</code></pre>
+<p>Notice that the dx and dy coordinates correspond with the <strong>c</strong> matrix previously given. At this stage, it helps to assess what other values will be needed to initialise and run the LBM. To start off the method, a fluid density and initial velocities must be specified, then to perform the collision operation the relaxation time and the magnitude of the applied body force need to be defined . Additionally, from this simulation we want to be able to interrogate the macroscopic fluid velocity and density so these must be added as <a href="TODO:link">Quantities</a>. For this, we define (in <code>Dynamics.R</code>):</p>
+<pre class="r"><code>AddQuantity( name=&quot;U&quot;,unit=&quot;m/s&quot;, vector=TRUE )
+AddQuantity( name=&quot;Rho&quot;,unit=&quot;kg/m3&quot; )
+
+AddSetting( name=&quot;omega&quot;, comment=&#39;inverse of relaxation time&#39;)
+AddSetting( name=&quot;nu&quot;, omega=&#39;1.0/(3*nu+0.5)&#39;, default=0.16666666, comment=&#39;viscosity&#39;)
+AddSetting( name=&quot;Velocity&quot;,default=0, comment=&#39;inlet/outlet/init velocity&#39;, zonal=TRUE)
+AddSetting( name=&quot;GravitationX&quot;,default=0, comment=&#39;body/external acceleration&#39;, zonal=TRUE)
+AddSetting( name=&quot;GravitationY&quot;,default=0, comment=&#39;body/external acceleration&#39;, zonal=TRUE)
+AddSetting( name=&quot;Density&quot;,default=1, comment=&#39;Density&#39;)</code></pre>
+<p>From the above, we have all the variables we need to implement the LBM. The first step is to initialise the lattice over the required domain, this is incorporated as part of the dynamics that are occurring in the model and must be incorporated into the <code>Dynamics.c</code> file within the <code>Init()</code> function.</p>
+<pre class="c"><code>CudaDeviceFunction void Init(){
+    real_t u[2] = {Velocity, 0.0};
+    real_t d = Density;
+    SetEquilibrium(d,u);
+}</code></pre>
+<p>Notice here that we are calling on the function <code>SetEquilibrium()</code> within which we want to calculate the equilibrium distribution <span class="math inline">\(f_i^{eq}\)</span> for the given density and velocity fields.</p>
+<pre class="c"><code>CudaDeviceFunction void SetEquilibrium(real_t d, real_t u[2])
+{
+f[0] = ( 2. + ( -u[1]*u[1] - u[0]*u[0] )*3. )*d*2./9.;
+f[1] = ( 2. + ( -u[1]*u[1] + ( 1 + u[0] )*u[0]*2. )*3. )*d/18.;
+f[2] = ( 2. + ( -u[0]*u[0] + ( 1 + u[1] )*u[1]*2. )*3. )*d/18.;
+f[3] = ( 2. + ( -u[1]*u[1] + ( -1 + u[0] )*u[0]*2. )*3. )*d/18.;
+f[4] = ( 2. + ( -u[0]*u[0] + ( -1 + u[1] )*u[1]*2. )*3. )*d/18.;
+f[5] = ( 1. + ( ( 1 + u[1] )*u[1] + ( 1 + u[0] + u[1]*3. )*u[0] )*3. )*d/36.;
+f[6] = ( 1. + ( ( 1 + u[1] )*u[1] + ( -1 + u[0] - u[1]*3. )*u[0] )*3. )*d/36.;
+f[7] = ( 1. + ( ( -1 + u[1] )*u[1] + ( -1 + u[0] + u[1]*3. )*u[0] )*3. )*d/36.;
+f[8] = ( 1. + ( ( -1 + u[1] )*u[1] + ( 1 + u[0] - u[1]*3. )*u[0] )*3. )*d/36.;
+}</code></pre>
+<p>With the equilibrium function taken care of, we can now look at updating our initialised lattice. For this, the streaming operation is taken care of with the specification of <a href="TODO:podlinkować">Densities</a> that we made. The collision operation however needs to be implemented and bounce-back for nodes flagged as walls. To do this, we define the <code>run()</code> function to describe what happens at each node at each timestep.</p>
+<pre class="c"><code>CudaDeviceFunction void Run() {
+// This defines the dynamics that we run at each node in the domain.
+    switch (NodeType &amp; NODE_BOUNDARY) {
+    case NODE_Wall:
+        BounceBack();
+        break;
+    }
+    if ((NodeType &amp; NODE_BOUNDARY) == NODE_BGK) 
+    {
+        CollisionBGK();
+    }
+}</code></pre>
+<p><strong>Don’t forget to declare new node types in <code>Dynamics.R</code>.</strong></p>
+<p>Additionally, in all <code>Dynamics.c</code> files the <code>Color()</code> function is required. (even with <code>./configure --disable-graphics</code>).</p>
+<pre class="c"><code>CudaDeviceFunction float2 Color() {
+  float2 ret;
+  ret.x = 0;
+  ret.y = 1;
+  return ret;
+}</code></pre>
+<p>The switch function described can also be used for the implementation of velocity/pressure boundaries, but these will not be discussed in this tutorial. As can be seen above, we need to define functions that describe both the <code>BounceBack()</code> and <code>CollisionBGK()</code> operations. The bounce-back operation occurs as described in the theory component of this tutorial where distribution functions are reversed:</p>
+<pre class="c"><code>CudaDeviceFunction void BounceBack() {
+// Method to reverse distribution functions along the bounding nodes.
+        real_t uf;
+    uf = f[3];
+    f[3] = f[1];
+    f[1] = uf;
+    uf = f[4];
+    f[4] = f[2];
+    f[2] = uf;
+    uf = f[7];
+    f[7] = f[5];
+    f[5] = uf;
+    uf = f[8];
+    f[8] = f[6];
+    f[6] = uf;
+}</code></pre>
+<p>The BGK collision, from the left hand side of the discrete Boltzmann equation:</p>
+<pre class="c"><code>CudaDeviceFunction void CollisionBGK() {
+// Here we perform a single relaxation time collision operation.
+// We save memory here by using a single dummy variable
+    real_t u[2], d, f_temp[9];
+    d = getRho();
+    // pu* = pu + rG
+    u[0] = (( f[8]-f[7]-f[6]+f[5]-f[3]+f[1] )/d + GravitationX/omega );
+    u[1] = ((-f[8]-f[7]+f[6]+f[5]-f[4]+f[2] )/d + GravitationY/omega );
+    f_temp[0] = f[0];
+    f_temp[1] = f[1];
+    f_temp[2] = f[2];
+    f_temp[3] = f[3];
+    f_temp[4] = f[4];
+    f_temp[5] = f[5];
+    f_temp[6] = f[6];
+    f_temp[7] = f[7];
+    f_temp[8] = f[8];
+    SetEquilibrium(d, u); //stores equilibrium distribution in f[0]-f[8]
+    f[0] = f_temp[0] - omega*(f_temp[0]-f[0]);  
+    f[1] = f_temp[1] - omega*(f_temp[1]-f[1]);
+    f[2] = f_temp[2] - omega*(f_temp[2]-f[2]);
+    f[3] = f_temp[3] - omega*(f_temp[3]-f[3]);  
+    f[4] = f_temp[4] - omega*(f_temp[4]-f[4]);
+    f[5] = f_temp[5] - omega*(f_temp[5]-f[5]);
+    f[6] = f_temp[6] - omega*(f_temp[6]-f[6]);  
+    f[7] = f_temp[7] - omega*(f_temp[7]-f[7]);
+    f[8] = f_temp[8] - omega*(f_temp[8]-f[8]);
+}</code></pre>
+<p>With all the dynamics described, all that is left to do now is calculate the macroscopic variables using <code>Get</code> functions to correspond with the Quantities stated in <code>Dynamics.R</code>.The macroscopic density is the sum of all the distribution functions and the momentum is the sum of the distribution functions multiplied by the discrete velocity directions.</p>
+<pre class="c"><code>CudaDeviceFunction real_t getRho() {
+// This function defines the macroscopic density at the current node.
+    return f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0];
+}
+
+CudaDeviceFunction vector_t getU() {
+// This function defines the macroscopic velocity at the current node.
+    real_t d = f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0];
+    vector_t u;
+    // pv = pu + G/2
+    u.x = (( f[8]-f[7]-f[6]+f[5]-f[3]+f[1] )/d + GravitationX*0.5 );
+    u.y = ((-f[8]-f[7]+f[6]+f[5]-f[4]+f[2] )/d + GravitationY*0.5 );
+    u.z = 0;
+    return u;
+}</code></pre>
+</div>
+<div id="setting-up-a-simulation" class="section level2">
+<h2>Setting up a Simulation</h2>
+<p>In order validate this example, we want to specify the relation between physical and lattice units. For this, we need provide the relations for the spatial and time dimensions. The most natural way to do this is to give the physical <code>dx</code> size and the actual fluid viscosity. This information is stored at the start of the <code>xml</code> input file under the parent heading of <code>&lt;Units&gt;</code>, for this you want to first create a new file by the name of <code>d2q9_poiseuille.xml</code>:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/&quot;&gt;
+    &lt;Units&gt;
+        &lt;Params size=&quot;0.0005m&quot; gauge=&quot;1&quot;/&gt;
+        &lt;Params nu=&quot;1e-5m2/s&quot; gauge=&quot;0.1666666666&quot;/&gt;
+    &lt;/Units&gt;</code></pre>
+<p>The reason for this, is it gives not only a view of how to implement physical values in TCLB but gives a straightforward method to calculate the expected maximum physical velocity. We do this through a comparison of the maximum velocity which in Poiseuille is given by:</p>
+<p><span class="math inline">\(u_{max} = \frac{gH^2}{8\nu}\)</span></p>
+<p>The setup of the test simulation domain is arbitrary and different values can be tested from those shown here. A channel of <code>0.02m</code> length and <code>0.0095m</code> height is chosen with an applied body force of <code>0.000311634m/s^2</code>. As stated above one lattice spacing is equal to <code>0.0005m</code> so the total size of the simulation domain will be <code>0.02 x (0.0095+2*0.0005) m</code>. This is defined as the geometry of the system in the xml set up file noting that the in-built <code>&lt;Channel&gt;</code> function is used to specify the bottom and top nodes as walls:</p>
+<pre class="xml"><code>&lt;Geometry nx=&quot;0.02m&quot; ny=&quot;0.0105m&quot;&gt;
+    &lt;BGK&gt;&lt;Box/&gt;&lt;/BGK&gt;
+    &lt;Wall mask=&quot;ALL&quot;&gt;
+        &lt;Channel/&gt;
+    &lt;/Wall&gt;
+&lt;/Geometry&gt;</code></pre>
+<p>Here we can see that the collision method specified for the cells in the entire domain is BGK to align with the <code>Run</code> function. Following on from the geometry of the domain, the model specific settings (defined in <code>Dynamics.R</code>) need to be defined. For this we take a fluid of density <code>1000kg/m^3</code> and choose a relaxation time of the value 1.</p>
+<pre class="xml"><code>&lt;Model&gt;
+    &lt;Params Velocity=&quot;0.0&quot;/&gt;
+    &lt;Params omega=&quot;1.0&quot;/&gt;
+    &lt;Params GravitationX=&quot;0.000311634m/s2&quot;/&gt;
+    &lt;Params Density=&quot;1000kg/m3&quot;/&gt;
+&lt;/Model&gt;</code></pre>
+<p>The final step is to output the desired quantities both at the start (so we can be sure that we have initialised the lattice correctly) and after the final solution step.</p>
+<pre class="xml"><code>    &lt;VTK/&gt;
+    &lt;VTK Iterations=&quot;50000&quot;/&gt;
+    &lt;Solve Iterations=&quot;50000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>With the model and set-up files created, we can now look to make and run d2q9srt. To do this first enter the TCLB directory and call the run file along with the input file location, after this, the analysis can be performed in Paraview:</p>
+<pre class="bash"><code>make d2q9srt
+CLB/d2q9srt/main d2q9_poiseuille.xml
+paraview output/d2q9_poiseuille_VTK_P00_..pvti</code></pre>
+<p>In case the calculations are run on CPU, an mpi run can also be initiated e.g:</p>
+<pre class="bash"><code>mpirun -np 4 CLB/d2q9srt/main d2q9_poiseuille.xml</code></pre>
+<p>From the analytical equation given before, we expect a maximum velocity of <code>0.000351562m/s</code>, while in the results it is found to be <code>0.00035293m/s</code> showing an error of 0.389%.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

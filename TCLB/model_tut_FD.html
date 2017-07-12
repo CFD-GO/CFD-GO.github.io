@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>FD wave equation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">FD wave equation</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 4, 2017</em></h4>
+
+</div>
+
+
+<p>These tutorials will try to teach you how to make and use a new model in TCLB. First it will discuss our goal: the model we want to create. Then it will take you step by step, on how to create all the needed components.</p>
+<div id="finite-difference-wave-equation" class="section level1">
+<h1>Finite difference wave equation</h1>
+<p>We want to discretize the <a href="https://en.wikipedia.org/wiki/Wave_equation">Wave Equation</a>:</p>
+<p><span class="math inline">\(\ddot{u} = c^2\Delta u\)</span></p>
+<p>For this purpose we will use Finite Difference method. First we change the equation into two first order (in time) equations:</p>
+<p><span class="math inline">\(\left\{\begin{eqnarray} \dot{v} = c^2\Delta u \\ \dot{u} =v \end{eqnarray}\right.\)</span> TODO:wyrównać</p>
+<p>Now let us discretise the <a href="https://en.wikipedia.org/wiki/Laplace_operator">Laplace operator</a> with simple finite difference (in 2D):</p>
+<p><span class="math inline">\(\Delta u \approx \frac{(u_{i-1,j}+u_{i+1,j}+u_{i,j-1}+u_{i,j+1}-4u_{i,j})}{(dx^2)}\)</span></p>
+<p>Finnaly we will use, what is called <a href="https://en.wikipedia.org/wiki/Semi-implicit_Euler_method">Semi-implicit Euler rule</a> to integrate this equation in time. This will give us:</p>
+<p><span class="math inline">\(\left\{\begin{eqnarray} v^{n+1}_{i,j}=v^n_{i,j}+dt c^2\Delta u^n \\ u^{n+1}_{i,j}= u^n_{i,j} +dtv^{n+1}_{i,j} \end{eqnarray}\right.\)</span></p>
+<p>The semi-implicit-ness can be seen in the index of <code>v</code> in the second line</p>
+<p>Finnaly: we will get rid of all units by assuming <code>dx</code> and <code>dt</code> equal to 1</p>
+</div>
+<div id="implementation" class="section level1">
+<h1>Implementation</h1>
+<div id="creating-a-model" class="section level2">
+<h2>Creating a model</h2>
+<p>Every model in TCLB is defined by a subdirectory of <code>models</code>. Let us now create a new one:</p>
+<pre class="bash"><code>mkdir models/tutorial/wave
+touch models/tutorial/wave/conf.mk</code></pre>
+<p>The <code>conf.mk</code> file stores some additional settings for a model, but it also tells TCLB that this directory is in fact a model.</p>
+<p>Now we have to add two main files defining everything: <code>Dynamics.R</code> - defining all the setup of the model, and <code>Dynamics.c</code> - defining what will be happening in a node.</p>
+<pre class="bash"><code>touch models/tutorial/wave/Dynamics.R
+touch models/tutorial/wave/Dynamics.c</code></pre>
+<p>We want to have two <a href="TODO:Link%20what%20fields%20are">[Fields]</a>: <code>u</code> and <code>v</code>. We define them in <code>Dynamics.R</code>:</p>
+<pre class="r"><code>AddField(name=&quot;u&quot;)
+AddField(name=&quot;v&quot;)</code></pre>
+<p>Then we need the main dynamics of a node. First let us write down the functions that will be used in the model(in Dynamics.c):</p>
+<pre class="c"><code>CudaDeviceFunction float2 Color() {
+  float2 ret;
+  ret.x = 0;
+  ret.y = 1;
+  return ret;
+}
+
+CudaDeviceFunction void Init() { }
+
+CudaDeviceFunction void Run() { }</code></pre>
+<p>The <code>CudaDeviceFunction</code> prefix is needed for all functions in <code>Dynamics.c</code> for technical reasons. We needed to fill only the <code>Color</code> function, as it is the only one which returns a value. For now, the model doesn’t do much. Before continuing, let us first understand what these function do:</p>
+<table style="width:99%;">
+<colgroup>
+<col width="5%" />
+<col width="93%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Init</code></td>
+<td>This function is called in all the nodes at the beginning of the simulation. All the initialization happens here.</td>
+</tr>
+<tr class="even">
+<td><code>Run</code></td>
+<td>This function will be called in every node in every iteration - it is the main dynamic of a node.</td>
+</tr>
+<tr class="odd">
+<td><code>Color</code></td>
+<td>This function is useful only for the version of CLB with enabled graphics(<code>./configure --enable-graphics</code>). It calculates the level <code>x</code> on which the color of a pixel will be based. In most cases this will be temperature or velocity.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="first-dynamics" class="section level2">
+<h2>First dynamics</h2>
+<p>First, we want to initialize our fields(<code>Dynamics.c</code>):</p>
+<pre class="c"><code>CudaDeviceFunction void Init() {
+  u = 0;
+  v = 0;
+}</code></pre>
+<p>Then let us start with a model that just preserves both fields without changing them. In TCLB we access fields with a notation <code>u(dx,dy)</code>, where <code>dx</code> and <code>dy</code> is the position from which to take the field, relative to the current node(<code>Dynamics.c</code>):</p>
+<pre class="c"><code>CudaDeviceFunction void Run() {
+  u = u(0,0);
+  v = v(0,0);
+}</code></pre>
+</div>
+<div id="adding-quantities" class="section level2">
+<h2>Adding [[Quantities]]</h2>
+<p>TODO:link quantitites</p>
+<p>Finally we want to access the resulting data. In TCLB, the data that will be exported to VTK, TXT or other format, are called [[Quantities]]. Let us add a quantity <code>U</code> to <code>Dynamics.R</code>:</p>
+<pre class="r"><code>AddQuantity(name=&quot;U&quot;)</code></pre>
+<p>Now we have to add the calculation(<code>Dynamics.c</code>):</p>
+<pre class="c"><code>CudaDeviceFunction real_t getU() {
+  return u(0,0);
+}</code></pre>
+</div>
+<div id="running-a-case" class="section level2">
+<h2>Running a case</h2>
+<p>Now we need to create a case file (let’s call it <code>example.xml</code>):</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig output=&quot;output/&quot;&gt;
+        &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot;&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;10&quot;/&gt;
+    &lt;Solve Iterations=&quot;1000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>This case will create a mesh of 128x128 nodes, initialize it and run 1000 iterations. It will also save VTK output every 10 iterations.</p>
+<p>In order to run it:</p>
+<pre class="bash"><code>make configure
+./configure --enable-graphics
+make wave
+CLB/wave/main example.xml</code></pre>
+<p>The results are not so impressive now, because basically, not only nothing is happening in a node, but also it is initialized with 0.</p>
+</div>
+<div id="settings" class="section level2">
+<h2>[[Settings]]</h2>
+<p>TODO:link settings</p>
+<p>Let us introduce two <a href="Settings">settings</a> to our model(<code>Dynamics.R</code>):</p>
+<pre class="r"><code>AddSetting(name=&quot;Speed&quot;)
+AddSetting(name=&quot;Value&quot;, zonal=TRUE)</code></pre>
+<p>Where <code>Speed</code> will be our parameter <code>k</code> in the wave equation, and <code>Value</code> will be the initial value of <code>u</code>. [[Settings]] which we want to be changing in the domain, are called “zonal”. Settings are provided to us as variables in <code>Dynamics.c</code>. Additionally, we need to modify <code>Color</code> function to observe the change in values in preview window:</p>
+<pre class="c"><code>CudaDeviceFunction float2 Color() {
+  float2 ret;
+  ret.x = getU();
+  ret.y = 1;
+  return ret;
+}
+
+CudaDeviceFunction void Init() {
+  u = Value;
+  v = 0;
+}</code></pre>
+<p>Now we can name a region in our domain, and initialize it with a different value:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig output=&quot;output/&quot;&gt;
+        &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot;&gt;
+                &lt;None name=&quot;box&quot;&gt;
+                        &lt;Box dx=&quot;60&quot; nx=&quot;20&quot; dy=&quot;20&quot; ny=&quot;30&quot;/&gt;
+                &lt;/None&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+                &lt;Params Value=&quot;0&quot;/&gt;
+                &lt;Params Value-box=&quot;1&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;10&quot;/&gt;
+    &lt;Solve Iterations=&quot;1000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>This will mark a box 20x30 starting from the point (60,20) as a zone called ‘box’. Then in the <code>&lt;Model&gt;</code> we first set <code>Value</code> in all zones to <code>0</code>, then set it to <code>1</code> in ‘box’.</p>
+<p>Notice: Don’t forget to compile(<code>make wave</code>) the model again before running it after making any changes to <code>Dynamics.c</code> or <code>Dynamics.R</code>.</p>
+<p>You will see that the results now are much more interesting. Ok. I’m joking, they are sill constant - but at least not 0.</p>
+</div>
+<div id="introducing-fd" class="section level2">
+<h2>Introducing FD</h2>
+<p>Now we want to introduce the discretisation of our wave equation in to the mix:</p>
+<pre class="c"><code>CudaDeviceFunction void Run() {
+  real_t lap_u = u(-1,0) + u(1,0) + u(0,-1) + u(0,1) - 4*u(0,0);
+  real_t a = Speed * Speed * lap_u;
+  v = v(0,0) + a;
+  u = u(0,0) + v;
+}</code></pre>
+<p>You can see that we assumed <code>dx</code> and <code>dt</code> equal to 1 (it will be more clear why, later on).</p>
+<p>And now … <strong>it won’t compile</strong>. Why? The error is a bit obscure, like with many C++ Templates errors, but the reason is simple. We didn’t tell the code that we want to access <code>u</code> in our neighbors. This is crucial, because the code have to know exactly were things are accessed, to prepare the right communication buffers. You can imagine that the neighboring node is on a different GPU on a different computer. Then we need this computer to know that it will have to send this data to us. On the other hand we want to send as small packets of information as possible, that is why the code have to be <em>conservative</em> wrt. to the possible access patterns. We define this information in <code>Dynamics.R</code>:</p>
+<pre class="r"><code>AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1))</code></pre>
+<p>If you don’t know <a href="https://www.google.pl/?#q=r">R</a> then you need to know that <code>c(...)</code> means a vector/table of numbers. The above line means that the field <code>u</code> can be accessed for <code>dx</code> from -1 to 1 and <code>dy</code> from -1 to 1. Making it simple: we can access it from all of our 8 neighbors and ourselves. The other way (a shortcut) to express it would be:</p>
+<pre class="r"><code>AddField(name=&quot;u&quot;, stencil2d=1)</code></pre>
+<p>Which means the same thing (<code>stencil3d</code> would mean also -1 to 1 in <code>z</code> direction)</p>
+<p>Now, the code compiles. We can add another parameter</p>
+<pre class="xml"><code>&lt;Params Speed=&quot;0.05&quot; /&gt;</code></pre>
+<p>to our case file, run and see how the wave propagates.</p>
+</div>
+<div id="make-it-nicer" class="section level2">
+<h2>Make it nicer:</h2>
+<p>We see that the result isn’t very beautiful. It is partly because of our discretization, partly because the <a href="https://en.wikipedia.org/wiki/Sinc_function">Fourier transform of a rectangle</a> isn’t very nice. Let us introduce viscosity/drag to the system:</p>
+<pre class="c"><code>CudaDeviceFunction void Run() {
+  real_t lap_u = u(-1,0) + u(1,0) + u(0,-1) + u(0,1) - 4*u(0,0);
+  real_t lap_v = v(-1,0) + v(1,0) + v(0,-1) + v(0,1) - 4*v(0,0);
+  real_t a = Speed * Speed * lap_u + Viscosity * lap_v;
+  v = v(0,0) + a;
+  u = u(0,0) + v;
+}</code></pre>
+<p><strong>Remember:</strong> you have to modify the <code>v</code> field access pattern, and add a <code>Viscosity</code> setting in <code>Dynamics.R</code>.</p>
+<p>Now you can play a bit with the settings to see some nice waves propagating. It can be seen now more clearly that <strong>the domain in TCLB is always periodic</strong>. That is simply because it is the most general case. If you want to make your domain non-periodic - you must add boundary conditions - otherwise, whatever leaves on one side - comes back on the other.</p>
+</div>
+<div id="node-types" class="section level2">
+<h2>Node types</h2>
+<p>Now we can add <a href="TODO:polinkować">node types</a> that will change the behavior of some, selected nodes. For instance, let us have a Dirichlet boundary condition. We want the nodes that are on the boundary to set <code>u</code> and <code>v</code> to a fixed value. Let’s call such nodes <code>Dirichlet</code>. We define a new node type (yes, you guessed: in <code>Dynamics.R</code>):</p>
+<pre class="r"><code>AddNodeType(name=&quot;Dirichlet&quot;, group=&quot;BOUNDARY&quot;)</code></pre>
+<p>You can notice that node types have ‘groups’ (note: these groups, customary are with all caps). Each node can only be of one type … from each group. You can imagine it like this: in each node we want to be able to set <em>separately</em> a boundary condition, choose a discretization model and add a heat source. But you cannot set <em>two</em> boundary conditions in the same node, from the same group.</p>
+<p>Now, when we have this node type, we can use it to change the dynamics:</p>
+<pre class="c"><code>CudaDeviceFunction void Run() {
+  real_t lap_u = u(-1,0) + u(1,0) + u(0,-1) + u(0,1) - 4*u(0,0);
+  real_t lap_v = v(-1,0) + v(1,0) + v(0,-1) + v(0,1) - 4*v(0,0);
+  real_t a = Speed * Speed * lap_u + Viscosity * lap_v;
+  v = v(0,0) + a;
+  u = u(0,0) + v;
+  if ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
+    u = Value;
+    v = 0;
+  }
+}</code></pre>
+<p>You can notice that we re-used the same zonal setting <code>Value</code> in this boundary condition. You can also notice, that the main calculation is still executed in the Dirichlet nodes. You can test it and see which version runs faster. Such additional computation can sometimes have a favorable impact on the performance on GPU, because of thing called <a href="http://stackoverflow.com/questions/17223640/is-branch-divergence-really-so-bad">branching</a>.</p>
+<p>Now, we can set some Dirichlet elements in the case file:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;CLBConfig output=&quot;output/&quot;&gt;
+        &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot;&gt;
+                &lt;Dirichlet name=&quot;border&quot;&gt;
+                        &lt;Box nx=&quot;1&quot;/&gt;
+                        &lt;Box dx=&quot;-1&quot;/&gt;
+                        &lt;Box ny=&quot;1&quot;/&gt;
+                        &lt;Box dy=&quot;-1&quot;/&gt;
+                &lt;/Dirichlet&gt;
+                &lt;None name=&quot;box&quot;&gt;
+                        &lt;Box dx=&quot;60&quot; nx=&quot;20&quot; dy=&quot;20&quot; ny=&quot;30&quot;/&gt;
+                &lt;/None&gt;
+    &lt;/Geometry&gt;
+    &lt;Model&gt;
+                &lt;Params Value=&quot;0&quot;/&gt;
+                &lt;Params Value-box=&quot;1&quot;/&gt;
+                &lt;Params Value-border=&quot;0&quot;/&gt;
+                &lt;Params Speed=&quot;0.05&quot;/&gt;
+                &lt;Params Viscosity=&quot;0.001&quot;/&gt;
+    &lt;/Model&gt;
+    &lt;VTK Iterations=&quot;10&quot;/&gt;
+    &lt;Solve Iterations=&quot;10000&quot;/&gt;
+&lt;/CLBConfig&gt;</code></pre>
+<p>We can notice the difference immediately. The waves are bouncing from the walls now.</p>
+<p>In this case, we had a simple situation, as we have only one group of node types (and only one type), but normally we would have to distinguish between them. It would be done with:</p>
+<pre class="c"><code>if ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
+ ...
+}</code></pre>
+<p>or</p>
+<pre class="c"><code>switch (NodeType &amp; NODE_BOUNDARY) {
+case NODE_Dirichlet:
+ ...
+ break;
+case ...:
+ ...
+}</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

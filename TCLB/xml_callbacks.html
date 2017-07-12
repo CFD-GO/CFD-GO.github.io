@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>callbacsk</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">callbacsk</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 4, 2017</em></h4>
+
+</div>
+
+
+<div id="callbacks" class="section level2">
+<h2>Callbacks</h2>
+<p>Callbacks allow us to perform actions during calculations e.g. saving quantities to a file. Each action can be done once <code>&lt;Log/&gt;</code> or every X iterations <code>&lt;Log Iterations=&quot;X&quot;/&gt;</code>All the desired actions must be specified before <code>Solve</code> element. E.g. example below will result in running 500 iterations without any output and then running 100 iterations with VTK export each 10 iterations.</p>
+<pre class="xml"><code>&lt;Solve Iterations=&quot;500&quot;/&gt;
+&lt;VTK Iterations=&quot;10&quot; /&gt;
+&lt;Solve Iterations=&quot;100&quot;/&gt;</code></pre>
+<div id="solve" class="section level3">
+<h3>Solve</h3>
+<p><code>&lt;Solve Iterations=&quot;X&quot;/&gt;</code> Runs X iterations</p>
+</div>
+<div id="log" class="section level3">
+<h3>Log</h3>
+<p><code>&lt;Log Iterations=&quot;X&quot;/&gt;</code> Saves all variables, currently it is not possible to choose which variables are being saved.</p>
+</div>
+<div id="vtk" class="section level3">
+<h3>VTK</h3>
+<p><code>&lt;VTK Iterations=&quot;X&quot; what=&quot;U,P&quot; name=&quot;xxx&quot;/&gt;</code> Exports VTK data each X iterations, to a file with <code>xxx</code> prefix. It is possible to chose which variables are being exported. Both attributes can be omitted.</p>
+</div>
+<div id="txt" class="section level3">
+<h3>TXT</h3>
+<p><code>&lt;TXT Iterations=&quot;X&quot; name=&quot;xxx&quot; gzip=&quot;T/F&quot;/&gt;</code> Exporst data to TXT file each X iterations, to a file with <code>xxx</code> prefix, <code>gzip</code> is a boolean(<code>TRUE</code> or <code>FALSE</code>) parameter specifying if the TXT file should be compressed.</p>
+</div>
+<div id="failcheck" class="section level3">
+<h3>Failcheck</h3>
+<p><code>&lt;Failcheck Iterations=&quot;X&quot;/&gt;</code> Checks every X iterations if NaN values are present in solution and stops simulation if any NaN is found.</p>
+</div>
+<div id="stop" class="section level3">
+<h3>Stop</h3>
+<p><code>&lt;Stop FluxChange=&quot;1e-5&quot; Times=&quot;Y&quot; Iterations=&quot;X&quot;/&gt;</code> Checks every X iterations if change of some Global value(here <code>Fluxchange</code>) is within the specified limit(here <code>1e-5</code>). If it occurs <code>Y</code> times, the simulation is stopped.</p>
+</div>
+<div id="sample" class="section level3">
+<h3>Sample</h3>
+<p><code>&lt;Sample Iterations=&quot;XY&quot; what=&quot;U,P&quot;&gt;&lt;Point dx=&quot;10&quot; dy=&quot;20&quot;/&gt;&lt;/Sample&gt;</code> Efficient way of sampling quantities on each iteration. <code>U</code> and <code>P</code> are quantities to be sampled, if <code>what</code> attribute is omitted all quantities are sampled. <code>&lt;Point dx=&quot;10&quot; dy=&quot;20&quot;/&gt;</code> specifies from which place will the values be taken. Sampling begins after <code>XY</code> iterations.</p>
+</div>
+<div id="catalyst" class="section level3">
+<h3>Catalyst</h3>
+<p><code>&lt;Catalyst script=&quot;vis1.py&quot; Iterations=&quot;X&quot; export=&quot;CellData/PointData&quot; preprocess=&quot;T/F&quot;/&gt;</code> Runs Catalyst co-processor each X iterations using <code>vis1.py</code> Python script. Export attribute allows selecting either <code>CellData</code> or <code>PointData</code> to be exported. Preprocess is a boolean attribute(<code>TRUE</code> or <code>FALSE</code>), if active the Python script will be modified so that the files will be placed in the output directory.</p>
+</div>
+<div id="savememorydump" class="section level3">
+<h3>SaveMemoryDump</h3>
+<p><code>&lt;MemoryDump Iterations=&quot;X&quot;/&gt;</code> Saves the state of the simulation in given iteration, which allows to resume (TODO:HOW) the simulation from this exact point, with the same conditions. Warning: Created files are huge and take a long time to save.</p>
+<p>The simulation can be later resumed using <code>&lt;LoadMemoryDump&gt;</code></p>
+</div>
+<div id="adjoint" class="section level3">
+<h3>Adjoint</h3>
+</div>
+<div id="optimize" class="section level3">
+<h3>Optimize</h3>
+</div>
+<div id="threshold" class="section level3">
+<h3>Threshold</h3>
+</div>
+<div id="thresholdnow" class="section level3">
+<h3>ThresholdNow</h3>
+</div>
+<div id="repeat" class="section level3">
+<h3>Repeat</h3>
+</div>
+<div id="savebinary" class="section level3">
+<h3>SaveBinary</h3>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

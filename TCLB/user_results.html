@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paweł Obrępalski" />
+
+
+<title>Analyzing results</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TCLB Manual</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    User Manual
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="user_installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="user_calc.html">Running calculations</a>
+    </li>
+    <li>
+      <a href="user_config.html">Configuring case</a>
+    </li>
+    <li>
+      <a href="user_examples.html">Examples</a>
+    </li>
+    <li>
+      <a href="user_results.html">Analyzing results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model Development
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="model_info.html">Introduction</a>
+    </li>
+    <li>
+      <a href="model_tut_FD.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="model_tut_d2q9srt.html">Tutorial 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    XML Reference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="xml_callbacks.html">Callbacks</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DEV_MAN">Developer Manual</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Generated
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="generatedGeometry-Primitives.html">Geometry Primitives</a>
+    </li>
+    <li>
+      <a href="generatedExecutions.html">Executions</a>
+    </li>
+    <li>
+      <a href="generatedSetup-Elements.html">Setup Elements</a>
+    </li>
+    <li>
+      <a href="generatedCallbacks.html">Callbacks</a>
+    </li>
+    <li>
+      <a href="generatedContainer.html">Container</a>
+    </li>
+    <li>
+      <a href="generatedOptimization-and-Optimal-Control.html">Optimization and Optimal Control</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyzing results</h1>
+<h4 class="author"><em>Paweł Obrępalski</em></h4>
+<h4 class="date"><em>July 4, 2017</em></h4>
+
+</div>
+
+
+<p>Results of the calculations can be analyzed using <a href="https://www.paraview.org/">ParaView</a>, an open-source, multi-platform data analysis and visualization application. It can be easily installed by running</p>
+<pre class="bash"><code>sudo apt-get install paraview</code></pre>
+<p>Or, if you want to install newer version, it can be downloaded <a href="https://www.paraview.org/download/">here</a>.</p>
+<p>Paraview can open most of the files generated by the TCLB solver(<code>.pvti</code>,<code>.csv</code>) or required to run calculations(<code>.stl</code>).</p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File extension</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.vti</code></td>
+<td>VTK files generated by the <code>&lt;VTK&gt;</code> callback in <code>.xml</code> case files. Each solver thread creates its own <code>.vti</code> file when saving them. That’s why (usually) you do not want to open files with this extension.</td>
+</tr>
+<tr class="even">
+<td><strong><code>.pvti</code></strong></td>
+<td>Files linking separate <code>.vti</code> files, opening them will allow navigation through whole domain/time.</td>
+</tr>
+<tr class="odd">
+<td><code>.csv</code></td>
+<td>Log files generated by the <code>&lt;Log&gt;</code> callback in <code>.xml</code> case files. Containing all the values of Settings and Globals defined in <code>Dynamics.R</code> TODO:podlinkować</td>
+</tr>
+<tr class="even">
+<td><code>.xml</code></td>
+<td>Configuration files, containing <code>.xml</code> case file and information about code version/compilation settings.</td>
+</tr>
+<tr class="odd">
+<td><code>.stl</code></td>
+<td>Geometry files.</td>
+</tr>
+</tbody>
+</table>
+<div id="loading-file" class="section level2">
+<h2>Loading file</h2>
+<p>ParaView can be started either from the start menu or the terminal. When using the latter it is possible to specify which file should be opened:</p>
+<pre class="bash"><code>paraview output/d2q9_poiseuille_VTK_P00_..pvti</code></pre>
+<p>File(s) can be opened by right clicking on icon in the left-top corner or using <code>ctrl+o</code>, to choose multiple files hold <code>ctrl</code> while picking. After chosing the file, click <code>Apply</code> in the properties menu to load it. It is possible to chose at this point which data to load, which is especially usefull when analysing bigger cases.</p>
+<center>
+<img src="images/paraview_1.png" />
+</center>
+<p>Note: What is displayed here depends on what is defined in Dynamics.R</p>
+</div>
+<div id="changing-display-options" class="section level2">
+<h2>Changing display options</h2>
+<p>After loading file you will see only the outline of the domain, as this is the default display option and default displayed data is ‘Solid Color’. You can change it by choosing another option from the list.Let’s try viewing pressure in the middle of the domain - to do this we need to switch display option to <code>Slice</code> and displayed data to <code>P</code>. (see images below)</p>
+<center>
+<img src="images/paraview_2.png" />
+</center>
+<center>
+<img src="images/paraview_3.png" />
+</center>
+After that it should look like this:
+<center>
+<img src="images/paraview_4.png" />
+</center>
+<p>Notice how the presented colours are only on the one side of the spectrum. Spectrum can be rescaled either automatically to data range, or by manually providing the values.</p>
+<center>
+<img src="images/paraview_5.png" />
+</center>
+<p>TODO: moze opisać który to który</p>
+<p>It is possible that sometimes the automatic rescaling is not working as expected, it is usually caused by elements inside/near inlet/outlet which have enourmously high/low values. The same case after rescaling:</p>
+<center>
+<img src="images/paraview_6.png" />
+</center>
+<p>Using the <code>Slice</code> display option we can choose where to slice in the <code>Properties</code> menu:</p>
+<center>
+<img src="images/paraview_7.png" />
+</center>
+</div>
+<div id="q-criterion" class="section level2">
+<h2>Q-Criterion</h2>
+Find <code>Gradient Of Unstructured DataSet</code> in <code>Filters</code> menu( or use built in search function - <code>ctrl+spacebar</code>). Chose velocity array(<code>U</code>) as <code>Scalar Array</code> in <code>Properties</code> menu and mark the box labeled <code>Compute QCriterion</code>. You will now be able to display calculated <code>Q-criterion</code> by switching displayed array.
+<center>
+<img src="images/paraview_8.png" /> <img src="images/paraview_9.png" />
+</center>
+</div>
+<div id="threshold" class="section level2">
+<h2>Threshold</h2>
+<p>Find (<code>ctrl+spacebar</code>) <code>Threshold</code> function, then pick which values will be checked. For example, to separate studied object from the rest of the flow pick <code>BOUNDARY</code>(it’s equal to 1 for <code>Wall</code> nodes and 0 for flow nodes).</p>
+<center>
+<img src="images/paraview_10.png" /> <img src="images/paraview_11.png" />
+</center>
+<p>If you want to get rid of the walls you can use <code>Extract  Subset</code> filter to pick a portion of domain without walls and apply threshold later.</p>
+<center>
+<img src="images/paraview_12.png" />
+</center>
+</div>
+<div id="plot-over-line" class="section level2">
+<h2>Plot Over line</h2>
+<p>After picking <code>Plot Over Line</code> filter you can either specify the end points in <code>Properties</code> menu or manipulute them using mouse.</p>
+<center>
+<img src="images/paraview_13.png" />
+</center>
+<p>After clicking <code>Apply</code> a new window will open with the plot. You can choose wchich variables to use in <code>Properties</code> menu(along other options).</p>
+<center>
+<img src="images/paraview_14.png" />
+</center>
+</div>
+<div id="viewing-stl-geometry" class="section level2">
+<h2>Viewing STL geometry</h2>
+<p>You can use ParaView to view <code>.stl</code> files. This comes in handy when you need to import <code>.stl</code> geometry in your case, but don’t know which parameters to use. By loading <code>.stl</code> along with you generated domain(in <code>.pvti</code> file) <code>.stl</code> geometry can be quickly fitted to your domain. For this purpose use <code>Transforming</code> in <code>Properties</code> menu. The same values should work while loading <code>.stl</code> in <code>.xml</code> file.</p>
+<center>
+<img src="images/paraview_15.png" />
+</center>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
