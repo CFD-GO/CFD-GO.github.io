@@ -175,7 +175,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -184,7 +184,7 @@ $(document).ready(function ()  {
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
     };
-    options.showAndHide = true;
+    options.showAndHide = false;
     options.smoothScroll = true;
 
     // tocify
@@ -247,6 +247,12 @@ div.tocify {
   border-radius: 0px;
 }
 
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
 
 </style>
 
@@ -388,11 +394,11 @@ div.tocify {
 <p>We want to discretize the <a href="https://en.wikipedia.org/wiki/Wave_equation">Wave Equation</a>:</p>
 <p><span class="math inline">\(\ddot{u} = c^2\Delta u\)</span></p>
 <p>For this purpose we will use Finite Difference method. First we change the equation into two first order (in time) equations:</p>
-<p><span class="math inline">\(\left\{\begin{eqnarray} \dot{v} = c^2\Delta u \\ \dot{u} =v \end{eqnarray}\right.\)</span> TODO:wyrównać</p>
+<p><span class="math inline">\(\left\{\begin{eqnarray} \dot{v} = &amp;c^2\Delta u \\ \dot{u} = &amp;v \end{eqnarray}\right.\)</span></p>
 <p>Now let us discretise the <a href="https://en.wikipedia.org/wiki/Laplace_operator">Laplace operator</a> with simple finite difference (in 2D):</p>
 <p><span class="math inline">\(\Delta u \approx \frac{(u_{i-1,j}+u_{i+1,j}+u_{i,j-1}+u_{i,j+1}-4u_{i,j})}{(dx^2)}\)</span></p>
 <p>Finnaly we will use, what is called <a href="https://en.wikipedia.org/wiki/Semi-implicit_Euler_method">Semi-implicit Euler rule</a> to integrate this equation in time. This will give us:</p>
-<p><span class="math inline">\(\left\{\begin{eqnarray} v^{n+1}_{i,j}=v^n_{i,j}+dt c^2\Delta u^n \\ u^{n+1}_{i,j}= u^n_{i,j} +dtv^{n+1}_{i,j} \end{eqnarray}\right.\)</span></p>
+<p><span class="math inline">\(\left\{\begin{eqnarray} v^{n+1}_{i,j} &amp;= v^n_{i,j}+dt c^2\Delta u^n \\ u^{n+1}_{i,j} &amp;= u^n_{i,j} +dtv^{n+1}_{i,j} \end{eqnarray}\right.\)</span></p>
 <p>The semi-implicit-ness can be seen in the index of <code>v</code> in the second line</p>
 <p>Finnaly: we will get rid of all units by assuming <code>dx</code> and <code>dt</code> equal to 1</p>
 </div>
@@ -407,7 +413,7 @@ touch models/tutorial/wave/conf.mk</code></pre>
 <p>Now we have to add two main files defining everything: <code>Dynamics.R</code> - defining all the setup of the model, and <code>Dynamics.c</code> - defining what will be happening in a node.</p>
 <pre class="bash"><code>touch models/tutorial/wave/Dynamics.R
 touch models/tutorial/wave/Dynamics.c</code></pre>
-<p>We want to have two <a href="TODO:Link%20what%20fields%20are">[Fields]</a>: <code>u</code> and <code>v</code>. We define them in <code>Dynamics.R</code>:</p>
+<p>We want to have two Fields: <code>u</code> and <code>v</code>. We define them in <code>Dynamics.R</code>:</p>
 <pre class="r"><code>AddField(name=&quot;u&quot;)
 AddField(name=&quot;v&quot;)</code></pre>
 <p>Then we need the main dynamics of a node. First let us write down the functions that will be used in the model(in Dynamics.c):</p>
@@ -463,8 +469,7 @@ CudaDeviceFunction void Run() { }</code></pre>
 }</code></pre>
 </div>
 <div id="adding-quantities" class="section level2">
-<h2>Adding [[Quantities]]</h2>
-<p>TODO:link quantitites</p>
+<h2>Adding Quantities</h2>
 <p>Finally we want to access the resulting data. In TCLB, the data that will be exported to VTK, TXT or other format, are called [[Quantities]]. Let us add a quantity <code>U</code> to <code>Dynamics.R</code>:</p>
 <pre class="r"><code>AddQuantity(name=&quot;U&quot;)</code></pre>
 <p>Now we have to add the calculation(<code>Dynamics.c</code>):</p>
@@ -493,12 +498,11 @@ CLB/wave/main example.xml</code></pre>
 <p>The results are not so impressive now, because basically, not only nothing is happening in a node, but also it is initialized with 0.</p>
 </div>
 <div id="settings" class="section level2">
-<h2>[[Settings]]</h2>
-<p>TODO:link settings</p>
+<h2>Settings</h2>
 <p>Let us introduce two <a href="Settings">settings</a> to our model(<code>Dynamics.R</code>):</p>
 <pre class="r"><code>AddSetting(name=&quot;Speed&quot;)
 AddSetting(name=&quot;Value&quot;, zonal=TRUE)</code></pre>
-<p>Where <code>Speed</code> will be our parameter <code>k</code> in the wave equation, and <code>Value</code> will be the initial value of <code>u</code>. [[Settings]] which we want to be changing in the domain, are called “zonal”. Settings are provided to us as variables in <code>Dynamics.c</code>. Additionally, we need to modify <code>Color</code> function to observe the change in values in preview window:</p>
+<p>Where <code>Speed</code> will be our parameter <code>k</code> in the wave equation, and <code>Value</code> will be the initial value of <code>u</code>. [<a href="#settings">Settings</a>] which we want to be changing in the domain, are called “zonal”. Settings are provided to us as variables in <code>Dynamics.c</code>. Additionally, we need to modify <code>Color</code> function to observe the change in values in preview window:</p>
 <pre class="c"><code>CudaDeviceFunction float2 Color() {
   float2 ret;
   ret.x = getU();
@@ -541,7 +545,7 @@ CudaDeviceFunction void Init() {
 <p>You can see that we assumed <code>dx</code> and <code>dt</code> equal to 1 (it will be more clear why, later on).</p>
 <p>And now … <strong>it won’t compile</strong>. Why? The error is a bit obscure, like with many C++ Templates errors, but the reason is simple. We didn’t tell the code that we want to access <code>u</code> in our neighbors. This is crucial, because the code have to know exactly were things are accessed, to prepare the right communication buffers. You can imagine that the neighboring node is on a different GPU on a different computer. Then we need this computer to know that it will have to send this data to us. On the other hand we want to send as small packets of information as possible, that is why the code have to be <em>conservative</em> wrt. to the possible access patterns. We define this information in <code>Dynamics.R</code>:</p>
 <pre class="r"><code>AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1))</code></pre>
-<p>If you don’t know <a href="https://www.google.pl/?#q=r">R</a> then you need to know that <code>c(...)</code> means a vector/table of numbers. The above line means that the field <code>u</code> can be accessed for <code>dx</code> from -1 to 1 and <code>dy</code> from -1 to 1. Making it simple: we can access it from all of our 8 neighbors and ourselves. The other way (a shortcut) to express it would be:</p>
+<p>If you don’t know <a href="https://www.r-project.org/">R</a> then you need to know that <code>c(...)</code> means a vector/table of numbers. The above line means that the field <code>u</code> can be accessed for <code>dx</code> from -1 to 1 and <code>dy</code> from -1 to 1. Making it simple: we can access it from all of our 8 neighbors and ourselves. The other way (a shortcut) to express it would be:</p>
 <pre class="r"><code>AddField(name=&quot;u&quot;, stencil2d=1)</code></pre>
 <p>Which means the same thing (<code>stencil3d</code> would mean also -1 to 1 in <code>z</code> direction)</p>
 <p>Now, the code compiles. We can add another parameter</p>

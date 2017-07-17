@@ -30,7 +30,7 @@ p {
 }
 
 .band.full.third {
-  height: 520px;
+  height: 480px;
 }
 
 .bandContent, .standardPadding .articleBandContent {
@@ -147,7 +147,7 @@ p {
 
 #mainHeader.shrunk .productName, #mainHeader.alwaysShrunk .productName {
   display: inline-block;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 #mainHeader .rStudio {
@@ -181,7 +181,7 @@ p {
 #mainHeader #menu {
   text-align: right;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 20px;
   white-space: nowrap;
 }
@@ -196,7 +196,7 @@ p {
 
 #mainHeader #menu .menuItem {
   display: inline-block;
-  padding: 0px 15px;
+  padding: 10px 15px;
 
   opacity: .8;
   cursor: pointer;
@@ -489,11 +489,11 @@ p {
   border: none;
 
   border-radius: 5px;
-
   margin: 5px;
+  margin-top: 40px;
 }
 
-#homeContent .bigButton.gallery {
+#homeContent .bigButton.github {
   color: #fff;
   background-color: #8cb06c;
 }

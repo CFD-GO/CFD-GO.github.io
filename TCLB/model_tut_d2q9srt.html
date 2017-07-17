@@ -175,7 +175,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -184,7 +184,7 @@ $(document).ready(function ()  {
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
     };
-    options.showAndHide = true;
+    options.showAndHide = false;
     options.smoothScroll = true;
 
     // tocify
@@ -247,6 +247,12 @@ div.tocify {
   border-radius: 0px;
 }
 
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
 
 </style>
 
@@ -384,7 +390,7 @@ div.tocify {
 
 <p>This tutorial will try to teach you how to make and use lattice Boltzmann (LB) models within the TCLB environment. First a brief overview will be given of the discrete <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods">lattice Boltzmann equation</a> taking advantage of the Bhatnagar-Gross-Krook (BGK) collision operator (also known as single relaxation time operator) will be given, then the code required to simulate Poiseuille flow will be developed.</p>
 <div id="the-bgk-lattice-boltzmann-equation" class="section level2">
-<h2>The BGK-lattice Boltzmann Equation:</h2>
+<h2>The BGK-lattice Boltzmann Equation</h2>
 <p>The discrete form of the Boltzmann transport equation can be expressed as:</p>
 <p><span class="math inline">\(f_i(x+c_i,t+1)=f_i(x,t)-\frac{1}{\tau}(f_i(x,t)-f_i^{eq}(x,t))\)</span></p>
 <p>This describes the evolution of particle distribution functions along discrete velocities, where the right hand side is often referred to as the collision operation and the evaluation to the left hand side, the streaming operation. Note here that we are going to work in lattice units during the description of the model in which we assume <span class="math inline">\(\Delta x = \Delta t = 1\)</span>. For the D2Q9 model, this assumption allows us to express the 9 discrete directions as,</p>
