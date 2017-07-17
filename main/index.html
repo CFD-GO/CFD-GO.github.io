@@ -9,20 +9,16 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Paweł Obrępalski" />
 
 
-<title>TCLB Manual</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -70,6 +66,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="TCLB.css" type="text/css" />
 
 </head>
 
@@ -98,58 +95,6 @@ button.code-folding-btn:focus {
 </style>
 
 
-<style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-</style>
-
-<script>
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark it active
-  menuAnchor.parent().addClass('active');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
-});
-</script>
-
 
 <div class="container-fluid main-container">
 
@@ -165,163 +110,100 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
 
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
+<div id="mainHeader" class="alwaysShrunk">
+  <div class="innards bandContent">
+    <div>
+      <a class="productName" href="index.html">TCLB</a>
+    </div>
+    <div id="menu">
+      <div id="menuToggler"></div>
+      <div id="menuItems">
+        <a class="menuItem" href="../user_installation.html">Get Started</a>
+        <a class="menuItem" href="authors.html">Authors</a>
+        <a class="menuItem" href="license.html">License</a>
+        <a class="menuItem" href="../index.html">Wiki</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style type="text/css">
-
 #TOC {
-  margin: 25px 0px 20px 0px;
+  margin-left: 35px;
+  margin-top: 90px;
 }
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
 </style>
 
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">CFD-GO</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    CFD Solver
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="user_installation.html">Installation</a>
-    </li>
-  </ul>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
+<script type="text/javascript">
+$(".main-container").removeClass("main-container").removeClass("container-fluid").addClass("footerPushDown");
+</script>
+<div id="pageContent" class="standardPadding">
+  <div class="articleBandContent">
 
 <div class="fluid-row" id="header">
 
 
 
-<h1 class="title toc-ignore">TCLB Manual</h1>
-<h4 class="author"><em>Paweł Obrępalski</em></h4>
-<h4 class="date"><em>July 4, 2017</em></h4>
 
 </div>
 
 
-<div id="site-map" class="section level2">
-<h2>Site map</h2>
-<p>This site contains documentation to the <a href="https://github.com/CFD-GO/TCLB/">TCLB solver</a>. Documentation is split in 4 parts.</p>
-<ol style="list-style-type: decimal">
-<li><a href="user_installation.html">User Manual</a> - Information about downloading and installing TCLB, performing calculations, setting up a simple case, and analysing results.</li>
-<li><a href="model_info.html">Model Development</a> - Contains information necessary to develop/modify models, includes tutorials which showcase basic concepts used in code.</li>
-<li><a href="xml_callbacks.html">XML Reference</a> - Useful when configuring more advanced cases, contains documentation of supported functions.</li>
-<li><a href="https://github.com/CFD-GO/TCLB/">Developer Manual</a> - Documentation and examples useful in working with TCLB solver.</li>
-</ol>
+<script src="TCLBmain.js"></script>
+<script type="text/javascript">
+$("#mainHeader").removeClass("alwaysShrunk");
+$("#pageContent").removeClass("standardPadding");
+</script>
+
+
+
+
+
+<div id="homeContent">
+  <div class="band full sparkle first rightText">
+    <div class="bandContent vCenter">
+      <div class="blurb">
+        <div class="tagline">Analyze. Share. Reproduce.</div>
+          <div>TCLB is a free, open source, CFD solver, developed at <a href="https://c-cfd.meil.pw.edu.pl/">C-CFD group</a> at <a href="https://www.pw.edu.pl/">Warsaw University of Technology</a>. It has wide range of applicability, including complex fluid flows involving turbulence and heat transfer, electrokinetics, multiphase problems, and non-newtonian fluids.
+          </div>
+      </div>
+    </div>
+    <img class="imageOne" src="images/main_1.png"/>
+  </div>
+
+  <div class="band full cgblue second leftText">
+    <div class="bandContent vCenter">
+      <div class="blurb">
+        <div>
+                Its core is a high-performance.MPI+CUDA code, based on <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods">Lattice Boltzmann Method</a> . Because of that it can be parallelized efficiently and solved using GPGPUs.
+        </div>
+      </div>
+    </div>
+    <img class="imageTwo" src="images/cuda2.png"/>
+  </div>
+
+  <div class="band full lgrey third rightText">
+    <img class="imageThree" src="images/main_3.png"/>
+    <div class="bandContent vCenter">
+      <div class="blurb">
+        <div>
+                Adjoint capability can also be found in TCLB, and can be used for topology optimization.
+        </div>
+        <div class="actions">
+          <div><a href="../user_installation.html"><button class="bigButton getStarted">Get Started</button></a></div>
+          <div><a href="https://github.com/CFD-GO/TCLB/"><button class="bigButton gallery">View on GitHub</button></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 
-</div>
-</div>
+  </div> <!-- articleBandContent -->
+</div> <!-- pageContent -->
+
+
 
 </div>
 
@@ -338,15 +220,6 @@ $(document).ready(function () {
 
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 
 </body>
 </html>
