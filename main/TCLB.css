@@ -75,7 +75,6 @@ p {
   bottom: 50px;
   width: 500px;
   height: auto;
-
   z-index: 5;
 }
 
@@ -150,34 +149,6 @@ p {
   font-size: 30px;
 }
 
-#mainHeader .rStudio {
-  margin-top: 5px;
-  font-size: 13px;
-  line-height: 25px;
-  font-weight: 200;
-  color: #4d4d4d;
-}
-
-#mainHeader .rStudio .logo {
-  display: inline-block;
-  width: 70px;
-  height: 25px;
-  background-image:url(../images/logoRStudio.png);
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  vertical-align: middle;
-}
-
-#mainHeader.shrunk .rStudio, #mainHeader.alwaysShrunk .rStudio {
-  display: inline-block;
-  margin-left: 3px;
-}
-
-#mainHeader .rStudio a {
-  text-decoration: none;
-  color: inherit;
-}
-
 #mainHeader #menu {
   text-align: right;
   font-weight: 400;
@@ -197,7 +168,6 @@ p {
 #mainHeader #menu .menuItem {
   display: inline-block;
   padding: 10px 15px;
-
   opacity: .8;
   cursor: pointer;
 
@@ -256,156 +226,7 @@ p {
   padding: 80px 5%;
 }
 
-#pageContent .pageTitle {
-  font-size: 40px;
-  font-weight: 300;
-}
 
-#pageContent .pageIntro {
-  font-size: 20px;
-  font-weight: 300;
-  margin-bottom: 30px;
-}
-
-#pageContent .columns {
-  display: flex;
-  justify-content: space-between;
-
-  display: -ms-flexbox;
-  -ms-flex-pack: justify;
-}
-
-#pageContent .columns .column2 {
-  max-width: 46%;
-}
-
-#pageContent .linkSection {
-  line-height: 20px;
-  margin-bottom: 20px;
-}
-
-#pageContent .linkSection .linkSectionTitle {
-  font-size: 1.4em;
-  margin-bottom: 12px;
-}
-
-#pageContent .links a {
-  display: block;
-  line-height: 24px;
-  max-width: 500px;
-  padding: 0 0 0 16px;
-  background-repeat: no-repeat;
-  background-position: left 8px;
-  background-size: 8px 8px;
-  background-image: url(../images/link-icon.png);
-}
-
-#pageContent .linkSection .articleBlurb {
-  padding-left: 16px;
-  line-height: 20px;
-  margin-bottom: 10px;
-  display: none;
-}
-
-.gallerySection, .formatSection {
-  margin-bottom: 2em;
-}
-
-.gallerySection .gallerySectionTitle, .formatSection .formatSectionTitle {
-  font-size: 25px;
-  font-weight: 300;
-}
-
-.formatSection .formatSectionTitle {
-  margin-bottom: 10px;
-}
-
-.gallerySection .galleryIntro {
-  margin-bottom: 10px;
-}
-
-.gallerySection .galleryItems {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-.gallerySection .galleryItems .galleryItem {
-  width: 24%;
-
-  border: 1px solid #f0f0f0;
-  margin-bottom: 20px;
-}
-
-.gallerySection .galleryItems .galleryItem:hover {
-
-}
-
-.gallerySection .galleryItems .galleryItem .galleryItemLabel {
-  display: block;
-  cursor: pointer;
-  border-top: 1px solid #f0f0f0;
-  padding: 10px 10px 5px 10px;
-}
-
-.gallerySection .galleryItems .galleryItem .galleryItemImage {
-  width: 100%;
-  height: auto;
-}
-
-.gallerySection .galleryItems .galleryItem .galleryItemDescription {
-  font-size: 12px;
-  padding: 0px 10px 10px 10px;
-}
-
-.formatSection a.doc, .formatSection a.pres, .formatSection a.more {
-  display: inline-block;
-  margin: 0 15px 15px 0;
-
-  color: #fff;
-  font-size: 24px;
-  line-height: 28px;
-  text-align: center;
-
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-
-  vertical-align: top;
-
-  background-color: #f0f0f0;
-}
-
-.formatTable {
-  display: table;
-  width: 100%;
-}
-
-.formatTable .formatTableRow {
-  display: table-row;
-  text-decoration: none;
-}
-
-.formatTable .formatTableRow:hover {
-  background-color: #f8f8f8;
-}
-
-.formatTable .formatName {
-  display: table-cell;
-  padding: 5px;
-  width: 200px;
-}
-
-.formatTable .formatDescription {
-  display: table-cell;
-  line-height: 15px;
-  padding-bottom: 5px;
-}
-
-.formatTable a.formatTableRow .formatDescription {
-  color: #404040;
-}
 
 
 #homeContent .tagline {
@@ -501,188 +322,6 @@ p {
 #homeContent .bigButton.getStarted {
   color: #fff;
   background-color: #75aadb;
-}
-
-#rStudioFooter {
-  position: relative;
-  z-index: 2;
-
-  box-sizing: border-box;
-  height: 91px;
-}
-
-#rStudioFooter.band {
-
-  background-color: #75aadb;
-  padding: 30px 5%;
-
-  color: #fff;
-
-  font-weight: 300;
-  font-size: 12px;
-
-  line-height: 25px;
-}
-
-#rStudioFooter .bandContent {
-  color: #fff;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  line-height: 20px;
-}
-
-#rStudioFooter .bandContent #copyright {
-  flex-shrink: 5;
-}
-
-#rStudioFooter .bandContent #logos {
-  flex-shrink: 1;
-}
-
-#rStudioFooter .bandContent .footerLogo {
-  display: inline-block;
-  height: 25px;
-  width: 25px;
-
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  background-position: center center;
-
-  margin: 0 8px;
-}
-
-#rStudioFooter .bandContent #logos .footerLogo:last-child {
-  margin-right: 0px;
-}
-
-#rStudioFooter .bandContent .footerLogo.twitter {
-  background-image: url(../images/twitterLogo.svg);
-}
-
-#rStudioFooter .bandContent .footerLogo.gitHub {
-  background-image: url(../images/gitHubLogo2.svg);
-}
-
-#rStudioFooter .bandContent .footerLogo.linkedIn {
-  background-image: url(../images/linkedInLogo.svg);
-}
-
-#rStudioFooter .bandContent .footerLogo.facebook {
-  background-image: url(../images/facebookLogo.svg);
-}
-
-.screenshot {
-  border: 1px solid #ccc;
-}
-
-.notebook-screenshot {
-  border: 1px solid #ccc;
-  margin-bottom: 8px;
-}
-
-/* Don't show link underlines in tables (too busy) */
-table.table td a:only-child:link,
-table.table td a:only-child:visited {
-  text-decoration: none;
-}
-table.table td a:only-child:hover,
-table.table td a:only-child:active {
-  text-decoration: underline;
-}
-
-/* Use the background color from the R logo for the floating toc nav */
-.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
-  background-color: rgb(97,151,213);
-}
-
-/* offset scroll position for anchor links  */
-
-.section h1 {
-  padding-top: 58px;
-  margin-top: -58px;
-}
-
-.section h2 {
-  padding-top: 58px;
-  margin-top: -58px;
-}
-.section h3 {
-  padding-top: 58px;
-  margin-top: -58px;
-}
-.section h4 {
-  padding-top: 58px;
-  margin-top: -58px;
-}
-.section h5 {
-  padding-top: 58px;
-  margin-top: -58px;
-}
-.section h6 {
-  padding-top: 58px;
-  margin-top: -58px;
-}
-
-.lessonPage {
-  display: flex;
-  display: -ms-flexbox;
-}
-
-.lessonPage .lessonsNav {
-  margin-top: 23px;
-  min-width: 290px;
-  line-height: 40px;
-  padding-right: 30px;
-}
-
-.lessonPage .lessonsNav a {
-  display: block;
-  padding: 0 10px;
-}
-
-.lessonPage .lessonsNav a:hover {
-  text-decoration: none;
-  background-color: #f8f8f8;
-}
-
-.lessonPage .lessonsNav a.current {
-  background-color: #75aadb;
-  color: #fff;
-}
-
-.lessonPage .lessonContent #show-answer h2 {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 7px 20px;
-  background-color: #75aadb;
-  color: #fff;
-
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.lessonPage .lessonContent #show-answer.showing {
-  display: none;
-}
-
-.lessonPage .lessonContent #model-answer {
-  display: none;
-}
-
-.lessonPage .lessonContent #model-answer.showing {
-  display: block;
-}
-
-.lessonPage .lessonContent #continue-to-next-lesson h2 {
-  margin-top: 10px;
-  font-size: 20px;
-}
-
-.lessonPage .continue-link {
-  font-size: 24px;
 }
 
 /* adjustments for smaller screens */
@@ -793,52 +432,10 @@ table.table td a:only-child:active {
     bottom: auto;
     max-width: 100%;
   }
-
-  #pageContent .pageTitle {
-    font-size: 30px;
-  }
-  #pageContent .pageIntro {
-    font-size: 18px;
-  }
-
-  .gallerySection .galleryItems .galleryItem {
-    width: 49%;
-  }
-
-  .gallerySection .gallerySectionTitle {
-    font-size: 24px;
-  }
-
-  #pageContent .columns {
-    display: block;
-  }
-
-  #pageContent .columns .column2 {
-    max-width: none;
-  }
-
-  .lessonPage .lessonsNav {
-    min-width: 200px;
-  }
 }
-
 @media screen and (max-width: 768px){
   .lessonPage {
     display: block;
-  }
-
-  .lessonPage .lessonsNav {
-    display: none;
-  }
-
-}
-
-@media screen and (max-width: 500px){
-  .gallerySection .galleryItems .galleryItem {
-    width: 100%;
-  }
-  .formatTable .formatName {
-    width: 150px;
   }
 }
 
@@ -847,35 +444,4 @@ table.table td a:only-child:active {
     #mainHeader .productName {
       font-size: 26px;
     }
-
-    #rStudioFooter .bandContent .footerLogo {
-      margin: 0 2px;
-    }
-
-}
-
-iframe.scale65 {
-  width: 154%;
-  border: #ddd 8px solid;
-  overflow: hidden;
-  position: relative;
-  -ms-zoom: 0.65;
-  -moz-transform: scale(0.65);
-  -moz-transform-origin: 0px 0;
-  -o-transform: scale(0.65);
-  -o-transform-origin: 0 0;
-  -webkit-transform: scale(0.65);
-  -webkit-transform-origin: 0 0;
-}
-
-
-.snippet {
-  border: solid 1px #cccccc;
-  margin-bottom: 12px;
-  width: 100%;
-}
-
-.holder {
-  padding-right: 5px;
-  padding-bottom: 5px;
 }
