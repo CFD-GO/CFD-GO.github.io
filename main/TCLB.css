@@ -27,7 +27,6 @@ p {
   height: 480px;
 
   overflow: hidden;
-  border-bottom: 1px solid #f8f8f8;
 }
 
 .band.full.third {
@@ -72,8 +71,8 @@ p {
 
 .band .imageThree {
   position: absolute;
-  left: 10px;
-  bottom: 0px;
+  left: 50px;
+  bottom: 50px;
   width: 500px;
   height: auto;
 
@@ -697,6 +696,7 @@ table.table td a:only-child:active {
   }
 
   .band .imageThree {
+    width: 470px;
     left: 0px;
   }
 }
