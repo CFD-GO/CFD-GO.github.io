@@ -205,58 +205,6 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="css"><code>html, body {
-  overflow-x: hidden;
-}
-.row1 {
-  background: #149c82;
-  color: white;
-}
-.row1 a {
-  color: white;
-  font-weight: bold;
-}
-.row2 {
-  background: white; 
-}
-.row3 {
-  background: #149c82;
-  color: white;
-}
-.widerow{
-  margin-left: -2000px;
-  padding-left: 2000px;
-  margin-right: -2000px;
-  padding-right: 2000px;
-  padding-bottom: 10px;
-  padding-top:10px;
-  overflow:auto;
-  text-align:center;
-}
-
-.nicecol {
-  padding-top: 70px;
-}
-
-.navbar {
-  transition: padding-top 1s;
-}
-
-.navbar-brand{
-  transition: font-size 1s, padding-top 1s;
-}
-
-.grow {
-/*  height: 90px;
-  padding-top:20px;*/
-  padding-top:20px;
-/*  padding-bottom:20px;*/
-}
-
-.grow .navbar-brand {
-  font-size: 35px;
-  padding-top: 0px;
-}</code></pre>
 <style type="text/css">
 html, body {
   overflow-x: hidden;
@@ -311,36 +259,6 @@ html, body {
   padding-top: 0px;
 }
 </style>
-<pre class="js"><code>var RMD = {};
-
-(function() {
-
-
-  RMD.AppViewModel = function() {
-    var self = this;
-
-    self.handleWindowScroll = function(event) {
-      var scrollPos = $(event.target).scrollTop();
-      if (scrollPos &gt; 20) {
-        $(&#39;.navbar&#39;).removeClass(&quot;grow&quot;);
-      }
-      else {
-        $(&#39;.navbar&#39;).addClass(&quot;grow&quot;);
-      }
-    }
-    self.init = function() {
-      $(&#39;.navbar&#39;).addClass(&quot;grow&quot;);
-      $(window).on(&#39;scroll&#39;, self.handleWindowScroll);
-    }
-  }
-
-
-}());
-
-$(document).ready(function() {
-  RMD.app = new RMD.AppViewModel();
-  RMD.app.init();
-});</code></pre>
 <script type="text/javascript">
 var RMD = {};
 
