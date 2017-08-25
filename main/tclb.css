@@ -1,0 +1,58 @@
+.my-nopad {
+    line-height: 0.4;
+    vertical-align: -30%;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+.row1 {
+  background: #149c82;
+  color: white;
+}
+.row1 a {
+  color: white;
+  font-weight: bold;
+}
+.row2 {
+  background: white; 
+}
+.row3 {
+  background: #149c82;
+  color: white;
+}
+.widerow{
+  margin-left: -2000px;
+  padding-left: 2000px;
+  margin-right: -2000px;
+  padding-right: 2000px;
+  padding-bottom: 10px;
+  padding-top:10px;
+  overflow:auto;
+  text-align:center;
+}
+
+.nicecol {
+  padding-top: 70px;
+}
+
+.navbar {
+  transition: padding-top 1s;
+}
+
+.navbar-brand{
+  transition: font-size 1s, padding-top 1s;
+}
+
+.grow {
+/*  height: 90px;
+  padding-top:20px;*/
+  padding-top:20px;
+/*  padding-bottom:20px;*/
+}
+
+.grow .navbar-brand {
+  font-size: 35px;
+  padding-top: 0px;
+}
+

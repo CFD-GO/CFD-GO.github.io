@@ -22,6 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -66,6 +67,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="tclb.css" type="text/css" />
 
 </head>
 
@@ -171,60 +173,71 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">TCLB</a>
+      <a class="navbar-brand" href="index.html">TCLB Solver</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    CFD Solver
+    Get started
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="user_installation.html">Installation</a>
+      <a href="../TCLB/user_installation.html">Installation</a>
     </li>
   </ul>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/CFD-GO/TCLB">TCLB on GitHub</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Features
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../TCLB/user_installation.html">3D LES aerodynamics</a>
+    </li>
+    <li>
+      <a href="../TCLB/user_installation.html">Two-phase flow</a>
+    </li>
+    <li>
+      <a href="../TCLB/user_installation.html">Topology Optimization</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../TCLB/user_installation.html">Authors</a>
+    </li>
+    <li>
+      <a href="../TCLB/user_installation.html">Code Architecture</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../TCLB/">Manual</a>
+</li>
+<li>
+  <a href="https://github.com/CFD-GO/TCLB">
+    <span class="fa fa-github fa-2x my-nopad"></span>
+     
+  </a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div id="mainHeader" class="alwaysShrunk">
-  <div class="innards bandContent">
-    <div>
-      <a class="productName" href="index.html">TCLB</a>
-    </div>
-    <div id="menu">
-      <div id="menuToggler"></div>
-      <div id="menuItems">
-        <a class="menuItem" href="../TCLB/user_installation.html">Get Started</a>
-        <a class="menuItem" href="../TCLB/about.html">Authors</a>
-        <a class="menuItem" href="../TCLB/about.html">License</a>
-        <a class="menuItem" href="../TCLB/index.html">Wiki</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<style type="text/css">
-#TOC {
-  margin-left: 35px;
-  margin-top: 90px;
-}
-</style>
-
-<script type="text/javascript">
-$(".main-container").removeClass("main-container").removeClass("container-fluid").addClass("footerPushDown");
-</script>
-<div id="pageContent" class="standardPadding">
-  <div class="articleBandContent">
 
 <div class="fluid-row" id="header">
 
@@ -234,61 +247,80 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 </div>
 
 
-<script src="TCLBmain.js"></script>
-<pre class="js"><code>$(&quot;#mainHeader&quot;).removeClass(&quot;alwaysShrunk&quot;);
-$(&quot;#pageContent&quot;).removeClass(&quot;standardPadding&quot;);</code></pre>
 <script type="text/javascript">
-$("#mainHeader").removeClass("alwaysShrunk");
-$("#pageContent").removeClass("standardPadding");
+var RMD = {};
+
+(function() {
+
+
+  RMD.AppViewModel = function() {
+    var self = this;
+
+    self.handleWindowScroll = function(event) {
+      var scrollPos = $(event.target).scrollTop();
+      if (scrollPos > 20) {
+        $('.navbar').removeClass("grow");
+      }
+      else {
+        $('.navbar').addClass("grow");
+      }
+    }
+    self.init = function() {
+      $('.navbar').addClass("grow");
+      $(window).on('scroll', self.handleWindowScroll);
+    }
+  }
+
+
+}());
+
+$(document).ready(function() {
+  RMD.app = new RMD.AppViewModel();
+  RMD.app.init();
+});
 </script>
-
-
-<!-- 
-developed at <a href="https://c-cfd.meil.pw.edu.pl/">C-CFD group</a> at <a href="https://www.pw.edu.pl/">Warsaw University of Technology</a>.
--->
-
-
-<div id="homeContent">
-  <div class="band full sparkle first rightText">
-    <div class="bandContent vCenter">
-      <div class="blurb">
-      <div class="tagline">Fast.Functional.Open source.</div>
-          <div>
-TCLB is a free, open source, CFD solver based on <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods">Lattice Boltzmann Method</a> with a wide range of applicability, including complex fluid flows involving turbulence and heat transfer, electrokinetics, multiphase problems, and non-newtonian fluids.
-          </div>
-      </div>
-    </div>
-    <img class="imageOne" src="images/main_1.png"/>
-  </div>
-
-  <div class="band full cgblue second leftText">
-    <div class="bandContent vCenter">
-      <div class="blurb">
-        <div>
-Its core is a high-performance CUDA code, which can be ran efficiently on multiple GPUs, with performance far beyond usual, CPU-based programs.
-        </div>
-      </div>
-    </div>
-    <img class="imageTwo" src="images/main_2.png"/>
-  </div>
-
-  <div class="band full lgrey third rightText">
-    <img class="imageThree" src="images/main_3.png"/>
-    <div class="bandContent vCenter">
-      <div class="blurb">
-        <div>
-                Adjoint capability can also be found in TCLB, and can be used for topology optimization.
-        </div>
-        <div class="actions">
-          <div><a href="../user_installation.html"><button class="bigButton getStarted">Get Started</button></a></div>
-          <div><a href="https://github.com/CFD-GO/TCLB/"><button class="bigButton github">View on GitHub</button></a></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div id="section" class="section level1 widerow row1">
+<h1></h1>
+<div id="section-1" class="section level2 col-sm-7">
+<h2></h2>
+<div class="figure">
+<img src="images/carU.png" alt="Nice image of a car" />
+<p class="caption">Nice image of a car</p>
 </div>
+</div>
+<div id="fast.-functional.-fun." class="section level2 col-sm-5 nicecol">
+<h2>Fast. Functional. Fun.</h2>
+<p>TCLB is a free and open source CFD solver based on <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_methods">Lattice Boltzmann Method</a> with a wide range of applicability, including complex fluid flows involving turbulence and heat transfer, electrokinetics, multiphase problems, and non-newtonian fluids.</p>
+</div>
+</div>
+<div id="section-2" class="section level1 widerow row2">
+<h1></h1>
+<div id="high-performance-on-gpu" class="section level2 col-sm-5 nicecol">
+<h2>High performance on GPU</h2>
+<p>Very good scalability of the TCLB code gives the posibility Its core is a high-performance CUDA code, which can be ran efficiently on multiple GPUs, with performance far beyond usual, CPU-based programs.</p>
+</div>
+<div id="section-3" class="section level2 col-sm-7">
+<h2></h2>
+<div class="figure">
+<img src="images/carU.png" alt="Nice image of a car" />
+<p class="caption">Nice image of a car</p>
+</div>
+</div>
+</div>
+<div id="section-4" class="section level1 widerow row3">
+<h1></h1>
+<div id="section-5" class="section level2 col-sm-7">
+<h2></h2>
+<div class="figure">
+<img src="images/main_3.png" alt="" />
 
-
+</div>
+</div>
+<div id="adjoint-optimization" class="section level2 col-sm-5 nicecol">
+<h2>Adjoint optimization</h2>
+<p>Adjoint capability can also be found in TCLB, and can be used for topology optimization.</p>
+</div>
+</div>
 
 
 
