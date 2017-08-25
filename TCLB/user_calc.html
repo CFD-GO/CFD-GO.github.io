@@ -390,14 +390,14 @@ div.tocify {
 
 <div id="usage" class="section level1">
 <h1>Usage</h1>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">CLB/MODEL_NAME/main</span> case_path</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">CLB/MODEL_NAME/main</span> case_path</code></pre></div>
 <p>Where <code>MODEL_NAME</code> is the name of the desired model(e.g.<code>d2q9</code>) and <code>case_path</code> is the location of case file(.xml), relative to the TCLB folder.</p>
 <p>For example, to run <code>karman.xml</code> case, located in subfolder <code>example\flow\2d</code>, using <code>d2q9</code> model:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">CLB/d2q9/main</span> example/flow/2d/karman.xml</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">CLB/d2q9/main</span> example/flow/2d/karman.xml</code></pre></div>
 <div id="cpu-based-usage" class="section level3">
 <h3>CPU-based usage</h3>
 <p>By default the code will run on GPU, which requires a NVIDIA GPU with CUDA support. In order to run it on CPU, the code must be compiled using <code>--disable-cuda</code> option. In order to run the calculations on CPU in parallel, one need to start calculations using <code>mpirun</code> option:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">mpirun</span> -np X CLB/MODEL_NAME/main case_path</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mpirun</span> -np X CLB/MODEL_NAME/main case_path</code></pre></div>
 <p>Where <code>X</code> is number of threads that will be created. Usually max number of threads is equal to number of cores of a processor, with the exception of CPUs with multi-threading.</p>
 <p>TODO: Może też coś o tym jak odpalać obliczenia na klastrze?(instrukcja z wiki github)</p>
 </div>

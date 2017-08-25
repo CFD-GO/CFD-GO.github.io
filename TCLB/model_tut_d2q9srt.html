@@ -420,12 +420,12 @@ div.tocify {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[0]&quot;</span>, <span class="dt">dx=</span><span class="dv">0</span>, <span class="dt">dy=</span><span class="dv">0</span>  )
 <span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[1]&quot;</span>, <span class="dt">dx=</span><span class="dv">1</span>, <span class="dt">dy=</span><span class="dv">0</span>  )
 <span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[2]&quot;</span>, <span class="dt">dx=</span><span class="dv">0</span>, <span class="dt">dy=</span><span class="dv">1</span>  )
-<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[3]&quot;</span>, <span class="dt">dx=</span>-<span class="dv">1</span>,<span class="dt">dy=</span><span class="dv">0</span>  )
-<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[4]&quot;</span>, <span class="dt">dx=</span><span class="dv">0</span>, <span class="dt">dy=</span>-<span class="dv">1</span> )
+<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[3]&quot;</span>, <span class="dt">dx=</span><span class="op">-</span><span class="dv">1</span>,<span class="dt">dy=</span><span class="dv">0</span>  )
+<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[4]&quot;</span>, <span class="dt">dx=</span><span class="dv">0</span>, <span class="dt">dy=</span><span class="op">-</span><span class="dv">1</span> )
 <span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[5]&quot;</span>, <span class="dt">dx=</span><span class="dv">1</span>, <span class="dt">dy=</span><span class="dv">1</span>  )
-<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[6]&quot;</span>, <span class="dt">dx=</span>-<span class="dv">1</span>,<span class="dt">dy=</span><span class="dv">1</span>  )
-<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[7]&quot;</span>, <span class="dt">dx=</span>-<span class="dv">1</span>,<span class="dt">dy=</span>-<span class="dv">1</span> )
-<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[8]&quot;</span>, <span class="dt">dx=</span><span class="dv">1</span>, <span class="dt">dy=</span>-<span class="dv">1</span> )</code></pre></div>
+<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[6]&quot;</span>, <span class="dt">dx=</span><span class="op">-</span><span class="dv">1</span>,<span class="dt">dy=</span><span class="dv">1</span>  )
+<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[7]&quot;</span>, <span class="dt">dx=</span><span class="op">-</span><span class="dv">1</span>,<span class="dt">dy=</span><span class="op">-</span><span class="dv">1</span> )
+<span class="kw">AddDensity</span>(<span class="dt">name=</span><span class="st">&quot;f[8]&quot;</span>, <span class="dt">dx=</span><span class="dv">1</span>, <span class="dt">dy=</span><span class="op">-</span><span class="dv">1</span> )</code></pre></div>
 <p>Notice that the dx and dy coordinates correspond with the <strong>c</strong> matrix previously given. At this stage, it helps to assess what other values will be needed to initialise and run the LBM. To start off the method, a fluid density and initial velocities must be specified, then to perform the collision operation the relaxation time and the magnitude of the applied body force need to be defined . Additionally, from this simulation we want to be able to interrogate the macroscopic fluid velocity and density so these must be added as <a href="TODO:link">Quantities</a>. For this, we define (in <code>Dynamics.R</code>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddQuantity</span>( <span class="dt">name=</span><span class="st">&quot;U&quot;</span>,<span class="dt">unit=</span><span class="st">&quot;m/s&quot;</span>, <span class="dt">vector=</span><span class="ot">TRUE</span> )
 <span class="kw">AddQuantity</span>( <span class="dt">name=</span><span class="st">&quot;Rho&quot;</span>,<span class="dt">unit=</span><span class="st">&quot;kg/m3&quot;</span> )
@@ -458,12 +458,12 @@ f[<span class="dv">8</span>] = ( <span class="dv">1</span>. + ( ( -<span class="
 <p>With the equilibrium function taken care of, we can now look at updating our initialised lattice. For this, the streaming operation is taken care of with the specification of <a href="TODO:podlinkować">Densities</a> that we made. The collision operation however needs to be implemented and bounce-back for nodes flagged as walls. To do this, we define the <code>run()</code> function to describe what happens at each node at each timestep.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Run() {
 <span class="co">// This defines the dynamics that we run at each node in the domain.</span>
-    <span class="kw">switch</span> (NodeType &amp; NODE_BOUNDARY) {
-    <span class="kw">case</span> NODE_Wall:
+    <span class="cf">switch</span> (NodeType &amp; NODE_BOUNDARY) {
+    <span class="cf">case</span> NODE_Wall:
         BounceBack();
-        <span class="kw">break</span>;
+        <span class="cf">break</span>;
     }
-    <span class="kw">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_BGK) 
+    <span class="cf">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_BGK) 
     {
         CollisionBGK();
     }
@@ -474,7 +474,7 @@ f[<span class="dv">8</span>] = ( <span class="dv">1</span>. + ( ( -<span class="
   float2 ret;
   ret.x = <span class="dv">0</span>;
   ret.y = <span class="dv">1</span>;
-  <span class="kw">return</span> ret;
+  <span class="cf">return</span> ret;
 }</code></pre></div>
 <p>The switch function described can also be used for the implementation of velocity/pressure boundaries, but these will not be discussed in this tutorial. As can be seen above, we need to define functions that describe both the <code>BounceBack()</code> and <code>CollisionBGK()</code> operations. The bounce-back operation occurs as described in the theory component of this tutorial where distribution functions are reversed:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> BounceBack() {
@@ -525,7 +525,7 @@ f[<span class="dv">8</span>] = ( <span class="dv">1</span>. + ( ( -<span class="
 <p>With all the dynamics described, all that is left to do now is calculate the macroscopic variables using <code>Get</code> functions to correspond with the Quantities stated in <code>Dynamics.R</code>.The macroscopic density is the sum of all the distribution functions and the momentum is the sum of the distribution functions multiplied by the discrete velocity directions.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction real_t getRho() {
 <span class="co">// This function defines the macroscopic density at the current node.</span>
-    <span class="kw">return</span> f[<span class="dv">8</span>]+f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]+f[<span class="dv">4</span>]+f[<span class="dv">3</span>]+f[<span class="dv">2</span>]+f[<span class="dv">1</span>]+f[<span class="dv">0</span>];
+    <span class="cf">return</span> f[<span class="dv">8</span>]+f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]+f[<span class="dv">4</span>]+f[<span class="dv">3</span>]+f[<span class="dv">2</span>]+f[<span class="dv">1</span>]+f[<span class="dv">0</span>];
 }
 
 CudaDeviceFunction vector_t getU() {
@@ -536,7 +536,7 @@ CudaDeviceFunction vector_t getU() {
     u.x = (( f[<span class="dv">8</span>]-f[<span class="dv">7</span>]-f[<span class="dv">6</span>]+f[<span class="dv">5</span>]-f[<span class="dv">3</span>]+f[<span class="dv">1</span>] )/d + GravitationX*<span class="fl">0.5</span> );
     u.y = ((-f[<span class="dv">8</span>]-f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]-f[<span class="dv">4</span>]+f[<span class="dv">2</span>] )/d + GravitationY*<span class="fl">0.5</span> );
     u.z = <span class="dv">0</span>;
-    <span class="kw">return</span> u;
+    <span class="cf">return</span> u;
 }</code></pre></div>
 </div>
 <div id="setting-up-a-simulation" class="section level2">
@@ -570,11 +570,11 @@ CudaDeviceFunction vector_t getU() {
     <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;50000&quot;</span><span class="kw">/&gt;</span>
 <span class="er">&lt;</span>/CLBConfig&gt;</code></pre></div>
 <p>With the model and set-up files created, we can now look to make and run d2q9srt. To do this first enter the TCLB directory and call the run file along with the input file location, after this, the analysis can be performed in Paraview:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">make</span> d2q9srt
-<span class="kw">CLB/d2q9srt/main</span> d2q9_poiseuille.xml
-<span class="kw">paraview</span> output/d2q9_poiseuille_VTK_P00_..pvti</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">make</span> d2q9srt
+<span class="ex">CLB/d2q9srt/main</span> d2q9_poiseuille.xml
+<span class="ex">paraview</span> output/d2q9_poiseuille_VTK_P00_..pvti</code></pre></div>
 <p>In case the calculations are run on CPU, an mpi run can also be initiated e.g:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">mpirun</span> -np 4 CLB/d2q9srt/main d2q9_poiseuille.xml</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mpirun</span> -np 4 CLB/d2q9srt/main d2q9_poiseuille.xml</code></pre></div>
 <p>From the analytical equation given before, we expect a maximum velocity of <code>0.000351562m/s</code>, while in the results it is found to be <code>0.00035293m/s</code> showing an error of 0.389%.</p>
 </div>
 

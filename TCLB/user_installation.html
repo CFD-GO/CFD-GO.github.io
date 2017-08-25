@@ -405,19 +405,19 @@ div.tocify {
 <li><a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> (e.g. [OpenMPI](<a href="http://www.open-mpi.org" class="uri">http://www.open-mpi.org</a></li>
 </ul>
 <p>Most of them can be installed using the script provided within the code(tools/install.sh):</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> tools/install.sh cuda 6.5-14
-<span class="kw">sudo</span> tools/install.sh r
-<span class="kw">sudo</span> tools/install.sh openmpi
-     <span class="kw">tools/install.sh</span> rdep
-<span class="kw">sudo</span> tools/install.sh python-dev
-     <span class="kw">tools/install.sh</span> rpython</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> tools/install.sh cuda 6.5-14
+<span class="fu">sudo</span> tools/install.sh r
+<span class="fu">sudo</span> tools/install.sh openmpi
+     <span class="ex">tools/install.sh</span> rdep
+<span class="fu">sudo</span> tools/install.sh python-dev
+     <span class="ex">tools/install.sh</span> rpython</code></pre></div>
 </div>
 <div id="compilation" class="section level2">
 <h2>Compilation</h2>
 <p>After installing all required dependencies, the code is ready to be compiled. In order to do so:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">make</span> configure
-<span class="kw">./configure</span>
-<span class="kw">make</span> -j 10 d2q9</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">make</span> configure
+<span class="ex">./configure</span>
+<span class="fu">make</span> -j 10 d2q9</code></pre></div>
 <p>Notes: <code>-j 10</code> is used to speed up the compilation process, by running multiple threads. <code>d2q9</code> is the name of the model, this solver comes with multiple models(TODO:link), which can be compiled(and used) by substituting <code>d2q9</code> for desired model name(e.g. <code>d3q27</code>).</p>
 <div id="configuration-options" class="section level3">
 <h3>Configuration options</h3>
@@ -428,34 +428,34 @@ div.tocify {
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Option</th>
-<th align="left">Effect</th>
+<th>Option</th>
+<th>Effect</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>--enable-graphics</code></td>
-<td align="left">Enables the (TODO:okno podglądu).</td>
+<td><code>--enable-graphics</code></td>
+<td>Enables the (TODO:okno podglądu).</td>
 </tr>
 <tr class="even">
-<td align="left"><code>--disable-double</code></td>
-<td align="left">Switches to single(float) precision.</td>
+<td><code>--disable-double</code></td>
+<td>Switches to single(float) precision.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>--disable-cuda</code></td>
-<td align="left">Disables CUDA, thus compiling the code for CPU.</td>
+<td><code>--disable-cuda</code></td>
+<td>Disables CUDA, thus compiling the code for CPU.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>--with-nlopt</code></td>
-<td align="left">Compilation with NLopt library for optimization.</td>
+<td><code>--with-nlopt</code></td>
+<td>Compilation with NLopt library for optimization.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>--with-python</code></td>
-<td align="left">Compilation with enabled Python integration(TODO:do użycia w XML).</td>
+<td><code>--with-python</code></td>
+<td>Compilation with enabled Python integration(TODO:do użycia w XML).</td>
 </tr>
 <tr class="even">
-<td align="left"><code>--with-r</code></td>
-<td align="left">Compilation with enabled R integration(TODO:do użycia w XML).</td>
+<td><code>--with-r</code></td>
+<td>Compilation with enabled R integration(TODO:do użycia w XML).</td>
 </tr>
 </tbody>
 </table>

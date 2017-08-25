@@ -407,12 +407,12 @@ div.tocify {
 <div id="creating-a-model" class="section level2">
 <h2>Creating a model</h2>
 <p>Every model in TCLB is defined by a subdirectory of <code>models</code>. Let us now create a new one:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">mkdir</span> models/tutorial/wave
-<span class="kw">touch</span> models/tutorial/wave/conf.mk</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">mkdir</span> models/tutorial/wave
+<span class="fu">touch</span> models/tutorial/wave/conf.mk</code></pre></div>
 <p>The <code>conf.mk</code> file stores some additional settings for a model, but it also tells TCLB that this directory is in fact a model.</p>
 <p>Now we have to add two main files defining everything: <code>Dynamics.R</code> - defining all the setup of the model, and <code>Dynamics.c</code> - defining what will be happening in a node.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">touch</span> models/tutorial/wave/Dynamics.R
-<span class="kw">touch</span> models/tutorial/wave/Dynamics.c</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">touch</span> models/tutorial/wave/Dynamics.R
+<span class="fu">touch</span> models/tutorial/wave/Dynamics.c</code></pre></div>
 <p>We want to have two Fields: <code>u</code> and <code>v</code>. We define them in <code>Dynamics.R</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>)
 <span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;v&quot;</span>)</code></pre></div>
@@ -421,7 +421,7 @@ div.tocify {
   float2 ret;
   ret.x = <span class="dv">0</span>;
   ret.y = <span class="dv">1</span>;
-  <span class="kw">return</span> ret;
+  <span class="cf">return</span> ret;
 }
 
 CudaDeviceFunction <span class="dt">void</span> Init() { }
@@ -435,22 +435,22 @@ CudaDeviceFunction <span class="dt">void</span> Run() { }</code></pre></div>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Function</th>
-<th align="left">Description</th>
+<th>Function</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>Init</code></td>
-<td align="left">This function is called in all the nodes at the beginning of the simulation. All the initialization happens here.</td>
+<td><code>Init</code></td>
+<td>This function is called in all the nodes at the beginning of the simulation. All the initialization happens here.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>Run</code></td>
-<td align="left">This function will be called in every node in every iteration - it is the main dynamic of a node.</td>
+<td><code>Run</code></td>
+<td>This function will be called in every node in every iteration - it is the main dynamic of a node.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>Color</code></td>
-<td align="left">This function is useful only for the version of CLB with enabled graphics(<code>./configure --enable-graphics</code>). It calculates the level <code>x</code> on which the color of a pixel will be based. In most cases this will be temperature or velocity.</td>
+<td><code>Color</code></td>
+<td>This function is useful only for the version of CLB with enabled graphics(<code>./configure --enable-graphics</code>). It calculates the level <code>x</code> on which the color of a pixel will be based. In most cases this will be temperature or velocity.</td>
 </tr>
 </tbody>
 </table>
@@ -474,7 +474,7 @@ CudaDeviceFunction <span class="dt">void</span> Run() { }</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddQuantity</span>(<span class="dt">name=</span><span class="st">&quot;U&quot;</span>)</code></pre></div>
 <p>Now we have to add the calculation(<code>Dynamics.c</code>):</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction real_t getU() {
-  <span class="kw">return</span> u(<span class="dv">0</span>,<span class="dv">0</span>);
+  <span class="cf">return</span> u(<span class="dv">0</span>,<span class="dv">0</span>);
 }</code></pre></div>
 </div>
 <div id="running-a-case" class="section level2">
@@ -491,10 +491,10 @@ CudaDeviceFunction <span class="dt">void</span> Run() { }</code></pre></div>
 <span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>This case will create a mesh of 128x128 nodes, initialize it and run 1000 iterations. It will also save VTK output every 10 iterations.</p>
 <p>In order to run it:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">make</span> configure
-<span class="kw">./configure</span> --enable-graphics
-<span class="kw">make</span> wave
-<span class="kw">CLB/wave/main</span> example.xml</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">make</span> configure
+<span class="ex">./configure</span> --enable-graphics
+<span class="fu">make</span> wave
+<span class="ex">CLB/wave/main</span> example.xml</code></pre></div>
 <p>The results are not so impressive now, because basically, not only nothing is happening in a node, but also it is initialized with 0.</p>
 </div>
 <div id="settings" class="section level2">
@@ -507,7 +507,7 @@ CudaDeviceFunction <span class="dt">void</span> Run() { }</code></pre></div>
   float2 ret;
   ret.x = getU();
   ret.y = <span class="dv">1</span>;
-  <span class="kw">return</span> ret;
+  <span class="cf">return</span> ret;
 }
 
 CudaDeviceFunction <span class="dt">void</span> Init() {
@@ -544,7 +544,7 @@ CudaDeviceFunction <span class="dt">void</span> Init() {
 }</code></pre></div>
 <p>You can see that we assumed <code>dx</code> and <code>dt</code> equal to 1 (it will be more clear why, later on).</p>
 <p>And now … <strong>it won’t compile</strong>. Why? The error is a bit obscure, like with many C++ Templates errors, but the reason is simple. We didn’t tell the code that we want to access <code>u</code> in our neighbors. This is crucial, because the code have to know exactly were things are accessed, to prepare the right communication buffers. You can imagine that the neighboring node is on a different GPU on a different computer. Then we need this computer to know that it will have to send this data to us. On the other hand we want to send as small packets of information as possible, that is why the code have to be <em>conservative</em> wrt. to the possible access patterns. We define this information in <code>Dynamics.R</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">dx=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">dy=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">dx=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">dy=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
 <p>If you don’t know <a href="https://www.r-project.org/">R</a> then you need to know that <code>c(...)</code> means a vector/table of numbers. The above line means that the field <code>u</code> can be accessed for <code>dx</code> from -1 to 1 and <code>dy</code> from -1 to 1. Making it simple: we can access it from all of our 8 neighbors and ourselves. The other way (a shortcut) to express it would be:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">stencil2d=</span><span class="dv">1</span>)</code></pre></div>
 <p>Which means the same thing (<code>stencil3d</code> would mean also -1 to 1 in <code>z</code> direction)</p>
@@ -577,7 +577,7 @@ CudaDeviceFunction <span class="dt">void</span> Init() {
   real_t a = Speed * Speed * lap_u + Viscosity * lap_v;
   v = v(<span class="dv">0</span>,<span class="dv">0</span>) + a;
   u = u(<span class="dv">0</span>,<span class="dv">0</span>) + v;
-  <span class="kw">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
+  <span class="cf">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
     u = Value;
     v = <span class="dv">0</span>;
   }
@@ -609,15 +609,15 @@ CudaDeviceFunction <span class="dt">void</span> Init() {
 <span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>We can notice the difference immediately. The waves are bouncing from the walls now.</p>
 <p>In this case, we had a simple situation, as we have only one group of node types (and only one type), but normally we would have to distinguish between them. It would be done with:</p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
  ...
 }</code></pre></div>
 <p>or</p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">switch</span> (NodeType &amp; NODE_BOUNDARY) {
-<span class="kw">case</span> NODE_Dirichlet:
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">switch</span> (NodeType &amp; NODE_BOUNDARY) {
+<span class="cf">case</span> NODE_Dirichlet:
  ...
- <span class="kw">break</span>;
-<span class="kw">case</span> ...:
+ <span class="cf">break</span>;
+<span class="cf">case</span> ...:
  ...
 }</code></pre></div>
 </div>

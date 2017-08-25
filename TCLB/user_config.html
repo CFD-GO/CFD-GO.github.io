@@ -424,81 +424,81 @@ div.tocify {
         <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;50&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
         <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
 <span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
-<table style="width:174%;">
+<table style="width:100%;">
 <colgroup>
-<col width="59%" />
-<col width="113%" />
+<col width="34%" />
+<col width="65%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Element</th>
-<th align="left">Functionality</th>
+<th>Element</th>
+<th>Functionality</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>&lt;?xml version=&quot;1.0&quot;?&gt;</code></td>
-<td align="left">Header required for all case files.</td>
+<td><code>&lt;?xml version=&quot;1.0&quot;?&gt;</code></td>
+<td>Header required for all case files.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;CLBConfig output=&quot;output/test&quot;&gt;</code></td>
-<td align="left">All configuration settings must be contained within this element, additionally it is possible to specify deisred output path and/or filename prefix here. In example all files will be saved in <code>~TCLB/output</code> folder, with all the filenames begining with <code>test</code> prefix.</td>
+<td><code>&lt;CLBConfig output=&quot;output/test&quot;&gt;</code></td>
+<td>All configuration settings must be contained within this element, additionally it is possible to specify deisred output path and/or filename prefix here. In example all files will be saved in <code>~TCLB/output</code> folder, with all the filenames begining with <code>test</code> prefix.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Geometry nx=&quot;1024&quot; ny=&quot;100&quot;&gt;</code></td>
-<td align="left">Element containing all informations regarding geometry(domain size/shape, whats insinde domain). <code>nx=&quot;1024&quot;&quot; ny=&quot;100&quot;</code> specifies a domain containing 1024 elements in x-direction and 100 in y-direction. TODO: specyfikacja nx,dx,fx etc.</td>
+<td><code>&lt;Geometry nx=&quot;1024&quot; ny=&quot;100&quot;&gt;</code></td>
+<td>Element containing all informations regarding geometry(domain size/shape, whats insinde domain). <code>nx=&quot;1024&quot;&quot; ny=&quot;100&quot;</code> specifies a domain containing 1024 elements in x-direction and 100 in y-direction. TODO: specyfikacja nx,dx,fx etc.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</code></td>
-<td align="left"><code>MRT</code> is</td>
+<td><code>&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</code></td>
+<td><code>MRT</code> is</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;</code></td>
-<td align="left">Creates velocity inlet at western side of the domain(TODO: Orientation), with width equal to 1 element and assignes it name <code>Inlet</code>(usefull for specifying zonal parameters later on).</td>
+<td><code>&lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;</code></td>
+<td>Creates velocity inlet at western side of the domain(TODO: Orientation), with width equal to 1 element and assignes it name <code>Inlet</code>(usefull for specifying zonal parameters later on).</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;</code></td>
-<td align="left">Creates pressure outlet at eastern side of the domain, with width equal to to 1 element.</td>
+<td><code>&lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;</code></td>
+<td>Creates pressure outlet at eastern side of the domain, with width equal to to 1 element.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Wall mask = &quot;ALL&quot;&gt;</code> <br> <code>&lt;Box ny=&quot;1&quot;/&gt;</code> <br> <code>&lt;Box dy=&quot;-1&quot;/&gt;</code> <br> <code>&lt;/Wall&gt;</code></td>
-<td align="left">Creates <code>wall</code> elements. <code>mask=&quot;ALL&quot;</code> tells us that all types(also from other groups) will be overwritten by <code>wall</code> element type, e.g the collision enabled in <code>&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</code> will be disabled.</td>
+<td><code>&lt;Wall mask = &quot;ALL&quot;&gt;</code> <br> <code>&lt;Box ny=&quot;1&quot;/&gt;</code> <br> <code>&lt;Box dy=&quot;-1&quot;/&gt;</code> <br> <code>&lt;/Wall&gt;</code></td>
+<td>Creates <code>wall</code> elements. <code>mask=&quot;ALL&quot;</code> tells us that all types(also from other groups) will be overwritten by <code>wall</code> element type, e.g the collision enabled in <code>&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</code> will be disabled.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;/Geometry&gt;</code></td>
-<td align="left">Closing tag for <code>&lt;Geometry&gt;</code> element.</td>
+<td><code>&lt;/Geometry&gt;</code></td>
+<td>Closing tag for <code>&lt;Geometry&gt;</code> element.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Model&gt;</code></td>
-<td align="left">Element containing all desired model settings(<code>Params</code>)</td>
+<td><code>&lt;Model&gt;</code></td>
+<td>Element containing all desired model settings(<code>Params</code>)</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;Params Velocity-Inlet=&quot;0.01&quot;/&gt;</code></td>
-<td align="left">Setting the value of <code>Velocity</code> parameter to 0.01 in <code>Inlet</code> element(specified in Geometry).</td>
+<td><code>&lt;Params Velocity-Inlet=&quot;0.01&quot;/&gt;</code></td>
+<td>Setting the value of <code>Velocity</code> parameter to 0.01 in <code>Inlet</code> element(specified in Geometry).</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Params nu=&quot;0.05&quot;/&gt;</code></td>
-<td align="left">Setting the value of <code>nu</code> parametere to <code>0.05</code>.</td>
+<td><code>&lt;Params nu=&quot;0.05&quot;/&gt;</code></td>
+<td>Setting the value of <code>nu</code> parametere to <code>0.05</code>.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;/Model&gt;</code></td>
-<td align="left">Closing tag for <code>&lt;Model&gt;</code> element. The case is initialized after this tag.</td>
+<td><code>&lt;/Model&gt;</code></td>
+<td>Closing tag for <code>&lt;Model&gt;</code> element. The case is initialized after this tag.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Solve Iterations=&quot;5000&quot;/&gt;</code></td>
-<td align="left">Runs 5000 iterations</td>
+<td><code>&lt;Solve Iterations=&quot;5000&quot;/&gt;</code></td>
+<td>Runs 5000 iterations</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;VTK Iterations=&quot;50&quot;/&gt;</code></td>
-<td align="left">Specifies that next <code>&lt;Solve&gt;</code> element will create an VTK output file every 50 iterations, saving there U and P quantities. By default everything is saved, creating rather large file for bigger cases.</td>
+<td><code>&lt;VTK Iterations=&quot;50&quot;/&gt;</code></td>
+<td>Specifies that next <code>&lt;Solve&gt;</code> element will create an VTK output file every 50 iterations, saving there U and P quantities. By default everything is saved, creating rather large file for bigger cases.</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Solve Iterations=&quot;1000&quot;/&gt;</code></td>
-<td align="left">Runs 1000 iterations, creating <code>VTK</code> output every 50 iterations, as specified earlier.</td>
+<td><code>&lt;Solve Iterations=&quot;1000&quot;/&gt;</code></td>
+<td>Runs 1000 iterations, creating <code>VTK</code> output every 50 iterations, as specified earlier.</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;/CLBConfig&gt;</code></td>
-<td align="left">Closing tag for <code>&lt;CLBConfig&gt;</code> element, finishing whole case file.</td>
+<td><code>&lt;/CLBConfig&gt;</code></td>
+<td>Closing tag for <code>&lt;CLBConfig&gt;</code> element, finishing whole case file.</td>
 </tr>
 </tbody>
 </table>
@@ -512,37 +512,33 @@ div.tocify {
   <span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;4&quot;</span><span class="ot"> nx=</span><span class="st">&quot;10&quot;</span><span class="ot"> ny=</span><span class="st">&quot;30&quot;</span><span class="kw">/&gt;</span>
 <span class="kw">&lt;/Wall&gt;</span></code></pre></div>
 <p>In this example “what” is <code>Wall</code> element and “where” is <code>&lt;Box dx=&quot;4&quot; nx=&quot;10&quot; ny=&quot;30&quot;/&gt;</code>. Defining “where” can be done in multiple ways, using <code>nx</code>,<code>dx</code>,<code>fx</code> arguments(similarly for <code>y</code> and <code>z</code>). To understand the geometry definition, you have to know that <code>box</code> element by default spans the whole available space. Then by imposing <code>dx</code>, <code>nx</code> and <code>fx</code> attributes you cut it smaller. <code>dx</code> sets where the box starts, <code>nx</code> sets how <em>long</em> is the box in the x direction, and <code>fx</code> sets where it ends. Additionally, if you set a negative value it means a value <em>from the end</em>. The same applies of course to <code>y</code> and <code>z</code>. For example:</p>
-<table style="width:71%;">
-<colgroup>
-<col width="11%" />
-<col width="59%" />
-</colgroup>
+<table>
 <thead>
 <tr class="header">
-<th align="left">Element</th>
-<th align="left">Region</th>
+<th>Element</th>
+<th>Region</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>&lt;Box nx=&quot;1&quot;/&gt;</code></td>
-<td align="left">Left border of the domain</td>
+<td><code>&lt;Box nx=&quot;1&quot;/&gt;</code></td>
+<td>Left border of the domain</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;Box dx=&quot;-1&quot;/&gt;</code></td>
-<td align="left">Right border of the domain</td>
+<td><code>&lt;Box dx=&quot;-1&quot;/&gt;</code></td>
+<td>Right border of the domain</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Box dx=&quot;10&quot;/&gt;</code></td>
-<td align="left">Everything starting from the 11th element (in x direction)</td>
+<td><code>&lt;Box dx=&quot;10&quot;/&gt;</code></td>
+<td>Everything starting from the 11th element (in x direction)</td>
 </tr>
 <tr class="even">
-<td align="left"><code>&lt;Box dx=&quot;-10&quot;/&gt;</code></td>
-<td align="left">10 last layers in the x direction</td>
+<td><code>&lt;Box dx=&quot;-10&quot;/&gt;</code></td>
+<td>10 last layers in the x direction</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>&lt;Box nx=&quot;10&quot; ny=&quot;10&quot;/&gt;</code></td>
-<td align="left">Square 10x10 in the left bottom corner</td>
+<td><code>&lt;Box nx=&quot;10&quot; ny=&quot;10&quot;/&gt;</code></td>
+<td>Square 10x10 in the left bottom corner</td>
 </tr>
 </tbody>
 </table>
