@@ -24,24 +24,52 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -366,103 +394,102 @@ div.tocify {
 <div id="simple-case" class="section level2">
 <h2>Simple case</h2>
 <p>Below is presented a simple 3-Dimensional case, with a ball in the middle of the domain. Velocity inlet is used on one side and pressure outlet on the another one(TODO:Orientacja NEWS). Notice how each dimension of the ball is specified in different way, yet it is still placed exactly in the middle of the domain:</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
-    &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot; nz=&quot;128&quot;&gt;
-        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
-        &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
-        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
-        &lt;Wall mask = &quot;ALL&quot;&gt;
-            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
-        &lt;/Wall&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-        &lt;Params Velocity-Inlet=&quot;0.1&quot;/&gt;
-        &lt;Params nu=&quot;0.05&quot;/&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
-    &lt;Solve Iterations=&quot;1000&quot;/&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="ot"> output=</span><span class="st">&quot;output/test&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;128&quot;</span><span class="ot"> ny=</span><span class="st">&quot;128&quot;</span><span class="ot"> nz=</span><span class="st">&quot;128&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</span>
+        <span class="kw">&lt;WVelocity</span><span class="ot"> name=</span><span class="st">&quot;Inlet&quot;</span><span class="kw">&gt;&lt;Box</span><span class="ot"> nx=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;&lt;/WVelocity&gt;</span>
+        <span class="kw">&lt;EPressure&gt;&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;&lt;/EPressure&gt;</span>
+        <span class="kw">&lt;Wall</span><span class="ot"> mask</span> <span class="ot">=</span> <span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;Sphere</span><span class="ot"> dx=</span><span class="st">&quot;54&quot;</span><span class="ot"> nx=</span><span class="st">&quot;20&quot;</span><span class="ot"> dy=</span><span class="st">&quot;54&quot;</span><span class="ot"> fy=</span><span class="st">&quot;74&quot;</span><span class="ot"> dz=</span><span class="st">&quot;-74&quot;</span><span class="ot"> nz=</span><span class="st">&quot;20&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/Wall&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity-Inlet=</span><span class="st">&quot;0.1&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> nu=</span><span class="st">&quot;0.05&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;100&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>Note: It is not necessary to specify <code>&lt;Box nx=&quot;1&quot;&gt;</code> for Inlet/Outlet, as it is default value.</p>
 </div>
 <div id="defining-units" class="section level2">
 <h2>Defining Units</h2>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
-    &lt;Units&gt;
-        &lt;Params Velocity=&quot;1m/s&quot; gauge=&quot;0.1&quot;/&gt;
-        &lt;Params Viscosity=&quot;0.01m2/s&quot; gauge=&quot;0.01&quot;/&gt;
-    &lt;/Units&gt;
-    &lt;Geometry nx=&quot;12.8m&quot; ny=&quot;12.8m&quot; nz=&quot;12.8m&quot;&gt;
-        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
-        &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
-        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
-        &lt;Wall mask = &quot;ALL&quot;&gt;
-            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
-        &lt;/Wall&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-        &lt;Params Velocity-Inlet=&quot;1m/s&quot;/&gt;
-        &lt;Params nu=&quot;0.05m2/s&quot;/&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
-    &lt;Solve Iterations=&quot;1000&quot;/&gt;
-&lt;/CLBConfig&gt;
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="ot"> output=</span><span class="st">&quot;output/test&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;Units&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity=</span><span class="st">&quot;1m/s&quot;</span><span class="ot"> gauge=</span><span class="st">&quot;0.1&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Viscosity=</span><span class="st">&quot;0.01m2/s&quot;</span><span class="ot"> gauge=</span><span class="st">&quot;0.01&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Units&gt;</span>
+    <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;12.8m&quot;</span><span class="ot"> ny=</span><span class="st">&quot;12.8m&quot;</span><span class="ot"> nz=</span><span class="st">&quot;12.8m&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</span>
+        <span class="kw">&lt;WVelocity</span><span class="ot"> name=</span><span class="st">&quot;Inlet&quot;</span><span class="kw">&gt;&lt;Box</span><span class="ot"> nx=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;&lt;/WVelocity&gt;</span>
+        <span class="kw">&lt;EPressure&gt;&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;&lt;/EPressure&gt;</span>
+        <span class="kw">&lt;Wall</span><span class="ot"> mask</span> <span class="ot">=</span> <span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;Sphere</span><span class="ot"> dx=</span><span class="st">&quot;54&quot;</span><span class="ot"> nx=</span><span class="st">&quot;20&quot;</span><span class="ot"> dy=</span><span class="st">&quot;54&quot;</span><span class="ot"> fy=</span><span class="st">&quot;74&quot;</span><span class="ot"> dz=</span><span class="st">&quot;-74&quot;</span><span class="ot"> nz=</span><span class="st">&quot;20&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/Wall&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity-Inlet=</span><span class="st">&quot;1m/s&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> nu=</span><span class="st">&quot;0.05m2/s&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;100&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>Sets units in such a way that real-world units agree with LB units. Here <span class="math inline">\(1m = 1/0.1=10\)</span>, which means that each meter is equal to 10 elements in grid and <span class="math inline">\(0.01[\frac{m^2}{s}] = \frac{0.01}{0.01} = 1 =&gt; 1 Iteration[s] = \frac{1}{10^2}\)</span>, so 1 second in real world is equal to 100 iterations.</p>
 <p>Notice how parameters in <code>&lt;Model&gt;</code> and <code>Geometry</code> are specified and how generated case is the same as in previous example.</p>
 <p>It is important not to over-construct gauge variables. If <code>&lt;Params Size=&quot;1m&quot; gauge = &quot;10&quot;/&gt;</code> would be added to the example above it would result in an error, as too many gauge gauges would be assigned.</p>
 </div>
 <div id="control-elements" class="section level2">
 <h2>Control elements</h2>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
-    &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot; nz=&quot;128&quot;&gt;
-        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
-        &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
-        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
-        &lt;Wall mask = &quot;ALL&quot;&gt;
-            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
-        &lt;/Wall&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-        &lt;Params Velocity-Inlet=&quot;0.1&quot;
-                nu=&quot;0.05&quot;/&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
-    &lt;Solve Iterations=&quot;1000&quot;/&gt;
-    &lt;Control Iterations=&quot;1000&quot;&gt;
-        &lt;CSV file=&quot;file.csv&quot; Time=&quot;x*1000&quot;&gt;
-        &lt;Params Velocity=&quot;y*0.02+0.05&quot;/&gt;
-    &lt;/CSV&gt;
-&lt;/Control&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="ot"> output=</span><span class="st">&quot;output/test&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;128&quot;</span><span class="ot"> ny=</span><span class="st">&quot;128&quot;</span><span class="ot"> nz=</span><span class="st">&quot;128&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</span>
+        <span class="kw">&lt;WVelocity</span><span class="ot"> name=</span><span class="st">&quot;Inlet&quot;</span><span class="kw">&gt;&lt;Box</span><span class="ot"> nx=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;&lt;/WVelocity&gt;</span>
+        <span class="kw">&lt;EPressure&gt;&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;&lt;/EPressure&gt;</span>
+        <span class="kw">&lt;Wall</span><span class="ot"> mask</span> <span class="ot">=</span> <span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;Sphere</span><span class="ot"> dx=</span><span class="st">&quot;54&quot;</span><span class="ot"> nx=</span><span class="st">&quot;20&quot;</span><span class="ot"> dy=</span><span class="st">&quot;54&quot;</span><span class="ot"> fy=</span><span class="st">&quot;74&quot;</span><span class="ot"> dz=</span><span class="st">&quot;-74&quot;</span><span class="ot"> nz=</span><span class="st">&quot;20&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/Wall&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity-Inlet=</span><span class="st">&quot;0.1&quot;</span>
+<span class="ot">                nu=</span><span class="st">&quot;0.05&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;100&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Control</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;CSV</span><span class="ot"> file=</span><span class="st">&quot;file.csv&quot;</span><span class="ot"> Time=</span><span class="st">&quot;x*1000&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity=</span><span class="st">&quot;y*0.02+0.05&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/CSV&gt;</span>
+<span class="kw">&lt;/Control&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>Changes <code>Velocity</code> according to the contents of <code>file.csv</code>. Here column ‘x’ is used to compute time and ‘y’ is used to calculate ‘Velocity’ value. Notice also that <code>Velocity</code> and <code>nu</code> parameters are given in <code>&lt;Model&gt;</code> container, without the need of creating separate tags for each parameter.</p>
 </div>
 <div id="importing-geometry" class="section level2">
 <h2>Importing geometry</h2>
 <p>It is possible to import geometry from <code>.stl</code> files. It can be done by using <code>&lt;STL file=&quot;path_to_file&quot;/&gt;</code>. Additional arguments allow user to resize, rotate, and translate geometry. ParaView(TODO: podlinkować odpowiedni podrozdział) can open <code>.stl</code> files and provides a fast way of estabilishing correct import parameters. Imported geometry can be used along with geometry primitives, shown in other examples.</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/&quot;&gt;
-        &lt;Units&gt;
-                &lt;Params size=&quot;1m&quot; gauge=&quot;70&quot; /&gt;
-                &lt;Params nu=&quot;1.4e-5m2/s&quot; gauge=&quot;0.0001&quot;/&gt;  (TODO: nie działa jak usunie wpisze się w jednym &lt;Params/&gt; - dlaczego?)
-        &lt;/Units&gt;
-        &lt;Geometry nx=&quot;6m&quot; ny=&quot;1m&quot; nz=&quot;1m&quot;&gt;
-                &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
-                &lt;WVelocity&gt;&lt;Inlet/&gt;&lt;/WVelocity&gt;
-                &lt;EPressure&gt;&lt;Outlet/&gt;&lt;/EPressure&gt;
-                &lt;Wall mask=&quot;ALL&quot;&gt;
-                        &lt;Channel/&gt;
-                        &lt;STL file=&quot;example/data/ahmed.stl&quot; scale=&quot;1mm&quot; Xrot=&quot;-90d&quot; x=&quot;70&quot; y=&quot;5cm&quot; z=&quot;0.5m&quot; side = &quot;out&quot;/&gt;
-                &lt;/Wall&gt;
-        &lt;/Geometry&gt;
-        &lt;Model&gt;
-                &lt;Params Velocity=&quot;0.01&quot;/&gt;
-        &lt;/Model&gt;
-        &lt;VTK Iterations=&quot;1000&quot;/&gt;
-        &lt;Solve Iterations=&quot;10000&quot;/&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="ot"> output=</span><span class="st">&quot;output/&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;Units&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> size=</span><span class="st">&quot;1m&quot;</span><span class="ot"> gauge=</span><span class="st">&quot;70&quot;</span> <span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> nu=</span><span class="st">&quot;1.4e-5m2/s&quot;</span><span class="ot"> gauge=</span><span class="st">&quot;0.0001&quot;</span><span class="kw">/&gt;</span>  (TODO: nie działa jak usunie wpisze się w jednym <span class="kw">&lt;Params/&gt;</span> - dlaczego?)
+        <span class="kw">&lt;/Units&gt;</span>
+        <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;6m&quot;</span><span class="ot"> ny=</span><span class="st">&quot;1m&quot;</span><span class="ot"> nz=</span><span class="st">&quot;1m&quot;</span><span class="kw">&gt;</span>
+                <span class="kw">&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</span>
+                <span class="kw">&lt;WVelocity&gt;&lt;Inlet/&gt;&lt;/WVelocity&gt;</span>
+                <span class="kw">&lt;EPressure&gt;&lt;Outlet/&gt;&lt;/EPressure&gt;</span>
+                <span class="kw">&lt;Wall</span><span class="ot"> mask=</span><span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+                        <span class="kw">&lt;Channel/&gt;</span>
+                        <span class="kw">&lt;STL</span><span class="ot"> file=</span><span class="st">&quot;example/data/ahmed.stl&quot;</span><span class="ot"> scale=</span><span class="st">&quot;1mm&quot;</span><span class="ot"> Xrot=</span><span class="st">&quot;-90d&quot;</span><span class="ot"> x=</span><span class="st">&quot;70&quot;</span><span class="ot"> y=</span><span class="st">&quot;5cm&quot;</span><span class="ot"> z=</span><span class="st">&quot;0.5m&quot;</span><span class="ot"> side</span> <span class="ot">=</span> <span class="st">&quot;out&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;/Wall&gt;</span>
+        <span class="kw">&lt;/Geometry&gt;</span>
+        <span class="kw">&lt;Model&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Velocity=</span><span class="st">&quot;0.01&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/Model&gt;</span>
+        <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;10000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <table style="width:221%;">
 <colgroup>
 <col width="15%" />
@@ -501,30 +528,30 @@ div.tocify {
 <div id="synthetic-turbulence" class="section level2">
 <h2>Synthetic Turbulence</h2>
 <p>A synthetic turbulence generator is implemented in TCLB solver. It is based on modified von Karman-Pao spectrum(<a href="https://arc.aiaa.org/doi/10.2514/6.1999-1872">Bailly and Juve, 1999</a>)</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
-    &lt;Units&gt;
-        &lt;Params Velocity=&quot;1m/s&quot; gauge=&quot;0.1&quot;/&gt;
-        &lt;Params Viscosity=&quot;0.01m2/s&quot; gauge=&quot;0.01&quot;/&gt;
-    &lt;/Units&gt;
-    &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot; nz=&quot;128&quot;&gt;
-        &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
-        &lt;WVelocityTurbulent name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocityTurbulent&gt;
-        &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
-        &lt;Wall mask = &quot;ALL&quot;&gt;
-            &lt;Sphere dx=&quot;54&quot; nx=&quot;20&quot; dy=&quot;54&quot; fy=&quot;74&quot; dz=&quot;-74&quot; nz=&quot;20&quot;/&gt;
-        &lt;/Wall&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-        &lt;Params Velocity-Inlet=&quot;1m/s&quot;
-                nu=&quot;0.05m2/s&quot;
-                Turbulence=&quot;0.1m/s&quot;
-                MainWaveLength=&quot;10m&quot;
-                DiffusionWaveLength = &quot;100m&quot;/&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;100&quot; what = &quot;U,P&quot;/&gt;
-    &lt;Solve Iterations=&quot;1000&quot;/&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="ot"> output=</span><span class="st">&quot;output/test&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;Units&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity=</span><span class="st">&quot;1m/s&quot;</span><span class="ot"> gauge=</span><span class="st">&quot;0.1&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Viscosity=</span><span class="st">&quot;0.01m2/s&quot;</span><span class="ot"> gauge=</span><span class="st">&quot;0.01&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Units&gt;</span>
+    <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;128&quot;</span><span class="ot"> ny=</span><span class="st">&quot;128&quot;</span><span class="ot"> nz=</span><span class="st">&quot;128&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</span>
+        <span class="kw">&lt;WVelocityTurbulent</span><span class="ot"> name=</span><span class="st">&quot;Inlet&quot;</span><span class="kw">&gt;&lt;Box</span><span class="ot"> nx=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;&lt;/WVelocityTurbulent&gt;</span>
+        <span class="kw">&lt;EPressure&gt;&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;&lt;/EPressure&gt;</span>
+        <span class="kw">&lt;Wall</span><span class="ot"> mask</span> <span class="ot">=</span> <span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;Sphere</span><span class="ot"> dx=</span><span class="st">&quot;54&quot;</span><span class="ot"> nx=</span><span class="st">&quot;20&quot;</span><span class="ot"> dy=</span><span class="st">&quot;54&quot;</span><span class="ot"> fy=</span><span class="st">&quot;74&quot;</span><span class="ot"> dz=</span><span class="st">&quot;-74&quot;</span><span class="ot"> nz=</span><span class="st">&quot;20&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/Wall&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+        <span class="kw">&lt;Params</span><span class="ot"> Velocity-Inlet=</span><span class="st">&quot;1m/s&quot;</span>
+<span class="ot">                nu=</span><span class="st">&quot;0.05m2/s&quot;</span>
+<span class="ot">                Turbulence=</span><span class="st">&quot;0.1m/s&quot;</span>
+<span class="ot">                MainWaveLength=</span><span class="st">&quot;10m&quot;</span>
+<span class="ot">                DiffusionWaveLength</span> <span class="ot">=</span> <span class="st">&quot;100m&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;100&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>It is important to remember that in order to use implemented turbulence generator it is required to change <code>WVelocity</code> to <code>WVelocityTurbulent</code>, e.g.: <code>&lt;WVelocityTurbulent&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocityTurbulent&gt;</code>. The generator has more customizable attributes, given in table below, but most of them is not required for generator to work. Only the mandatory ones are provided in example above.</p>
 <p>Attribute | Comment ——- | ———————————————————– <code>Modes</code> | Number of harmonic modes to generate for the turbulence, default ‘100’. <code>Spread</code> | The way to divide the spectrum to a finite number of modes. Possible values: <code>Even</code>, <code>Log</code>, <code>Quantile</code>. Default is <code>Even</code>. <code>Spectrum</code> | Type of spectrum to use, possible values: <code>Von Karman</code>, <code>One Wave</code>. Default is <code>Von Karman</code>. <code>MainWaveLength</code> | Main wave-length in the Von Karman spectrum. <code>DiffusionWaveLength</code> | Diffusion scale wave-length in the Von Karman spectrum. <code>MinWaveLength</code> | Minimal space wave-length. TODO:Default value <code>MaxWaveLength</code> | Maximal space wave-length. <code>TimeWaveLength</code> | Time wave-length of the syntetic turbulence.</p>
 <p>It is possible to specify <code>WaveLength</code> parameters in terms of <code>WaveNumber</code> or <code>WaveFrequency</code>.</p>

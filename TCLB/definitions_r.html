@@ -24,24 +24,52 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -363,38 +391,38 @@ div.tocify {
 <div id="fielddensity" class="section level2">
 <h2>Field/Density</h2>
 <p><strong>Fields</strong> are variables stored in mesh nodes. It is usually necessary to be able to look into neighbouring value. This needs to be specify during <code>Field</code> declaration, as the code must ‘know’ that we want to access this fields values in neighbours, or otherwise it won’t compile. It can be done by by using <code>dx=c()</code>, where <code>c(..)</code> means vector in R programming language.</p>
-<pre class="r"><code>AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1))              #2D case
-AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1), dz=c(-1,1))  #3D case</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">dx=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">dy=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>))              <span class="co">#2D case</span>
+<span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">dx=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">dy=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">dz=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co">#3D case</span></code></pre></div>
 <p>It can also be done using <code>stencil</code>.</p>
-<pre class="r"><code>AddField(name=&quot;u&quot;, stencil2d=1) #2D case
-AddField(name=&quot;u&quot;, stencil3d=1) #3D case</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">stencil2d=</span><span class="dv">1</span>) <span class="co">#2D case</span>
+<span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">stencil3d=</span><span class="dv">1</span>) <span class="co">#3D case</span></code></pre></div>
 <p>This will allow access to neighbours positioned in distance of 1 element. In order to acces further change to <code>c(-2,2)</code> or <code>stencil3d=2</code>.</p>
 <p>Values stored in fields can be accessed from <code>Dynamics.c</code> with an offset(<code>field_name(1,1)</code>). If some values are often loaded, the procedure can be optimized using accessors called <strong>Densities</strong> which load corresponding values from a specified field with a predefined offset. Using <code>Density</code> instead of accessing <code>Field</code> ‘manually’ each time will speed up the code, as required values will be loaded into memeory before <code>Run()</code> function.</p>
 </div>
 <div id="setting" class="section level2">
 <h2>Setting</h2>
 <p>Settings are variables that can be set in the <code>.xml</code> and accessed by <code>Dynamics.c</code> in all nodes. Settings can be <code>zonal</code>, which means that they can be set to different values in different mesh zones, defined in <code>.xml</code> files. It is also possible to define a default value for a setting, this way even if it is not specified in <code>.xml</code> file code will run without trouble.</p>
-<pre class="r"><code>AddSetting(name=&quot;Name&quot;, default = &quot;value&quot;, comment=&quot;some comment&quot;, zonal=TRUE/FALSE )
-AddSetting(name=&quot;Velocity&quot;, default=&quot;0m/s&quot;, comment=&#39;Inlet velocity&#39;, zonal=TRUE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddSetting</span>(<span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">default =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">comment=</span><span class="st">&quot;some comment&quot;</span>, <span class="dt">zonal=</span><span class="ot">TRUE</span>/<span class="ot">FALSE</span> )
+<span class="kw">AddSetting</span>(<span class="dt">name=</span><span class="st">&quot;Velocity&quot;</span>, <span class="dt">default=</span><span class="st">&quot;0m/s&quot;</span>, <span class="dt">comment=</span><span class="st">&#39;Inlet velocity&#39;</span>, <span class="dt">zonal=</span><span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="qauantity" class="section level2">
 <h2>Qauantity</h2>
 <p>Values that can be exported to VTK files (and Catalyst), to later analyse in ParaView. In most cases they are macroscopic human-readable quantites like velocity, pressure, displacement etc, but can be also more ‘abstract’ values.</p>
-<pre class="r"><code>AddQuantity(name=&quot;Name&quot;, unit=&quot;unit&quot;, comment=&quot;Some comment&quot;, vector = T/F)
-AddQuantity(name=&quot;U&quot;, unit=&quot;m/s&quot;, comment=&quot;macroscopic velocity&quot;, vector = T)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddQuantity</span>(<span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">unit=</span><span class="st">&quot;unit&quot;</span>, <span class="dt">comment=</span><span class="st">&quot;Some comment&quot;</span>, <span class="dt">vector =</span> T/F)
+<span class="kw">AddQuantity</span>(<span class="dt">name=</span><span class="st">&quot;U&quot;</span>, <span class="dt">unit=</span><span class="st">&quot;m/s&quot;</span>, <span class="dt">comment=</span><span class="st">&quot;macroscopic velocity&quot;</span>, <span class="dt">vector =</span> T)</code></pre></div>
 <p><code>vector</code> should be set to <code>T</code> for properties like velocity, momentum etc.</p>
 <p>In order to extract those values the <code>GetName()</code> function must be defined in <code>Dynamics.c</code>.</p>
-<pre class="c"><code>//Example for d2q9_SRT model
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">//Example for d2q9_SRT model</span>
 
-CudaDeviceFunction vector_t GetU(){ //The type of the function would be real_t if the Quantity is not a vector
-        real_t d = f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0]; \\Rho(density) is sum of all f[]
+CudaDeviceFunction vector_t GetU(){ <span class="co">//The type of the function would be real_t if the Quantity is not a vector</span>
+        real_t d = f[<span class="dv">8</span>]+f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]+f[<span class="dv">4</span>]+f[<span class="dv">3</span>]+f[<span class="dv">2</span>]+f[<span class="dv">1</span>]+f[<span class="dv">0</span>]; \\Rho(density) is sum of all f[]
         vector_t u;
-        // pv = pu + G/2
-        u.x = (( f[8]-f[7]-f[6]+f[5]-f[3]+f[1] )/d + GravitationX*0.5 );    //GravitationX/Y are `Settings`, their values are taken from `.xml` file or default from `Dynamics.R` definition.
-        u.y = ((-f[8]-f[7]+f[6]+f[5]-f[4]+f[2] )/d + GravitationY*0.5 );
-        u.z = 0;      //the model is 2 dimensional
-        return u;
-}</code></pre>
+        <span class="co">// pv = pu + G/2</span>
+        u.x = (( f[<span class="dv">8</span>]-f[<span class="dv">7</span>]-f[<span class="dv">6</span>]+f[<span class="dv">5</span>]-f[<span class="dv">3</span>]+f[<span class="dv">1</span>] )/d + GravitationX*<span class="fl">0.5</span> );    <span class="co">//GravitationX/Y are `Settings`, their values are taken from `.xml` file or default from `Dynamics.R` definition.</span>
+        u.y = ((-f[<span class="dv">8</span>]-f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]-f[<span class="dv">4</span>]+f[<span class="dv">2</span>] )/d + GravitationY*<span class="fl">0.5</span> );
+        u.z = <span class="dv">0</span>;      <span class="co">//the model is 2 dimensional</span>
+        <span class="kw">return</span> u;
+}</code></pre></div>
 </div>
 <div id="actionstage" class="section level2">
 <h2>Action/Stage</h2>
@@ -403,16 +431,16 @@ CudaDeviceFunction vector_t GetU(){ //The type of the function would be real_t i
 <p>Currently, there are 2 pre-defined <code>Stages</code>(in <code>src/conf.R</code>): <code>BaseIteration</code> and <code>BaseInit</code>. The first one runs the <code>Run()</code> function from <code>Dynamics.c</code>, while the latter runs <code>Init()</code>. There are also 2 pre-defined <code>Actions</code>: <code>Iteration</code>(which runs <code>BaseIteration</code> stage) and <code>Init</code>(which runs <code>BaseInit</code> stage).</p>
 <p>Pre-defined <code>Actions/Stages</code> can be easily replaced with user-defined ones, as they won’t be created unless no user-defined functions with those names are found.</p>
 <p>To define new <code>Stage</code>:</p>
-<pre class="r"><code>AddStage(&quot;BaseIteration&quot;, &quot;Run&quot;, save=Fields$group == &quot;f&quot;, load=DensityAll$group == &quot;f&quot;)
-#Creates stage called BaseIterations, which loads all the Densities from group &quot;f&quot;, runs the function Run() from Dynamics.c and saves all Fields from group &quot;f&quot;
-AddStage(&quot;CalcRho&quot;, save=&quot;rho&quot;, load=DensityAll$group == &quot;f&quot;)
-#Creates stage called CalcRho, which loads all the Densities from group &quot;f&quot;, and saves rho
-AddStage(&quot;CalcNu&quot;, save=&quot;nu&quot;, load=FALSE)
-#Creates stage called CalcNu, which does not load anything and only saves nu</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddStage</span>(<span class="st">&quot;BaseIteration&quot;</span>, <span class="st">&quot;Run&quot;</span>, <span class="dt">save=</span>Fields$group ==<span class="st"> &quot;f&quot;</span>, <span class="dt">load=</span>DensityAll$group ==<span class="st"> &quot;f&quot;</span>)
+<span class="co">#Creates stage called BaseIterations, which loads all the Densities from group &quot;f&quot;, runs the function Run() from Dynamics.c and saves all Fields from group &quot;f&quot;</span>
+<span class="kw">AddStage</span>(<span class="st">&quot;CalcRho&quot;</span>, <span class="dt">save=</span><span class="st">&quot;rho&quot;</span>, <span class="dt">load=</span>DensityAll$group ==<span class="st"> &quot;f&quot;</span>)
+<span class="co">#Creates stage called CalcRho, which loads all the Densities from group &quot;f&quot;, and saves rho</span>
+<span class="kw">AddStage</span>(<span class="st">&quot;CalcNu&quot;</span>, <span class="dt">save=</span><span class="st">&quot;nu&quot;</span>, <span class="dt">load=</span><span class="ot">FALSE</span>)
+<span class="co">#Creates stage called CalcNu, which does not load anything and only saves nu</span></code></pre></div>
 <p>Note: groups can be assigned to densities on declaration - <code>group=&quot;f&quot;</code></p>
 <p>To define new <code>Action</code>:</p>
-<pre class="r"><code>AddAction(&quot;Iteration&quot;, c(&quot;BaseIteration&quot;,&quot;CalcRho&quot;,&quot;CalcNu&quot;))
-#Creates action called Iteration, which runs  3 stages (in order): BaseIteration, CalcRho, and CalcNu</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddAction</span>(<span class="st">&quot;Iteration&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;BaseIteration&quot;</span>,<span class="st">&quot;CalcRho&quot;</span>,<span class="st">&quot;CalcNu&quot;</span>))
+<span class="co">#Creates action called Iteration, which runs  3 stages (in order): BaseIteration, CalcRho, and CalcNu</span></code></pre></div>
 <p>Custom <code>Actions</code> and <code>Stages</code> are used when information needs to be exchanged between processes/function in specific, other than pre-defined times. An example can be found in <code>kuper</code> models for multiphase flow.(<code>/models/multiphase/d3q19_kuper</code>).</p>
 </div>
 

@@ -24,24 +24,52 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -363,40 +391,39 @@ div.tocify {
 <div id="case-configuration" class="section level1">
 <h1>Case configuration</h1>
 <p>All case properties(geometry,BCs,model settings, etc.) are specified within XML files. Generally, the structure of the file should look like that:</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig&gt;
-        &lt;Units&gt;
-              &lt;Params/&gt; &lt;!-- Specify relation between LB and real world units here --&gt;
-        &lt;/Units&gt;
-        &lt;Geometry&gt;  &lt;!-- Domain size --&gt; 
-              &lt;!-- Collision type, boundary conditions, creating/importing objects --&gt;
-        &lt;/Geometry&gt;
-        &lt;Model&gt;
-              &lt;Params/&gt; &lt;!-- All parameters like velocity, density, viscosity --&gt;
-        &lt;/Model&gt;
-        &lt;!-- Callbacks, python/r code --&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig&gt;</span>
+        <span class="kw">&lt;Units&gt;</span>
+              <span class="kw">&lt;Params/&gt;</span> <span class="co">&lt;!-- Specify relation between LB and real world units here --&gt;</span>
+        <span class="kw">&lt;/Units&gt;</span>
+        <span class="kw">&lt;Geometry&gt;</span>  <span class="co">&lt;!-- Domain size --&gt;</span> 
+              <span class="co">&lt;!-- Collision type, boundary conditions, creating/importing objects --&gt;</span>
+        <span class="kw">&lt;/Geometry&gt;</span>
+        <span class="kw">&lt;Model&gt;</span>
+              <span class="kw">&lt;Params/&gt;</span> <span class="co">&lt;!-- All parameters like velocity, density, viscosity --&gt;</span>
+        <span class="kw">&lt;/Model&gt;</span>
+        <span class="co">&lt;!-- Callbacks, python/r code --&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>Working example with some sample values is shown below, along with explanation of each lines functionality.</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig version=&quot;2.0&quot; output=&quot;output/test&quot;&gt;
-        &lt;Geometry nx=&quot;1024&quot; ny=&quot;100&quot;&gt;
-                &lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;
-                &lt;WVelocity name=&quot;Inlet&quot;&gt;&lt;Box nx=&quot;1&quot;/&gt;&lt;/WVelocity&gt;
-                &lt;EPressure&gt;&lt;Box dx=&quot;-1&quot;/&gt;&lt;/EPressure&gt;
-                &lt;Wall mask = &quot;ALL&quot;&gt;
-                        &lt;Box ny=&quot;1&quot;/&gt;
-                        &lt;Box dy=&quot;-1&quot;/&gt;
-                &lt;/Wall&gt;
-        &lt;/Geometry&gt;
-        &lt;Model&gt;
-                &lt;Params Velocity-Inlet=&quot;0.01&quot;/&gt;
-                &lt;Params nu=&quot;0.05&quot;/&gt;
-        &lt;/Model&gt;
-        &lt;Solve Iterations=&quot;5000&quot;/&gt;
-        &lt;VTK Iterations=&quot;50&quot; what = &quot;U,P&quot;/&gt;
-        &lt;Solve Iterations=&quot;1000&quot;/&gt;
-&lt;/CLBConfig&gt;
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="ot"> output=</span><span class="st">&quot;output/test&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;1024&quot;</span><span class="ot"> ny=</span><span class="st">&quot;100&quot;</span><span class="kw">&gt;</span>
+                <span class="kw">&lt;MRT&gt;&lt;Box/&gt;&lt;/MRT&gt;</span>
+                <span class="kw">&lt;WVelocity</span><span class="ot"> name=</span><span class="st">&quot;Inlet&quot;</span><span class="kw">&gt;&lt;Box</span><span class="ot"> nx=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;&lt;/WVelocity&gt;</span>
+                <span class="kw">&lt;EPressure&gt;&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;&lt;/EPressure&gt;</span>
+                <span class="kw">&lt;Wall</span><span class="ot"> mask</span> <span class="ot">=</span> <span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> ny=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> dy=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;/Wall&gt;</span>
+        <span class="kw">&lt;/Geometry&gt;</span>
+        <span class="kw">&lt;Model&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Velocity-Inlet=</span><span class="st">&quot;0.01&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> nu=</span><span class="st">&quot;0.05&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/Model&gt;</span>
+        <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;5000&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;50&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <table style="width:86%;">
 <colgroup>
 <col width="19%" />
@@ -481,9 +508,9 @@ div.tocify {
 <div id="geometry-definition" class="section level2">
 <h2>Geometry definition</h2>
 <p>It’s easy to imagine how the geometry elements are defined, by thinking about it as “painting”. Each geometry element must have 2 parameters “what are we painting with” and “where are we painting”:</p>
-<pre class="xml"><code>&lt;Wall mask=&quot;ALL&quot;&gt;
-  &lt;Box dx=&quot;4&quot; nx=&quot;10&quot; ny=&quot;30&quot;/&gt;
-&lt;/Wall&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;Wall</span><span class="ot"> mask=</span><span class="st">&quot;ALL&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;4&quot;</span><span class="ot"> nx=</span><span class="st">&quot;10&quot;</span><span class="ot"> ny=</span><span class="st">&quot;30&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/Wall&gt;</span></code></pre></div>
 <p>In this example “what” is <code>Wall</code> element and “where” is <code>&lt;Box dx=&quot;4&quot; nx=&quot;10&quot; ny=&quot;30&quot;/&gt;</code>. Defining “where” can be done in multiple ways, using <code>nx</code>,<code>dx</code>,<code>fx</code> arguments(similarly for <code>y</code> and <code>z</code>). To understand the geometry definition, you have to know that <code>box</code> element by default spans the whole available space. Then by imposing <code>dx</code>, <code>nx</code> and <code>fx</code> attributes you cut it smaller. <code>dx</code> sets where the box starts, <code>nx</code> sets how <em>long</em> is the box in the x direction, and <code>fx</code> sets where it ends. Additionally, if you set a negative value it means a value <em>from the end</em>. The same applies of course to <code>y</code> and <code>z</code>. For example:</p>
 <table style="width:11%;">
 <colgroup>
@@ -519,10 +546,10 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p><img src="user_config_files/figure-html/unnamed-chunk-2-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;4&quot;/&gt;</code></p>
-<p><img src="user_config_files/figure-html/unnamed-chunk-3-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;-4&quot;/&gt;</code></p>
-<p><img src="user_config_files/figure-html/unnamed-chunk-4-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;4&quot; nx=&quot;10&quot;/&gt;</code></p>
-<p><img src="user_config_files/figure-html/unnamed-chunk-5-1.png" width="96" /> <code class="xml">&lt;Box dx=&quot;4&quot; fx=&quot;10&quot;/&gt;</code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-2-1.png" width="96" /> <code class="sourceCode xml"><span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;4&quot;</span><span class="kw">/&gt;</span></code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-3-1.png" width="96" /> <code class="sourceCode xml"><span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-4&quot;</span><span class="kw">/&gt;</span></code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-4-1.png" width="96" /> <code class="sourceCode xml"><span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;4&quot;</span><span class="ot"> nx=</span><span class="st">&quot;10&quot;</span><span class="kw">/&gt;</span></code></p>
+<p><img src="user_config_files/figure-html/unnamed-chunk-5-1.png" width="96" /> <code class="sourceCode xml"><span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;4&quot;</span><span class="ot"> fx=</span><span class="st">&quot;10&quot;</span><span class="kw">/&gt;</span></code></p>
 <div id="possible-geometry-primitives" class="section level3">
 <h3>Possible geometry primitives</h3>
 <p><code>Box</code> Creates a box with corners defined by <code>nx</code>/<code>dx</code>/<code>fx</code> etc. parameters.</p>

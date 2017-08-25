@@ -24,24 +24,52 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -371,7 +399,7 @@ div.tocify {
 <h1>conf.mk</h1>
 <p>ADJOINT = 1</p>
 <p>This file contains information needed during compilation. It allows compilation of diferent versions of a model(from the same <code>Dynamics.c</code> and <code>Dynamics.R</code>). To do so you need to set <code>OPT</code> variable in <code>conf.mk</code> first. E.g:</p>
-<pre class="bash"><code>OPT=&quot;(A+B)*C&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ot">OPT=</span><span class="st">&quot;(A+B)*C&quot;</span></code></pre></div>
 <p>This will add three optional functionalities: A,B, and C - called Options. The summation means that two options are exclusive (you can have A or B), and multiplication allows for their combination (you can have A, C and both). The mechanism allows to compile a model for all the resulting combinations. The name of the model is created by adding the option after an underscore. In this case:</p>
 <table>
 <thead>
@@ -419,47 +447,47 @@ div.tocify {
 </tbody>
 </table>
 <p>All these models are compiled from the same Dynamics.R and Dynamics.c, but with different options set to TRUE or FALSE in the Options R variable. One can switch on and off parts of the code with:</p>
-<pre class="r"><code>if (Options$A) {
-# code for option A
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (Options$A) {
+<span class="co"># code for option A</span>
 } else {
-# code without option A
-}</code></pre>
+<span class="co"># code without option A</span>
+}</code></pre></div>
 <p>or in pure C/C++, with:</p>
-<pre class="c"><code>#ifdef OPTIONS_A
-// code for option A
-#else
-// code without option A
-#endif</code></pre>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#ifdef OPTIONS_A</span>
+<span class="co">// code for option A</span>
+<span class="ot">#else</span>
+<span class="co">// code without option A</span>
+<span class="ot">#endif</span></code></pre></div>
 </div>
 <div id="dynamics.r" class="section level1">
 <h1>Dynamics.R</h1>
 <p>In this file all</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>AddField</strong> - Variables (for instance flow-variables, displacements, etc) that are stored in all mesh nodes. <code>Dynamics.c</code> can access these fields with an offset (e.g. field_name(-1,0)). If the access pattern is repeating you can define a density that predefines a specific offset. Such densities are gathered, and the resulting memory access is optimized.</p>
-<pre class="r"><code>AddField( name=&quot;Name&quot;, dx=c(-1,0), dy=c(0,0), dz=c(-1,1), comment=&#39;Some comment&#39;)</code></pre></li>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>( <span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">dx=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>), <span class="dt">dy=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">dz=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">comment=</span><span class="st">&#39;Some comment&#39;</span>)</code></pre></div></li>
 <li><p><strong>AddDensity</strong> - Variables loaded from <code>Fields</code> with a predefined offset:</p>
-<pre class="r"><code>AddDensity( name=&quot;Name&quot;, dx=1, dy=0, dz=0, comment=&#39;Some comment&#39;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddDensity</span>( <span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">dx=</span><span class="dv">1</span>, <span class="dt">dy=</span><span class="dv">0</span>, <span class="dt">dz=</span><span class="dv">0</span>, <span class="dt">comment=</span><span class="st">&#39;Some comment&#39;</span>)</code></pre></div>
 <p>It is possible to automate the process and add <code>Density</code> for each possible direction(here for d3q27 model):</p>
-<pre class="r"><code>x = c(0,1,-1);
-P = expand.grid(x=0:2,y=0:2,z=0:2)
-U = expand.grid(x,x,x)
-AddDensity(
-    name = paste(&quot;f&quot;,P$x,P$y,P$z,sep=&quot;&quot;),
-    dx   = U[,1],
-    dy   = U[,2],
-    dz   = U[,3],
-    comment=paste(&quot;density F&quot;,1:27-1),
-    group=&quot;f&quot;
-)</code></pre></li>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,-<span class="dv">1</span>);
+P =<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">x=</span><span class="dv">0</span>:<span class="dv">2</span>,<span class="dt">y=</span><span class="dv">0</span>:<span class="dv">2</span>,<span class="dt">z=</span><span class="dv">0</span>:<span class="dv">2</span>)
+U =<span class="st"> </span><span class="kw">expand.grid</span>(x,x,x)
+<span class="kw">AddDensity</span>(
+    <span class="dt">name =</span> <span class="kw">paste</span>(<span class="st">&quot;f&quot;</span>,P$x,P$y,P$z,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),
+    <span class="dt">dx   =</span> U[,<span class="dv">1</span>],
+    <span class="dt">dy   =</span> U[,<span class="dv">2</span>],
+    <span class="dt">dz   =</span> U[,<span class="dv">3</span>],
+    <span class="dt">comment=</span><span class="kw">paste</span>(<span class="st">&quot;density F&quot;</span>,<span class="dv">1</span>:<span class="dv">27-1</span>),
+    <span class="dt">group=</span><span class="st">&quot;f&quot;</span>
+)</code></pre></div></li>
 <li><p><strong>AddGlobal</strong> - Integrates variables and exports calculated value, useful for calculating forces/fluxes etc.</p>
-<pre class="r"><code>AddGlobal(name=&quot;Name&quot;, comment=&#39;Some comment&#39;, unit=&quot;unit&quot;)
-AddGlobal(name=&quot;Flux&quot;, comment=&#39;Volume flux&#39;, unit=&quot;m3/s&quot;)</code></pre></li>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddGlobal</span>(<span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">comment=</span><span class="st">&#39;Some comment&#39;</span>, <span class="dt">unit=</span><span class="st">&quot;unit&quot;</span>)
+<span class="kw">AddGlobal</span>(<span class="dt">name=</span><span class="st">&quot;Flux&quot;</span>, <span class="dt">comment=</span><span class="st">&#39;Volume flux&#39;</span>, <span class="dt">unit=</span><span class="st">&quot;m3/s&quot;</span>)</code></pre></div></li>
 <li><p><strong>AddSetting</strong> - Variables that can be set in the <code>.xml</code> and accessed by <code>Dynamics.c</code> in all nodes. Settings can be <code>zonal</code>, which means that they can be set to different values in different mesh zones, defined in <code>.xml</code> files. It is also possible to define a default value for a setting, this way even if it is not specified in <code>.xml</code> file code will run without trouble.</p>
-<pre class="r"><code>AddSetting(name=&quot;Name&quot;, default = &quot;value&quot;, comment=&quot;some comment&quot;, zonal=TRUE/FALSE )
-AddSetting(name=&quot;Velocity&quot;, default=&quot;0m/s&quot;, comment=&#39;Inlet velocity&#39;, zonal=TRUE)</code></pre></li>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddSetting</span>(<span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">default =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">comment=</span><span class="st">&quot;some comment&quot;</span>, <span class="dt">zonal=</span><span class="ot">TRUE</span>/<span class="ot">FALSE</span> )
+<span class="kw">AddSetting</span>(<span class="dt">name=</span><span class="st">&quot;Velocity&quot;</span>, <span class="dt">default=</span><span class="st">&quot;0m/s&quot;</span>, <span class="dt">comment=</span><span class="st">&#39;Inlet velocity&#39;</span>, <span class="dt">zonal=</span><span class="ot">TRUE</span>)</code></pre></div></li>
 <li><p><strong>AddQuantity</strong> - Values that can be exported to VTK files (and Catalyst). In most cases they are macroscopic human-readable quantites like velocity, pressure, displacement etc.</p>
-<pre class="r"><code>AddQuantity(name=&quot;Name&quot;, unit=&quot;unit&quot;, comment=&quot;Some comment&quot;, vector = T/F)
-AddQuantity(name=&quot;U&quot;, unit=&quot;m/s&quot;, comment=&quot;macroscopic velocity&quot;, vector = T)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddQuantity</span>(<span class="dt">name=</span><span class="st">&quot;Name&quot;</span>, <span class="dt">unit=</span><span class="st">&quot;unit&quot;</span>, <span class="dt">comment=</span><span class="st">&quot;Some comment&quot;</span>, <span class="dt">vector =</span> T/F)
+<span class="kw">AddQuantity</span>(<span class="dt">name=</span><span class="st">&quot;U&quot;</span>, <span class="dt">unit=</span><span class="st">&quot;m/s&quot;</span>, <span class="dt">comment=</span><span class="st">&quot;macroscopic velocity&quot;</span>, <span class="dt">vector =</span> T)</code></pre></div>
 <p><code>vector</code> should be set to <code>T</code> for properties like velocity, momentum etc. In order to extract those values the <code>GetName()</code> function must be defined in <code>Dynamics.c</code>.</p></li>
 <li><strong>AddNodeType</strong>
 <ul>
@@ -481,70 +509,70 @@ AddQuantity(name=&quot;U&quot;, unit=&quot;m/s&quot;, comment=&quot;macroscopic 
 <div id="init" class="section level3">
 <h3>Init()</h3>
 <p>Function called to initialise velocity in each node</p>
-<pre class="c"><code>CudaDeviceFunction void Init() {
-// Initialise the velocity at each node 
-        real_t u[2] = {Velocity, 0.};
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Init() {
+<span class="co">// Initialise the velocity at each node </span>
+        real_t u[<span class="dv">2</span>] = {Velocity, <span class="dv">0</span>.};
         real_t d    = Density;
         SetEquilibrium(d,u);
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="run" class="section level3">
 <h3>Run()</h3>
 <p>This function is called each iteration to perform calculations. It should contain instruction for each <code>NodeType</code> used in case. Its general structure looks like this:</p>
-<pre class="c"><code>CudaDeviceFunction void Run(){
-    switch (NodeType &amp; NODE_GROUP){ //Because of the NodeType structure checking must be done this way
-                                    // If any SYMMETRY nodes are present, they need to be &#39;done&#39; first
-        case NODE_A:
-            A();                    //Function with logic for this NodeType
-            break;
-        case NODE_B:
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Run(){
+    <span class="kw">switch</span> (NodeType &amp; NODE_GROUP){ <span class="co">//Because of the NodeType structure checking must be done this way</span>
+                                    <span class="co">// If any SYMMETRY nodes are present, they need to be &#39;done&#39; first</span>
+        <span class="kw">case</span> NODE_A:
+            A();                    <span class="co">//Function with logic for this NodeType</span>
+            <span class="kw">break</span>;
+        <span class="kw">case</span> NODE_B:
             B();
-            break;
+            <span class="kw">break</span>;
     }
-    switch (NodeType &amp; NODE_GROUP){ //Boundary conditions(BOUNDARY group) must be calculated before collision/streaming
+    <span class="kw">switch</span> (NodeType &amp; NODE_GROUP){ <span class="co">//Boundary conditions(BOUNDARY group) must be calculated before collision/streaming</span>
         .
         .
         .
     }
-    switch (NodeType &amp; NODE_GROUP){ //Collision/streaming must be done as last step
+    <span class="kw">switch</span> (NodeType &amp; NODE_GROUP){ <span class="co">//Collision/streaming must be done as last step</span>
         .
         .
         .
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="color" class="section level3">
 <h3>Color()</h3>
 <p>This function is used to obtain preview during calculations, when not in use it can be only declared without any actual code inside.</p>
-<pre class="c"><code>CudaDeviceFunction float2 Color() {
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction float2 Color() {
         float2 ret;
         vector_t u = getU();
         ret.x = sqrt(u.x*u.x + u.y*u.y);    
-        if (NodeType == NODE_Solid){
-                ret.y = 0;
-        } else {
-                ret.y = 1;
+        <span class="kw">if</span> (NodeType == NODE_Solid){
+                ret.y = <span class="dv">0</span>;
+        } <span class="kw">else</span> {
+                ret.y = <span class="dv">1</span>;
         }
-        return ret;
-}</code></pre>
+        <span class="kw">return</span> ret;
+}</code></pre></div>
 </div>
 <div id="get" class="section level3">
 <h3>Get()</h3>
 <p>In order to extract <code>Quantities</code> defined in <code>Dynamics.R</code> we must create function that will compute desired value. Depending on values of <code>vector</code> argument, the <code>Get()</code> function will be either <code>real_t</code> or <code>vector_t</code> type. Below are given examples for the <code>Quantities</code> used most often:</p>
-<pre class="c"><code>CudaDeviceFunction real_t getRho() {
-// This function defines the macroscopic density at the current node.
-        return f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0];
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction real_t getRho() {
+<span class="co">// This function defines the macroscopic density at the current node.</span>
+        <span class="kw">return</span> f[<span class="dv">8</span>]+f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]+f[<span class="dv">4</span>]+f[<span class="dv">3</span>]+f[<span class="dv">2</span>]+f[<span class="dv">1</span>]+f[<span class="dv">0</span>];
 }
 
 CudaDeviceFunction vector_t getU() {
-// This function defines the macroscopic velocity at the current node.
-        real_t d = f[8]+f[7]+f[6]+f[5]+f[4]+f[3]+f[2]+f[1]+f[0];
+<span class="co">// This function defines the macroscopic velocity at the current node.</span>
+        real_t d = f[<span class="dv">8</span>]+f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]+f[<span class="dv">4</span>]+f[<span class="dv">3</span>]+f[<span class="dv">2</span>]+f[<span class="dv">1</span>]+f[<span class="dv">0</span>];
         vector_t u;
-        // pv = pu + G/2
-        u.x = (( f[8]-f[7]-f[6]+f[5]-f[3]+f[1] )/d + GravitationX*0.5 );
-        u.y = ((-f[8]-f[7]+f[6]+f[5]-f[4]+f[2] )/d + GravitationY*0.5 );
-        u.z = 0;
-        return u;
-}</code></pre>
+        <span class="co">// pv = pu + G/2</span>
+        u.x = (( f[<span class="dv">8</span>]-f[<span class="dv">7</span>]-f[<span class="dv">6</span>]+f[<span class="dv">5</span>]-f[<span class="dv">3</span>]+f[<span class="dv">1</span>] )/d + GravitationX*<span class="fl">0.5</span> );
+        u.y = ((-f[<span class="dv">8</span>]-f[<span class="dv">7</span>]+f[<span class="dv">6</span>]+f[<span class="dv">5</span>]-f[<span class="dv">4</span>]+f[<span class="dv">2</span>] )/d + GravitationY*<span class="fl">0.5</span> );
+        u.z = <span class="dv">0</span>;
+        <span class="kw">return</span> u;
+}</code></pre></div>
 </div>
 </div>
 

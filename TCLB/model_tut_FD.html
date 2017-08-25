@@ -24,24 +24,52 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -379,26 +407,26 @@ div.tocify {
 <div id="creating-a-model" class="section level2">
 <h2>Creating a model</h2>
 <p>Every model in TCLB is defined by a subdirectory of <code>models</code>. Let us now create a new one:</p>
-<pre class="bash"><code>mkdir models/tutorial/wave
-touch models/tutorial/wave/conf.mk</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">mkdir</span> models/tutorial/wave
+<span class="kw">touch</span> models/tutorial/wave/conf.mk</code></pre></div>
 <p>The <code>conf.mk</code> file stores some additional settings for a model, but it also tells TCLB that this directory is in fact a model.</p>
 <p>Now we have to add two main files defining everything: <code>Dynamics.R</code> - defining all the setup of the model, and <code>Dynamics.c</code> - defining what will be happening in a node.</p>
-<pre class="bash"><code>touch models/tutorial/wave/Dynamics.R
-touch models/tutorial/wave/Dynamics.c</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">touch</span> models/tutorial/wave/Dynamics.R
+<span class="kw">touch</span> models/tutorial/wave/Dynamics.c</code></pre></div>
 <p>We want to have two Fields: <code>u</code> and <code>v</code>. We define them in <code>Dynamics.R</code>:</p>
-<pre class="r"><code>AddField(name=&quot;u&quot;)
-AddField(name=&quot;v&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>)
+<span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;v&quot;</span>)</code></pre></div>
 <p>Then we need the main dynamics of a node. First let us write down the functions that will be used in the model(in Dynamics.c):</p>
-<pre class="c"><code>CudaDeviceFunction float2 Color() {
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction float2 Color() {
   float2 ret;
-  ret.x = 0;
-  ret.y = 1;
-  return ret;
+  ret.x = <span class="dv">0</span>;
+  ret.y = <span class="dv">1</span>;
+  <span class="kw">return</span> ret;
 }
 
-CudaDeviceFunction void Init() { }
+CudaDeviceFunction <span class="dt">void</span> Init() { }
 
-CudaDeviceFunction void Run() { }</code></pre>
+CudaDeviceFunction <span class="dt">void</span> Run() { }</code></pre></div>
 <p>The <code>CudaDeviceFunction</code> prefix is needed for all functions in <code>Dynamics.c</code> for technical reasons. We needed to fill only the <code>Color</code> function, as it is the only one which returns a value. For now, the model doesn’t do much. Before continuing, let us first understand what these function do:</p>
 <table style="width:99%;">
 <colgroup>
@@ -430,77 +458,77 @@ CudaDeviceFunction void Run() { }</code></pre>
 <div id="first-dynamics" class="section level2">
 <h2>First dynamics</h2>
 <p>First, we want to initialize our fields(<code>Dynamics.c</code>):</p>
-<pre class="c"><code>CudaDeviceFunction void Init() {
-  u = 0;
-  v = 0;
-}</code></pre>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Init() {
+  u = <span class="dv">0</span>;
+  v = <span class="dv">0</span>;
+}</code></pre></div>
 <p>Then let us start with a model that just preserves both fields without changing them. In TCLB we access fields with a notation <code>u(dx,dy)</code>, where <code>dx</code> and <code>dy</code> is the position from which to take the field, relative to the current node(<code>Dynamics.c</code>):</p>
-<pre class="c"><code>CudaDeviceFunction void Run() {
-  u = u(0,0);
-  v = v(0,0);
-}</code></pre>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Run() {
+  u = u(<span class="dv">0</span>,<span class="dv">0</span>);
+  v = v(<span class="dv">0</span>,<span class="dv">0</span>);
+}</code></pre></div>
 </div>
 <div id="adding-quantities" class="section level2">
 <h2>Adding Quantities</h2>
 <p>Finally we want to access the resulting data. In TCLB, the data that will be exported to VTK, TXT or other format, are called [[Quantities]]. Let us add a quantity <code>U</code> to <code>Dynamics.R</code>:</p>
-<pre class="r"><code>AddQuantity(name=&quot;U&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddQuantity</span>(<span class="dt">name=</span><span class="st">&quot;U&quot;</span>)</code></pre></div>
 <p>Now we have to add the calculation(<code>Dynamics.c</code>):</p>
-<pre class="c"><code>CudaDeviceFunction real_t getU() {
-  return u(0,0);
-}</code></pre>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction real_t getU() {
+  <span class="kw">return</span> u(<span class="dv">0</span>,<span class="dv">0</span>);
+}</code></pre></div>
 </div>
 <div id="running-a-case" class="section level2">
 <h2>Running a case</h2>
 <p>Now we need to create a case file (let’s call it <code>example.xml</code>):</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig output=&quot;output/&quot;&gt;
-        &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot;&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;10&quot;/&gt;
-    &lt;Solve Iterations=&quot;1000&quot;/&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> output=</span><span class="st">&quot;output/&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;128&quot;</span><span class="ot"> ny=</span><span class="st">&quot;128&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;10&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>This case will create a mesh of 128x128 nodes, initialize it and run 1000 iterations. It will also save VTK output every 10 iterations.</p>
 <p>In order to run it:</p>
-<pre class="bash"><code>make configure
-./configure --enable-graphics
-make wave
-CLB/wave/main example.xml</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">make</span> configure
+<span class="kw">./configure</span> --enable-graphics
+<span class="kw">make</span> wave
+<span class="kw">CLB/wave/main</span> example.xml</code></pre></div>
 <p>The results are not so impressive now, because basically, not only nothing is happening in a node, but also it is initialized with 0.</p>
 </div>
 <div id="settings" class="section level2">
 <h2>Settings</h2>
 <p>Let us introduce two <a href="Settings">settings</a> to our model(<code>Dynamics.R</code>):</p>
-<pre class="r"><code>AddSetting(name=&quot;Speed&quot;)
-AddSetting(name=&quot;Value&quot;, zonal=TRUE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddSetting</span>(<span class="dt">name=</span><span class="st">&quot;Speed&quot;</span>)
+<span class="kw">AddSetting</span>(<span class="dt">name=</span><span class="st">&quot;Value&quot;</span>, <span class="dt">zonal=</span><span class="ot">TRUE</span>)</code></pre></div>
 <p>Where <code>Speed</code> will be our parameter <code>k</code> in the wave equation, and <code>Value</code> will be the initial value of <code>u</code>. [<a href="#settings">Settings</a>] which we want to be changing in the domain, are called “zonal”. Settings are provided to us as variables in <code>Dynamics.c</code>. Additionally, we need to modify <code>Color</code> function to observe the change in values in preview window:</p>
-<pre class="c"><code>CudaDeviceFunction float2 Color() {
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction float2 Color() {
   float2 ret;
   ret.x = getU();
-  ret.y = 1;
-  return ret;
+  ret.y = <span class="dv">1</span>;
+  <span class="kw">return</span> ret;
 }
 
-CudaDeviceFunction void Init() {
+CudaDeviceFunction <span class="dt">void</span> Init() {
   u = Value;
-  v = 0;
-}</code></pre>
+  v = <span class="dv">0</span>;
+}</code></pre></div>
 <p>Now we can name a region in our domain, and initialize it with a different value:</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig output=&quot;output/&quot;&gt;
-        &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot;&gt;
-                &lt;None name=&quot;box&quot;&gt;
-                        &lt;Box dx=&quot;60&quot; nx=&quot;20&quot; dy=&quot;20&quot; ny=&quot;30&quot;/&gt;
-                &lt;/None&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-                &lt;Params Value=&quot;0&quot;/&gt;
-                &lt;Params Value-box=&quot;1&quot;/&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;10&quot;/&gt;
-    &lt;Solve Iterations=&quot;1000&quot;/&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> output=</span><span class="st">&quot;output/&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;128&quot;</span><span class="ot"> ny=</span><span class="st">&quot;128&quot;</span><span class="kw">&gt;</span>
+                <span class="kw">&lt;None</span><span class="ot"> name=</span><span class="st">&quot;box&quot;</span><span class="kw">&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;60&quot;</span><span class="ot"> nx=</span><span class="st">&quot;20&quot;</span><span class="ot"> dy=</span><span class="st">&quot;20&quot;</span><span class="ot"> ny=</span><span class="st">&quot;30&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;/None&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Value=</span><span class="st">&quot;0&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Value-box=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;10&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>This will mark a box 20x30 starting from the point (60,20) as a zone called ‘box’. Then in the <code>&lt;Model&gt;</code> we first set <code>Value</code> in all zones to <code>0</code>, then set it to <code>1</code> in ‘box’.</p>
 <p>Notice: Don’t forget to compile(<code>make wave</code>) the model again before running it after making any changes to <code>Dynamics.c</code> or <code>Dynamics.R</code>.</p>
 <p>You will see that the results now are much more interesting. Ok. I’m joking, they are sill constant - but at least not 0.</p>
@@ -508,90 +536,90 @@ CudaDeviceFunction void Init() {
 <div id="introducing-fd" class="section level2">
 <h2>Introducing FD</h2>
 <p>Now we want to introduce the discretisation of our wave equation in to the mix:</p>
-<pre class="c"><code>CudaDeviceFunction void Run() {
-  real_t lap_u = u(-1,0) + u(1,0) + u(0,-1) + u(0,1) - 4*u(0,0);
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Run() {
+  real_t lap_u = u(-<span class="dv">1</span>,<span class="dv">0</span>) + u(<span class="dv">1</span>,<span class="dv">0</span>) + u(<span class="dv">0</span>,-<span class="dv">1</span>) + u(<span class="dv">0</span>,<span class="dv">1</span>) - <span class="dv">4</span>*u(<span class="dv">0</span>,<span class="dv">0</span>);
   real_t a = Speed * Speed * lap_u;
-  v = v(0,0) + a;
-  u = u(0,0) + v;
-}</code></pre>
+  v = v(<span class="dv">0</span>,<span class="dv">0</span>) + a;
+  u = u(<span class="dv">0</span>,<span class="dv">0</span>) + v;
+}</code></pre></div>
 <p>You can see that we assumed <code>dx</code> and <code>dt</code> equal to 1 (it will be more clear why, later on).</p>
 <p>And now … <strong>it won’t compile</strong>. Why? The error is a bit obscure, like with many C++ Templates errors, but the reason is simple. We didn’t tell the code that we want to access <code>u</code> in our neighbors. This is crucial, because the code have to know exactly were things are accessed, to prepare the right communication buffers. You can imagine that the neighboring node is on a different GPU on a different computer. Then we need this computer to know that it will have to send this data to us. On the other hand we want to send as small packets of information as possible, that is why the code have to be <em>conservative</em> wrt. to the possible access patterns. We define this information in <code>Dynamics.R</code>:</p>
-<pre class="r"><code>AddField(name=&quot;u&quot;, dx=c(-1,1), dy=c(-1,1))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">dx=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">dy=</span><span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
 <p>If you don’t know <a href="https://www.r-project.org/">R</a> then you need to know that <code>c(...)</code> means a vector/table of numbers. The above line means that the field <code>u</code> can be accessed for <code>dx</code> from -1 to 1 and <code>dy</code> from -1 to 1. Making it simple: we can access it from all of our 8 neighbors and ourselves. The other way (a shortcut) to express it would be:</p>
-<pre class="r"><code>AddField(name=&quot;u&quot;, stencil2d=1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddField</span>(<span class="dt">name=</span><span class="st">&quot;u&quot;</span>, <span class="dt">stencil2d=</span><span class="dv">1</span>)</code></pre></div>
 <p>Which means the same thing (<code>stencil3d</code> would mean also -1 to 1 in <code>z</code> direction)</p>
 <p>Now, the code compiles. We can add another parameter</p>
-<pre class="xml"><code>&lt;Params Speed=&quot;0.05&quot; /&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;Params</span><span class="ot"> Speed=</span><span class="st">&quot;0.05&quot;</span> <span class="kw">/&gt;</span></code></pre></div>
 <p>to our case file, run and see how the wave propagates.</p>
 </div>
 <div id="make-it-nicer" class="section level2">
 <h2>Make it nicer:</h2>
 <p>We see that the result isn’t very beautiful. It is partly because of our discretization, partly because the <a href="https://en.wikipedia.org/wiki/Sinc_function">Fourier transform of a rectangle</a> isn’t very nice. Let us introduce viscosity/drag to the system:</p>
-<pre class="c"><code>CudaDeviceFunction void Run() {
-  real_t lap_u = u(-1,0) + u(1,0) + u(0,-1) + u(0,1) - 4*u(0,0);
-  real_t lap_v = v(-1,0) + v(1,0) + v(0,-1) + v(0,1) - 4*v(0,0);
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Run() {
+  real_t lap_u = u(-<span class="dv">1</span>,<span class="dv">0</span>) + u(<span class="dv">1</span>,<span class="dv">0</span>) + u(<span class="dv">0</span>,-<span class="dv">1</span>) + u(<span class="dv">0</span>,<span class="dv">1</span>) - <span class="dv">4</span>*u(<span class="dv">0</span>,<span class="dv">0</span>);
+  real_t lap_v = v(-<span class="dv">1</span>,<span class="dv">0</span>) + v(<span class="dv">1</span>,<span class="dv">0</span>) + v(<span class="dv">0</span>,-<span class="dv">1</span>) + v(<span class="dv">0</span>,<span class="dv">1</span>) - <span class="dv">4</span>*v(<span class="dv">0</span>,<span class="dv">0</span>);
   real_t a = Speed * Speed * lap_u + Viscosity * lap_v;
-  v = v(0,0) + a;
-  u = u(0,0) + v;
-}</code></pre>
+  v = v(<span class="dv">0</span>,<span class="dv">0</span>) + a;
+  u = u(<span class="dv">0</span>,<span class="dv">0</span>) + v;
+}</code></pre></div>
 <p><strong>Remember:</strong> you have to modify the <code>v</code> field access pattern, and add a <code>Viscosity</code> setting in <code>Dynamics.R</code>.</p>
 <p>Now you can play a bit with the settings to see some nice waves propagating. It can be seen now more clearly that <strong>the domain in TCLB is always periodic</strong>. That is simply because it is the most general case. If you want to make your domain non-periodic - you must add boundary conditions - otherwise, whatever leaves on one side - comes back on the other.</p>
 </div>
 <div id="node-types" class="section level2">
 <h2>Node types</h2>
 <p>Now we can add <a href="TODO:polinkować">node types</a> that will change the behavior of some, selected nodes. For instance, let us have a Dirichlet boundary condition. We want the nodes that are on the boundary to set <code>u</code> and <code>v</code> to a fixed value. Let’s call such nodes <code>Dirichlet</code>. We define a new node type (yes, you guessed: in <code>Dynamics.R</code>):</p>
-<pre class="r"><code>AddNodeType(name=&quot;Dirichlet&quot;, group=&quot;BOUNDARY&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AddNodeType</span>(<span class="dt">name=</span><span class="st">&quot;Dirichlet&quot;</span>, <span class="dt">group=</span><span class="st">&quot;BOUNDARY&quot;</span>)</code></pre></div>
 <p>You can notice that node types have ‘groups’ (note: these groups, customary are with all caps). Each node can only be of one type … from each group. You can imagine it like this: in each node we want to be able to set <em>separately</em> a boundary condition, choose a discretization model and add a heat source. But you cannot set <em>two</em> boundary conditions in the same node, from the same group.</p>
 <p>Now, when we have this node type, we can use it to change the dynamics:</p>
-<pre class="c"><code>CudaDeviceFunction void Run() {
-  real_t lap_u = u(-1,0) + u(1,0) + u(0,-1) + u(0,1) - 4*u(0,0);
-  real_t lap_v = v(-1,0) + v(1,0) + v(0,-1) + v(0,1) - 4*v(0,0);
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">CudaDeviceFunction <span class="dt">void</span> Run() {
+  real_t lap_u = u(-<span class="dv">1</span>,<span class="dv">0</span>) + u(<span class="dv">1</span>,<span class="dv">0</span>) + u(<span class="dv">0</span>,-<span class="dv">1</span>) + u(<span class="dv">0</span>,<span class="dv">1</span>) - <span class="dv">4</span>*u(<span class="dv">0</span>,<span class="dv">0</span>);
+  real_t lap_v = v(-<span class="dv">1</span>,<span class="dv">0</span>) + v(<span class="dv">1</span>,<span class="dv">0</span>) + v(<span class="dv">0</span>,-<span class="dv">1</span>) + v(<span class="dv">0</span>,<span class="dv">1</span>) - <span class="dv">4</span>*v(<span class="dv">0</span>,<span class="dv">0</span>);
   real_t a = Speed * Speed * lap_u + Viscosity * lap_v;
-  v = v(0,0) + a;
-  u = u(0,0) + v;
-  if ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
+  v = v(<span class="dv">0</span>,<span class="dv">0</span>) + a;
+  u = u(<span class="dv">0</span>,<span class="dv">0</span>) + v;
+  <span class="kw">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
     u = Value;
-    v = 0;
+    v = <span class="dv">0</span>;
   }
-}</code></pre>
+}</code></pre></div>
 <p>You can notice that we re-used the same zonal setting <code>Value</code> in this boundary condition. You can also notice, that the main calculation is still executed in the Dirichlet nodes. You can test it and see which version runs faster. Such additional computation can sometimes have a favorable impact on the performance on GPU, because of thing called <a href="http://stackoverflow.com/questions/17223640/is-branch-divergence-really-so-bad">branching</a>.</p>
 <p>Now, we can set some Dirichlet elements in the case file:</p>
-<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;CLBConfig output=&quot;output/&quot;&gt;
-        &lt;Geometry nx=&quot;128&quot; ny=&quot;128&quot;&gt;
-                &lt;Dirichlet name=&quot;border&quot;&gt;
-                        &lt;Box nx=&quot;1&quot;/&gt;
-                        &lt;Box dx=&quot;-1&quot;/&gt;
-                        &lt;Box ny=&quot;1&quot;/&gt;
-                        &lt;Box dy=&quot;-1&quot;/&gt;
-                &lt;/Dirichlet&gt;
-                &lt;None name=&quot;box&quot;&gt;
-                        &lt;Box dx=&quot;60&quot; nx=&quot;20&quot; dy=&quot;20&quot; ny=&quot;30&quot;/&gt;
-                &lt;/None&gt;
-    &lt;/Geometry&gt;
-    &lt;Model&gt;
-                &lt;Params Value=&quot;0&quot;/&gt;
-                &lt;Params Value-box=&quot;1&quot;/&gt;
-                &lt;Params Value-border=&quot;0&quot;/&gt;
-                &lt;Params Speed=&quot;0.05&quot;/&gt;
-                &lt;Params Viscosity=&quot;0.001&quot;/&gt;
-    &lt;/Model&gt;
-    &lt;VTK Iterations=&quot;10&quot;/&gt;
-    &lt;Solve Iterations=&quot;10000&quot;/&gt;
-&lt;/CLBConfig&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;CLBConfig</span><span class="ot"> output=</span><span class="st">&quot;output/&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;Geometry</span><span class="ot"> nx=</span><span class="st">&quot;128&quot;</span><span class="ot"> ny=</span><span class="st">&quot;128&quot;</span><span class="kw">&gt;</span>
+                <span class="kw">&lt;Dirichlet</span><span class="ot"> name=</span><span class="st">&quot;border&quot;</span><span class="kw">&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> nx=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> ny=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> dy=</span><span class="st">&quot;-1&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;/Dirichlet&gt;</span>
+                <span class="kw">&lt;None</span><span class="ot"> name=</span><span class="st">&quot;box&quot;</span><span class="kw">&gt;</span>
+                        <span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;60&quot;</span><span class="ot"> nx=</span><span class="st">&quot;20&quot;</span><span class="ot"> dy=</span><span class="st">&quot;20&quot;</span><span class="ot"> ny=</span><span class="st">&quot;30&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;/None&gt;</span>
+    <span class="kw">&lt;/Geometry&gt;</span>
+    <span class="kw">&lt;Model&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Value=</span><span class="st">&quot;0&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Value-box=</span><span class="st">&quot;1&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Value-border=</span><span class="st">&quot;0&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Speed=</span><span class="st">&quot;0.05&quot;</span><span class="kw">/&gt;</span>
+                <span class="kw">&lt;Params</span><span class="ot"> Viscosity=</span><span class="st">&quot;0.001&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/Model&gt;</span>
+    <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;10&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;10000&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
 <p>We can notice the difference immediately. The waves are bouncing from the walls now.</p>
 <p>In this case, we had a simple situation, as we have only one group of node types (and only one type), but normally we would have to distinguish between them. It would be done with:</p>
-<pre class="c"><code>if ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">if</span> ((NodeType &amp; NODE_BOUNDARY) == NODE_Dirichlet) {
  ...
-}</code></pre>
+}</code></pre></div>
 <p>or</p>
-<pre class="c"><code>switch (NodeType &amp; NODE_BOUNDARY) {
-case NODE_Dirichlet:
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">switch</span> (NodeType &amp; NODE_BOUNDARY) {
+<span class="kw">case</span> NODE_Dirichlet:
  ...
- break;
-case ...:
+ <span class="kw">break</span>;
+<span class="kw">case</span> ...:
  ...
-}</code></pre>
+}</code></pre></div>
 </div>
 </div>
 
