@@ -424,10 +424,10 @@ div.tocify {
         <span class="kw">&lt;VTK</span><span class="ot"> Iterations=</span><span class="st">&quot;50&quot;</span><span class="ot"> what</span> <span class="ot">=</span> <span class="st">&quot;U,P&quot;</span><span class="kw">/&gt;</span>
         <span class="kw">&lt;Solve</span><span class="ot"> Iterations=</span><span class="st">&quot;1000&quot;</span><span class="kw">/&gt;</span>
 <span class="kw">&lt;/CLBConfig&gt;</span></code></pre></div>
-<table style="width:86%;">
+<table style="width:174%;">
 <colgroup>
-<col width="19%" />
-<col width="66%" />
+<col width="59%" />
+<col width="113%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -512,10 +512,10 @@ div.tocify {
   <span class="kw">&lt;Box</span><span class="ot"> dx=</span><span class="st">&quot;4&quot;</span><span class="ot"> nx=</span><span class="st">&quot;10&quot;</span><span class="ot"> ny=</span><span class="st">&quot;30&quot;</span><span class="kw">/&gt;</span>
 <span class="kw">&lt;/Wall&gt;</span></code></pre></div>
 <p>In this example “what” is <code>Wall</code> element and “where” is <code>&lt;Box dx=&quot;4&quot; nx=&quot;10&quot; ny=&quot;30&quot;/&gt;</code>. Defining “where” can be done in multiple ways, using <code>nx</code>,<code>dx</code>,<code>fx</code> arguments(similarly for <code>y</code> and <code>z</code>). To understand the geometry definition, you have to know that <code>box</code> element by default spans the whole available space. Then by imposing <code>dx</code>, <code>nx</code> and <code>fx</code> attributes you cut it smaller. <code>dx</code> sets where the box starts, <code>nx</code> sets how <em>long</em> is the box in the x direction, and <code>fx</code> sets where it ends. Additionally, if you set a negative value it means a value <em>from the end</em>. The same applies of course to <code>y</code> and <code>z</code>. For example:</p>
-<table style="width:11%;">
+<table style="width:71%;">
 <colgroup>
-<col width="5%" />
-<col width="5%" />
+<col width="11%" />
+<col width="59%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -553,11 +553,8 @@ div.tocify {
 <div id="possible-geometry-primitives" class="section level3">
 <h3>Possible geometry primitives</h3>
 <p><code>Box</code> Creates a box with corners defined by <code>nx</code>/<code>dx</code>/<code>fx</code> etc. parameters.</p>
-<p><code>Wedge</code> Creates a wedge within a <code>box</code>, additionally <code>direction</code> must be specified (“LowerRight”,“LowerLeft”,“UpperRight”,“UpperLeft”) e.g: <code>&lt;Wedge dx=&quot;4&quot; fx=&quot;10&quot; dy=&quot;1&quot; ny=&quot;10&quot; direction=&quot;LowerRight&quot;/&gt;</code></p>
+<p><code>Wedge</code> Creates a wedge within a <code>box</code>, additionally <code>direction</code> must be specified (“LowerRight”, “LowerLeft”, “UpperRight”, “UpperLeft”) e.g: <code>&lt;Wedge dx=&quot;4&quot; fx=&quot;10&quot; dy=&quot;1&quot; ny=&quot;10&quot; direction=&quot;LowerRight&quot;/&gt;</code></p>
 <p><code>Sphere</code> Creates a sphere within a <code>box</code>, can have different dimensions in x/y/z.</p>
-</div>
-<div id="section" class="section level3">
-<h3></h3>
 </div>
 </div>
 <div id="node-types" class="section level2">
