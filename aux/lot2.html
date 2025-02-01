@@ -1,0 +1,322 @@
+<html>
+  <head>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script>      
+	
+ 	var dt = 0.1;
+	var visc = 0.001;
+	var mw = 1;
+	var targetx = 0.5;
+	var targety = 0.5;
+	var targetomw = 0.1;
+	var grav = 0.1;
+	var targeta = 3;
+	var targetangle = 0;
+	var targetanglew = 0;
+	var R = 1;
+ 	var targeta = 1;
+	var maxac = grav*1;
+	var N = 150;
+	var optiter = 200;
+	var step = 0.005/N;
+
+	var X = new Array(N);
+	var F = new Array(N);
+	var Xb = new Array(N);
+	var Fb = new Array(N);
+	for (i = 0; i < N; i++)	{
+		X[i] = new Array(6);
+		X[i][0] = 3.0;
+		X[i][1] = 1.0;
+		X[i][2] = Math.PI/2;
+		X[i][3] = 0.0;
+		X[i][4] = 0.0;
+		X[i][5] = 0.0;
+		F[i] = new Array(2);
+		F[i][0] = 0.04;
+		F[i][1] = 0.06;
+		Xb[i] = new Array(6);
+		Fb[i] = new Array(2);
+	}
+	var nx = new Array(6);
+	var dJ = new Array(1);
+	dJ[0] = 0.0;
+	var dJb = new Array(1);
+	dJb[0] = 1.0;
+
+
+ function Iter(x0, par, x1, J) {
+	ax = Math.cos(x0[2]);
+	ay = Math.sin(x0[2]);
+	fx = 0;
+	fy = 0;
+	mo = 0;
+	r = Math.sqrt(x0[0]*x0[0] + x0[1]*x0[1]);
+	fy += -grav;
+	fx += ax*(par[0] + par[1]);
+	fy += ay*(par[0] + par[1]);
+	mo += mw*(par[0] - par[1]);
+	fx += -visc*x0[3];
+	fy += -visc*x0[4];
+	mo += -visc*x0[5];
+	x1[3] = x0[3] + dt*fx;
+	x1[4] = x0[4] + dt*fy;
+	x1[5] = x0[5] + dt*mo;
+	x1[0] = x0[0] + dt*x1[3];
+	x1[1] = x0[1] + dt*x1[4];
+	x1[2] = x0[2] + dt*x1[5];
+	v = (x1[0]-targetx)*(x1[0]-targetx) + (x1[1]-targety)*(x1[1]-targety) + targetomw*(x1[2]-targetangle)*(x1[2]-targetangle);
+	J[0] = v;
+}
+
+function Iter_b(x0, x0b, par, parb, x1, x1b, J, Jb) {
+    ax = Math.cos(x0[2]);
+    ay = Math.sin(x0[2]);
+    fx = 0;
+    fy = 0;
+    mo = 0;
+    fy = fy + -grav;
+    fx = fx + ax*(par[0]+par[1]);
+    fy = fy + ay*(par[0]+par[1]);
+    mo = mo + mw*(par[0]-par[1]);
+    fx = fx + -visc*x0[3];
+    fy = fy + -visc*x0[4];
+    mo = mo + -visc*x0[5];
+    x1[3] = x0[3] + dt*fx;
+    x1[4] = x0[4] + dt*fy;
+    x1[5] = x0[5] + dt*mo;
+    x1[0] = x0[0] + dt*x1[3];
+    x1[1] = x0[1] + dt*x1[4];
+    x1[2] = x0[2] + dt*x1[5];
+    x1b[0] = x1b[0] + 2*(x1[0]-targetx)*Jb[0];
+    x1b[1] = x1b[1] + 2*(x1[1]-targety)*Jb[0];
+    x1b[5] = x1b[5] + targetomw*2*x1[5]*Jb[0];
+    Jb[0] = 0.0;
+    x0b[2] = x0b[2] + x1b[2];
+    x1b[5] = x1b[5] + dt*x1b[2];
+    x1b[2] = 0.0;
+    x0b[1] = x0b[1] + x1b[1];
+    x1b[4] = x1b[4] + dt*x1b[1];
+    x1b[1] = 0.0;
+    x0b[0] = x0b[0] + x1b[0];
+    x1b[3] = x1b[3] + dt*x1b[0];
+    x1b[0] = 0.0;
+    x0b[5] = x0b[5] + x1b[5];
+    mob = dt*x1b[5];
+    x1b[5] = 0.0;
+    x0b[4] = x0b[4] + x1b[4];
+    fyb = dt*x1b[4];
+    x1b[4] = 0.0;
+    x0b[3] = x0b[3] + x1b[3];
+    fxb = dt*x1b[3];
+    x1b[3] = 0.0;
+    x0b[5] = x0b[5] - visc*mob;
+    x0b[4] = x0b[4] - visc*fyb;
+    x0b[3] = x0b[3] - visc*fxb;
+    parb[0] = parb[0] + mw*mob;
+    parb[1] = parb[1] - mw*mob;
+    ayb = (par[0]+par[1])*fyb;
+    parb[0] = parb[0] + ay*fyb;
+    parb[1] = parb[1] + ay*fyb;
+    axb = (par[0]+par[1])*fxb;
+    parb[0] = parb[0] + ax*fxb;
+    parb[1] = parb[1] + ax*fxb;
+    x0b[2] = x0b[2] + Math.cos(x0[2])*ayb;
+    x0b[2] = x0b[2] - Math.sin(x0[2])*axb;
+}
+
+	
+
+function init() {
+        var stage = new createjs.Stage("demoCanvas");
+	stage.setTransform (0,1000,100,-100);
+	var controls = new createjs.Container();
+	var enginecontrol = new Array(2);
+	controls.setTransform (0.3,0.3,0.3,0.3);
+	controlbackground = new createjs.Shape();
+	controlbackground.graphics.setStrokeStyle(0.05);
+	controlbackground.graphics.beginStroke("black").beginFill("SkyBlue");
+	controlbackground.graphics.drawRect(-0.2,-0.2,2.6,20*maxac+0.3+0.4);
+	controlbackground.graphics.beginStroke("black").beginFill("black");
+	controls.addChild(controlbackground);
+	for (j=0;j<2;j++) {
+		s = 1-j;
+		controlbackground.graphics.drawRect(1.2*s+0.45,0,0.1,20*maxac+0.3);
+		enginecontrol[j] = new createjs.Shape();
+		enginecontrol[j].graphics.setStrokeStyle(0.05);
+		enginecontrol[j].graphics.beginStroke("black").beginFill("DeepSkyBlue");
+		enginecontrol[j].graphics.drawRect(1.2*s,0,1,0.3);
+		controls.addChild(enginecontrol[j]);
+	}
+        	
+	var rocket = new createjs.Container();
+        var rocketbody = new createjs.Shape();
+	var traj = new Array(N);
+
+	var target = new createjs.Shape();
+	target.graphics.beginFill("blue").drawCircle(0, 0, 0.01);
+	target.x = targetx;
+	target.y = targety;
+        stage.addChild(target);
+	var itraj = 0;
+	for (i = 0; i < N; i++)	{
+		traj[i] = new createjs.Shape();
+	        traj[i].graphics.beginFill("LightGray").drawCircle(0, 0, 0.02+0.01*Math.random());
+	        stage.addChild(traj[i]);
+	}
+//        rocketbody.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 0.3);
+//	rocketbody.graphics.beginFill("Black").drawCircle(0.2, 0, 0.1);
+	rocketbody.graphics.setStrokeStyle(0.01);
+	rocketbody.graphics.beginStroke("black").beginFill("gray");
+	rocketbody.graphics
+		.moveTo(0, -0.2)
+		.lineTo(0, 0.2)
+		.lineTo(0.4, 0.2)
+		.lineTo(0.5, 0.15)
+		.lineTo(0.4, 0.1)
+		.lineTo(0.9, 0.1)
+		.lineTo(1.1, 0.0)
+		.lineTo(0.9,-0.1)
+		.lineTo(0.4, -0.1)
+		.lineTo(0.5, -0.15)
+		.lineTo(0.4, -0.2)
+		.lineTo(0.0,-0.2);
+	var engine = new Array(2);
+	for (j=0;j<2;j++) {
+		s = j*2-1;
+		engine[j] = new createjs.Shape();
+		engine[j].graphics.setStrokeStyle(0.01);
+		engine[j].graphics.beginStroke("red").beginFill("yellow");
+		engine[j].graphics.moveTo(0, 0.2*s).lineTo(-0.2, 0.15*s).lineTo(0.0, 0.1*s);
+		rocket.addChild(engine[j]);
+	}
+        rocket.x = 1;
+        rocket.y = 1;
+        rocket.addChild(rocketbody);
+        stage.addChild(rocket);
+        stage.addChild(controls);
+        stage.update();
+
+	rocket.scaleX = 0.5;
+	rocket.scaleY = 0.5;
+	rocket.regX = 0.3;
+
+		stage.on("stagemousemove",function(evt) {
+			var coords = evt.target.globalToLocal(evt.stageX, evt.stageY);
+			targetx = coords.x;
+			targety = coords.y;
+			target.x = targetx;
+			target.y = targety;
+			stage.update();
+		})
+
+  function resize() { 
+	stage.canvas.width = window.innerWidth;
+	stage.canvas.height = window.innerHeight;
+	stage.setTransform (0,stage.canvas.height,100,-100);
+	stage.update();
+  }
+  window.addEventListener('resize', resize, false);
+ resize();
+	createjs.Ticker.framerate = 20;
+		createjs.Ticker.addEventListener("tick", 	function (event) {
+			maxx  = stage.canvas.width/stage.scaleX;
+			maxy  = -stage.canvas.height/stage.scaleY;
+
+			for (opt = 0; opt < optiter ; opt++)	{
+
+			for (i = 0; i < N-1; i++)	{
+				Iter(X[i],F[i],X[i+1],dJ);
+			}
+			for (i = 0; i < N; i++)	{
+				for (j = 0; j < 6; j++)	Xb[i][j] = 0.0;
+				for (j = 0; j < 2; j++)	Fb[i][j] = 0.0;
+			}
+
+//console.log(Xb[0]);
+			for (i = N-2; i >= 0; i--)	{
+				dJb[0] = 1.0;
+				Iter_b(X[i],Xb[i],F[i],Fb[i],X[i+1],Xb[i+1],dJ,dJb);
+			}
+//console.log(Xb[0]);
+			for (i = 0; i < N; i++)	{
+				for (j = 0; j < 2; j++)	{
+					nf = F[i][j] - step*Fb[i][j];
+					if (nf < 0) nf = 0;
+					if (nf > maxac) nf = maxac;
+					F[i][j] = nf;
+				}
+			}
+			}
+			k = 3;
+			for (i = 0; i < N-k; i++) {
+				for (j = 0; j < 6; j++)	X[i][j] = X[i+k][j];
+				for (j = 0; j < 2; j++)	F[i][j] = F[i+k][j];
+			}
+			for (j = 0; j < 2; j++)	{
+				var mean = 0;
+				for (i = 0; i < N-k; i++) mean += F[i][j];
+				mean = mean / (N-k);
+				for (i = N-k; i < N; i++) F[i][j] = mean;
+			}
+			rocket.x = X[0][0];
+			rocket.y = X[0][1];
+			rocket.rotation = X[0][2]/Math.PI*180;
+			engine[0].scaleX = F[0][0]*50;
+			engine[1].scaleX = F[0][1]*50;
+			enginecontrol[0].y = F[0][0]*20;
+			enginecontrol[1].y = F[0][1]*20;
+			cd = 0.3
+			for (i = 0; i < N; i++) {
+				traj[i].x += dt*k*traj[i].vx;
+				traj[i].y += dt*k*traj[i].vy;
+				v = Math.sqrt(traj[i].vx*traj[i].vx + traj[i].vy*traj[i].vy);
+				t = (Math.random()-0.5) * Math.PI; 
+				if (traj[i].x < 0) { traj[i].x = 0; traj[i].vx = Math.cos(t)*v; traj[i].vy = Math.sin(t)*v; }
+				if (traj[i].y < 0) { traj[i].y = 0; traj[i].vx = Math.sin(t)*v; traj[i].vy = Math.cos(t)*v; }
+				if (traj[i].x > maxx) { traj[i].x = maxx; traj[i].vx = -Math.cos(t)*v; traj[i].vy = Math.sin(t)*v; }
+				if (traj[i].y > maxy) { traj[i].y = maxy; traj[i].vx = Math.sin(t)*v; traj[i].vy = -Math.cos(t)*v; }
+
+				traj[i].vx += k*dt*(-cd*traj[i].vx*v);
+				traj[i].vy += k*dt*(-cd*traj[i].vy*v-grav);
+			}
+			s = 0.5;
+			if (Math.random()*maxac < F[0][0]) {
+			itraj++; if (itraj >= N) itraj = 0;
+			t = (Math.random()-0.5)/5;
+			traj[itraj].x  = X[0][0] - 0.15*Math.cos(X[0][2]) + 0.075*Math.sin(X[0][2]);
+			traj[itraj].y  = X[0][1] - 0.15*Math.sin(X[0][2]) - 0.075*Math.cos(X[0][2]);
+			traj[itraj].vx = X[0][3] - s*Math.cos(X[0][2]) - t*s*Math.sin(X[0][2]);
+			traj[itraj].vy = X[0][4] - s*Math.sin(X[0][2]) + t*s*Math.cos(X[0][2]);
+			t = Math.random();
+			traj[itraj].x += t*dt*k*traj[itraj].vx;
+			traj[itraj].y += t*dt*k*traj[itraj].vy;
+			}
+			if (Math.random()*maxac < F[0][1]) {
+			itraj++; if (itraj >= N) itraj = 0;
+			t = (Math.random()-0.5)/5;
+			traj[itraj].x  = X[0][0] - 0.15*Math.cos(X[0][2]) - 0.075*Math.sin(X[0][2]);
+			traj[itraj].y  = X[0][1] - 0.15*Math.sin(X[0][2]) + 0.075*Math.cos(X[0][2]);
+			traj[itraj].vx = X[0][3] - s*Math.cos(X[0][2]) - t*s*Math.sin(X[0][2]);
+			traj[itraj].vy = X[0][4] - s*Math.sin(X[0][2]) + t*s*Math.cos(X[0][2]);
+			t = Math.random();
+			traj[itraj].x += t*dt*k*traj[itraj].vx;
+			traj[itraj].y += t*dt*k*traj[itraj].vy;
+			}
+
+			stage.update();
+		}
+);
+      }
+    </script>
+  <style>
+body {
+    overflow:hidden;
+	margin: 0;
+}
+  </style>
+  </head>
+  <body onload="init();">
+    <canvas id="demoCanvas" width="1000" height="1000"></canvas>
+  </body>
+</html>
